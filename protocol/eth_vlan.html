@@ -1,0 +1,190 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="VLAN帧格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_1">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>VLAN帧格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_1"></a><a name="eth_1"></a>
+
+
+<h1 class="topictitle1">VLAN帧格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">帧格式</h4><p>IEEE 802.1Q标准对Ethernet帧格式进行了修改，在源MAC地址字段和协议类型字段之间加入4字节的802.1Q
+Tag。</p>
+<p>VLAN帧最小帧长为64字节。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>VLAN帧格式</span>
+
+<br><span><img src="image/ethernet-vlan-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="15.719063545150503%" id="mcps1.2.1.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="17.056856187290972%" id="mcps1.2.1.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="67.22408026755853%" id="mcps1.2.1.5.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">Destination address</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">目的MAC地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">Source address</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">源MAC地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">长度为2字节，表示帧类型。取值为0x8100时表示802.1Q Tag帧。如果不支持802.1Q的设备收到这样的帧，会将其丢弃。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">PRI</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">Priority，长度为3比特，表示帧的优先级，取值范围为0～7，值越大优先级越高。用于当阻塞时，优先发送优先级高的数据包。<p>如果设置用户优先级，但是没有VLANID，则VLANID必须设置为0x000。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">CFI</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">CFI (Canonical Format Indicator)，长度为1比特，表示MAC地址是否是经典格式。CFI为0说明是标准格式，CFI为1表示为非标准格式。用于区分以太网帧、FDDI（Fiber
+Distributed Digital Interface）帧和令牌环网帧。在以太网中，CFI的值为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">VID</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">12比特</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">LAN ID，长度为12比特，表示该帧所属的VLAN。在VRP中，可配置的VLAN ID取值范围为1～4094。0和4095协议中规定为保留的VLAN
+ID。<p>三种类型：</p>
+<ul><li>Untagged帧：VID 不计</li><li>Priority-tagged帧：VID为 0x000</li><li>VLAN-tagged帧：VID范围0～4095</li></ul>
+<p>三个特殊的VID：</p>
+<ul><li>0x000：设置优先级但无VID</li><li>0x001：缺省VID</li><li>0xFFF：预留VID</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">Length/Type</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">指后续数据的字节长度，但不包括CRC检验码。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">Data</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">42~1500字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">负载（可能包含填充位）。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.719063545150503%" headers="mcps1.2.1.5.1.4.1.1 ">CRC</td>
+
+<td class="cellrowborder" valign="top" width="17.056856187290972%" headers="mcps1.2.1.5.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="67.22408026755853%" headers="mcps1.2.1.5.1.4.1.3 ">用于帧内后续字节差错的循环冗余检验（也称为FCS或帧检验序列）。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">帧示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>VLAN帧</span>
+
+<br><span><img src="image/ethernet-vlan-example.png"></span>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3069</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">VLAN Aggregation for Efficient IP Address Allocation</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">IEEE 802.1Q</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">IEEE Standards for Local and Metropolitan Area Networks : Virtual
+Bridged Local Area Networks</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

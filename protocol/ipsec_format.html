@@ -1,0 +1,411 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IPSec报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_format_7">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IPSec报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_format_7"></a><a name="eth_format_7"></a>
+
+
+<h1 class="topictitle1">IPSec报文格式</h1>
+
+<div>
+<p>IPSec协议族是IETF（Internet Engineering Task Force）制定的一系列协议，它为IP数据报提供了高质量的、可互操作的、基于密码学的安全性。</p>
+
+<p>IPSec通过认证头AH（Authentication Header，协议号51）和封装安全载荷ESP（Encapsulating
+Security Payload）这两个安全协议来实现。AH可提供数据源验证和数据完整性校验功能；ESP除可提供数据验证和完整性校验功能外，还提供对IP报文的加密功能。</p>
+
+<p>IPSec协议有两种封装模式：</p>
+
+<ul><li><p>传输模式。在传输模式下，AH或ESP被插入到IP头之后但在所有传输层协议之前，或所有其他IPSec协议之前。</p>
+</li><li><p>隧道模式。在隧道模式下，AH或ESP插在原始IP头之前，另外生成一个新IP头放到AH或ESP之前。</p>
+</li></ul>
+
+<p>传输模式用于两台主机之间的通讯，或者是一台主机和一个安全网关之间的通讯。在传输模式下，对报文进行加密和解密的两台设备本身必须是报文的原始发送者和最终接收者。</p>
+
+<p>通常，在两个安全网关（路由器）之间的数据流量，绝大部分都不是安全网关本身的通讯量，因此在安全网关之间一般不使用传输模式，而总是使用隧道模式。在一个安全网关被加密的报文，只有另一个安全网关能够解密。因此必须对IP报文进行隧道封装，即增加一个新的IP头，进行隧道封装后的IP报文被发送到另一个安全网关，才能够被解密。 </p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>AH封装及头部格式</span>
+
+<br><span><img src="image/ipsec-ah-header.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.666666666666668%" id="mcps1.2.7.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="8%" id="mcps1.2.7.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="79.33333333333333%" id="mcps1.2.7.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">Next Header</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">表示认证头部之后的下一个负载。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">Payload Len</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">AH的长度减2，4字节为计数单位。例如，有个96比特的认证值，长度将是"4"（即头部固定的3个4字节 + ICV的3个4字节
+- 2）。对于IPv6，头部总长度必须为8字节的倍数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">RESERVED</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">预留将来使用。必须置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">Security Parameters Index</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">用于给报文接收端识别SA</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">Sequence Number Field</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">序列号，每发送一个报文，计数加1，例如每发一个SA报文序列号增加1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.3.1.4.1.1 ">Integrity Check Value-ICV</td>
+
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.7.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="79.33333333333333%" headers="mcps1.2.7.3.1.4.1.3 ">报文的ICV字段，可变长度，长度必须为32比特的整数倍。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>ESP封装及头部格式</span>
+
+<br><span><img src="image/ipsec-esp-header.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.666666666666668%" id="mcps1.2.7.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="17.333333333333336%" id="mcps1.2.7.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="70%" id="mcps1.2.7.5.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Security Parameters Index</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">安全参数索引。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Sequence Number</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">序列号。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Payload Data*</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">有效载荷数据（可变）。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Padding</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">0&#8211;255字节</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">填充字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Pad Length</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">填充字段长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Next Header</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">下一个头。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.5.1.4.1.1 ">Integrity Check Value-ICV</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.5.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.5.1.4.1.3 ">验证数据。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>AH和ESP协议组合使用</span>
+
+<br><span><img src="image/ipsec-ah_esp-header.png"></span></div>
+<p>因特网密钥交换协议IKE（Internet
+Key Exchange）是IPSEC的信令协议。</p>
+<div class="fignone"><span class="figcap"><b>图4 </b>IKE Header Format</span>
+
+<br><span><img src="image/ipsec-ike-header.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.666666666666668%" id="mcps1.2.7.9.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="17.333333333333336%" id="mcps1.2.7.9.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="70%" id="mcps1.2.7.9.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">IKE_AS Initiator's SPI</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">发送者用来唯一标识一个IKE安全联盟，该值不能设置为0。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">IKE_AS Responder's SPI</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">应答者用来唯一标识一个IKE安全联盟，对于IKE初始交互的消息该值必须为0，其他消息不能为0。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Next Payload</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">仅随头部之后的负载的类型。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">MjVer</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">标识所使用的IKE协议的最大版本。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">MnVer</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">标识所使用的IKE协议的最小版本。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Exchange Type</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 "><ul><li>0-33: RESERVED</li><li>34: IKE_SA_INIT</li><li>35: IKE_AUTH</li><li>36: CREATE_CHILD_SA</li><li>37: INFORMATIONAL</li><li>38-239: RESERVED TO IANA</li><li>240-255: Reserved for private use.</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">消息中设置的特定选项。如果Flag域置位表示带有选项。<ul><li>X(reserved) (bits 0-2) - 发送时必须清0，接收时忽略。</li><li>I(nitiator) (bit 3 of Flags) - IKE_SA原始发送者在发送消息是必须将此位置1，源回应者发送的消息必须清零。</li><li>V(ersion) (bit 4 of Flags) - 标识转发者支持的版本比Major字段标识的版本更高 IKEv2版本的实现中，此比特必须置0，接收时忽略。</li><li>R(esponse) (bit 5 of Flags) - 标识此消息是对相同Message-ID的消息的一个回应消息。所有请求消息中此位需置0，所有回应消息置1。</li><li>X(reserved) (bits 6-7 of Flags) - 发送时需置0，接收时忽略。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Message ID</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">消息标识符，用来对请求消息和呼应消息的匹配，以便控制丢弃消息的重复发送。这在抑制重放攻击时对保障协议的安全性很关键。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">整个消息的长度（报文头+负荷），以字节为单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Next Payload</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">标识消息中的下一个负载的类型。如果当前的负载是消息的最后一个，则此字段置0。<ul><li>0: No Next Payload</li><li>1-32: RESERVED</li><li>33: Security Association (SA)</li><li>34: Key Exchange (KE)</li><li>35: Identification - Initiator (IDi)</li><li>36: Identification - Responder (IDr)</li><li>37: Certificate (CERT)</li><li>38: Certificate Request (CERTREQ)</li><li>39: Authentication (AUTH)</li><li>40: Nonce (Ni, Nr)</li><li>41: Notify (N)</li><li>42: Delete (D)</li><li>43: Vendor ID (V)</li><li>44: Traffic Selector - Initiator (TSi)</li><li>45: Traffic Selector - Responder (TSr)</li><li>46: Encrypted (E)</li><li>47: Configuration (CP)</li><li>48: Extensible Authentication (EAP)</li><li>49-127: RESERVED TO IANA</li><li>128-255: PRIVATE USE</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">C (Critical)</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 "><ul><li>如果发送者想让接收者在无法识别当前一个负载的Next Payload域是能够跳过此域，可将此位置0。</li><li>如果接收者能够识别负载的类型代码，则忽略此位。</li><li>负载类型为以下情况时，此位必须设置为0。<ul><li>Security Association (SA)</li><li>Key Exchange (KE)</li><li>Identification - Initiator (IDi)</li><li>Identification - Responder (IDr)</li><li>Certificate (CERT)</li><li>Certificate Request (CERTREQ)</li><li>Authentication (AUTH)</li><li>Nonce (Ni, Nr)</li><li>Notify (N)</li><li>Delete (D)</li><li>Vendor ID (V)</li><li>Traffic Selector - Initiator (TSi)</li><li>Traffic Selector - Responder (TSr)</li><li>Encrypted (E)</li><li>Configuration (CP)</li><li>Extensible Authentication (EAP)</li></ul>
+</li></ul>
+<p>注意，C比特应用于当前负载，而不是下一个负载。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">RESERVED</td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">7 bits</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">发送时必须置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.666666666666668%" headers="mcps1.2.7.9.1.4.1.1 ">Payload Length </td>
+
+<td class="cellrowborder" valign="top" width="17.333333333333336%" headers="mcps1.2.7.9.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="70%" headers="mcps1.2.7.9.1.4.1.3 ">当前负载的长度，包括通用负载的头部，以字节为单位。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.8.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.8.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 4302</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">IP Authentication Header</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 4303</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">IP Encapsulating Security Payload (ESP)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 4306</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">Internet Key Exchange (IKEv2) Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

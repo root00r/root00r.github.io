@@ -1,0 +1,340 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IGMPv3报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/igmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="igmp_message_format_5">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IGMPv3报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="igmp_message_format_5"></a><a name="igmp_message_format_5"></a>
+
+
+<h1 class="topictitle1">IGMPv3报文格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>IGMPv3包含查询报文和报告报文两种不同格式的报文。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>IGMPv3查询报文格式</span>
+
+<br><span><img src="image/IGMPv3-format-Query.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="13.621262458471762%" id="mcps1.3.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="17.27574750830565%" id="mcps1.3.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="69.1029900332226%" id="mcps1.3.1.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">成员关系查询 Type = 0x11。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Max Resp Code</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">设备接收到查询消息后发出响应报文的最大延迟时间，超过该时间没有发出响应报文，则查询设备认为此次查询超时，单位是1/10秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">IGMP消息的校验和。传送报文时，必须计算校验和并填入该字段中；接收报文时，必须在处理报文之前检验校验和，以判断IGMP消息在传输过程中是否发生了错误。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">对于普遍组查询消息，该字段置0。对于特定组查询消息、特定组/源查询消息，该字段为设置为欲查询的组播组的地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">保留字段，发送报文时置0；接收到报文时，对该字段不做任何处理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">S</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">该比特位置1时，所有收到此查询消息的其他路由器不启动定时器刷新过程，但是此查询消息并不抑制查询器选举过程和路由器的主机侧处理过程。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">QRV</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">查询者的健壮变量，如果不为0，QRV中包含中一个被查询者使用的[健壮变量]的值，如果查询者的健壮变量的值超过7，即QRV字段的最大值，那么QRV被设成0。路由器取最近收到的查询中的QRV值作为它们自己的健壮性变量的值，除非最近收到的QRV是0，在这种情况下，接收者使用缺省的健壮性变量值，或者是一个静态配置的值。 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">QQIC</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">查询器的查询间隔，单位是秒。非查询器收到查询报文时，如果发现该字段非0，则将自己的查询间隔参数调整为该字段的值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Number of Sources (N)</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">消息中包含的组播源的数量。对于普遍组查询报文和特定组查询报文，该字段为0；对于特定组/源地址查询报文，该字段非0。此参数的大小受到所在网络MTU大小的限制。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471762%" headers="mcps1.3.1.4.1.4.1.1 ">Source Address [i]</td>
+
+<td class="cellrowborder" valign="top" width="17.27574750830565%" headers="mcps1.3.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="69.1029900332226%" headers="mcps1.3.1.4.1.4.1.3 ">组播源地址，其数量受到Number of Sources字段值大小的限制。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>查询消息有三种类型的变体：</p>
+<ul><li>1、“普通查询”由多播路由器发出，用于获知邻接接口(即查询所传输的网络中所相连的接口)的完整的多播接收状态。在一个普通查询中，组地址字段和源数量(N)字段都为0。</li><li>2、“指定组查询”由一台多播路由器发出，用于获知邻接接口中跟某一个IP地址相关的多播接收状态。在指定组查询中，“组地址”字段含有需要查询的那个组地址，源数量(N)字段为0。</li><li>3、“指定组和源查询”由一台多播路由器发出，用于获知邻接接口是否需要接收来自指定的这些源的，发往指定组的多播数据报。在一个指定组和源的查询中，组地址字段含有要查询的多播地址,源地址[i]字段含有相关的源地址。</li></ul>
+<div class="fignone"><span class="figcap"><b>图2 </b>成员报告消息的格式</span>
+
+<br><span><img src="image/IGMPv3-format-Report.png"></span></div>
+<p>成员报告消息是主机向组播路由器发送的报告消息，用报告加入某组播组并只接收由指定组播源发往该组的数据。</p>
+<p>封装该消息的IP报文头的目的地址字段为224.0.0.22，本地网段上的所有IGMPv3路由器都能识别并接收。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>Group Record字段格式</span>
+
+<br><span><img src="image/IGMPv3-format-Record.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="13.621262458471758%" id="mcps1.3.1.11.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="6.312292358803987%" id="mcps1.3.1.11.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80.06644518272425%" id="mcps1.3.1.11.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 "><p>Type = 0x22成员关系报告</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">保留字段，在发送的时候是以0填充，在接收的时候是不作任何处理的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">校验和是对整个IGMP消息以16位为一段进行取反求和。为了计算校验和，校验和字段首先必须被置0。当收到一个数据，在处理之前，必须先对校验和进行验证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">T保留字段，在发送的时候是以0填充，在接收的时候是不作任何处理的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Number of Group Records (M)</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">该字段表示该报告报文中包含有几个组记录。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Group Record</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 "><p>一个主机可能需要点播多个组播地址的组播业务，每个记录包含了对应于其中一个组播地址的源地址列表等信息，它受到Number_of_Group_Records的大小的影响。</p>
+<p>每一个组记录字段是一整块数据，其含有的信息是关于发送者在报告发送接口上的某一个多播组的成员关系。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Record Type</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">Group Record消息的类型。<ul><li>MODE_IS_INCLUDE：接收源地址列表包含的源发往该组的组播数据。如果指定源地址列表为空，该消息为无效消息。</li><li>MODE_IS_EXCLUDE：不接收源地址列表包含的源发往该组的组播数据。</li><li>CHANGE_TO_INCLUDE_MODE：过滤模式由EXCLUDE转换到INCLUDE，接收源地址列表包含的新组播源发往该组播组的数据。如果指定源地址列表为空，主机离开组播组。</li><li>CHANGE_TO_EXCLUDE_MODE：过滤模式由INCLUDE转换到EXCLUDE，拒绝源地址列表中新组播源发往该组的组播数据。</li><li>ALLOW_NEW_SOURCES：表示在现有的基础上，需要接收源地址列表包含的源发往该组播组的组播数据。如果当前对应关系为INCLUDE，则向现有源列表中添加这些组播源；如果当前对应关系为EXCLUDE，则从现有阻塞源列表中删除这些组播源。</li><li>BLOCK_OLD_SOURCES：表示在现有的基础上，不再接收从源地址列表包含的源组播源发往该组播组的组播数据。如果当前对应关系为INCLUDE，则从现有源列表中删除这些组播源；如果当前对应关系为EXCLUDE，则向现有源列表中添加这些组播源。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Aux Data Len</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">辅助数据长度含有在组记录中的辅助数据的实际长度，其单位是32bit字。它有可能是0，这就表示辅助数据不存在。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Number of Sources (N)</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">源数量(N)字段标明在组记录中存在多少源地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Multicast Address</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">多播地址字段标明该组记录从属的多播IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Source Address [i]</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">源地址[i]字段是一个数组，含有n个单播地址。n就是该记录的源数量(N)字段的值。 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.621262458471758%" headers="mcps1.3.1.11.1.4.1.1 ">Additional Data</td>
+
+<td class="cellrowborder" valign="top" width="6.312292358803987%" headers="mcps1.3.1.11.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.3.1.11.1.4.1.3 ">附加数据。如果收到的报告中的IP首部的数据报长度字段标明在最后一个组记录后面有附加的数据存在。IGMPv3的实现必须在计算和验证校验和的时候包含这些附加数据，但是同时必须忽略这些附加数据。当发送一个报告时，一个IGMPv3的实现在最后一个组记录后面不能包含附加数据。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图4 </b>IGMPv3 Membership Report (CHANGE_TO_INCLUDE_MODE)</span>
+
+<br><span><img src="image/IGMPv3-example-report_toin.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>IGMPv3 Membership Report (CHANGE_TO_EXCLUDE_MODE)</span>
+
+<br><span><img src="image/IGMPv3-example-report_toex.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>IGMPv3 Membership Report (BLOCK_OLD_SOURCES)</span>
+
+<br><span><img src="image/IGMPv3-example-report_block.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>IGMPv3 Membership Report (ALLOW_NEW_SOURCES)</span>
+
+<br><span><img src="image/IGMPv3-example-report_allow.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图8 </b>IGMPv3 Membership Query (General)</span>
+
+<br><span><img src="image/IGMPv3-example-query-general.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图9 </b>IGMPv3 Membership Query (Special)</span>
+
+<br><span><img src="image/IGMPv3-example-query-special.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 3376</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Internet Group Management Protocol, Version 3</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="igmp_message.html" title="">IGMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

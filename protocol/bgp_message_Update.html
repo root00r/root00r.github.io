@@ -1,0 +1,315 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="BGP UPDATE报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/bgp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_Update">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>BGP UPDATE报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_Update"></a><a name="bgp_message_Update"></a>
+
+
+<h1 class="topictitle1">BGP UPDATE报文格式</h1>
+
+<div>
+<p>如果BGP报文头中的TYPE为2，则该报文为UPDATE报文。报文头后面所接的报文内容如下（RFC 4271），UPDATE报文用于通告路由。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>UPDATE报文格式</span>
+
+<br><span><img src="image/bgp-format-update.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.03010033444816%" id="mcps1.2.2.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.698996655518394%" id="mcps1.2.2.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.27090301003345%" id="mcps1.2.2.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.2.3.1.4.1.1 ">Withdrawn Routes Length</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.2.3.1.4.1.2 ">2个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.3.1.4.1.3 ">标明Withdrawn Routes部分的长度。其值为零时，表示没有撤销的路由。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.2.3.1.4.1.1 ">Withdrawn Routes</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.2.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.3.1.4.1.3 ">包含要撤销的路由列表，列表中的每个单元包含1字节的Length域和可变长度的Prefix域。<ul><li><p><strong>Length：</strong>待撤销路由的掩码。其值为零时，表示匹配所有的路由。</p>
+</li><li><p><strong>Prefix：</strong>传送的IP地址前缀必须用整字节表示。例如：假定待撤销的路由为200.200.200.200，其编码用16进制表示可如下：</p>
+<p>Mask掩码(十进制)        Length        Prefix</p>
+<p>32             
+       20            C8 C8 C8 C8</p>
+<p>25                     19 
+          C8 C8 C8 80</p>
+<p>20                     14            C8
+C8 C0</p>
+<p>15                     0F            C8 C8</p>
+</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.2.3.1.4.1.1 ">Total Path Attribute Length</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.2.3.1.4.1.2 ">2个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.3.1.4.1.3 ">标明Path Attributes部分和Network Layer Reachability Information两部分的长度。其值为零时，表示没有路由及其路由属性要通告。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.2.3.1.4.1.1 ">Path Attributes</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.2.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.3.1.4.1.3 ">包含要更新的路由属性列表，按其类型号从小到大的顺序排序，填写更新的路由的所有属性。每一个属性单元包括属性类型，属性长度，属性值三部分。其编码采用TLV格式。如下所示。<div class="fignone"><span class="figcap"><b>图2 </b>BGP路径属性TLV格式</span>
+
+<br><span><img src="image/bgp-format-update-options.png"></span></div>
+<p>其中，Attr.TYPE占2个字节（无符号位），包括1字节的Flags（无符号位）和1字节的Type Code（无符号位）。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>TLV结构－Type</span>
+
+<br><span><img src="image/bgp-format-update-tlv.png"></span></div>
+<strong>Attr.Flags：</strong>占1个字节（8个bit），表示属性的标记，其每个bit位的意义如下显示：<p>O: Optional bit, 属性的可选性。决定属性是否为必携带属性。带可选属性（optional）设为1，公认属性（well-known）设为零。</p>
+<p>T: Transitive bit 属性的可传递性。对于可选属性，是可传递的设为1，非可传递的设为0。对于公认属性必须设为1。</p>
+<p>P: Partial bit 属性的局部性。对于可传递的可选属性是局部的设为1，是完全的设为零。对于非可传递的的可选属性和公认属性，必须设为零。</p>
+<p>E: Extended Length bit 决定该属性的长度的字段（即Attr. Length）是否需要扩展。不需要扩展则设为零，Attr.
+Length占1个字节；需要扩展则设为1，Attr. Length占2个字节。</p>
+<p>U: Unused bits 低4位没有使用，发送时必须全部设为零，并且在接收时被忽略。</p>
+<p><strong>Attr.Type Code：</strong>占1个字节（无符号位），表示属性的类型号。设置如下表2。</p>
+<strong>Attr.Value：</strong>根据不同属性的类型填写不同内容。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.2.3.1.4.1.1 ">Network Layer Reachability Information（NLRI）</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.2.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.3.1.4.1.3 ">包含要更新的地址前缀列表，每一个地址前缀单元由一个LV二元组（prefix length, the prefix of
+the reachable route）组成，其编码填写方法与Withdrawn Routes的填写方法相同。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>路由属性的类型号列表</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="17.220458553791886%" id="mcps1.2.2.4.2.3.1.1">属性类型</th>
+
+<th class="cellrowborder" align="center" valign="top" width="82.77954144620811%" id="mcps1.2.2.4.2.3.1.2">属性值</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" rowspan="3" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">1：Origin</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">IGP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.2.4.2.3.1.1 ">EGP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.2.4.2.3.1.1 ">Incomplete</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="4" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">2：As_Path</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">AS_SET</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.2.4.2.3.1.1 ">AS_SEQUENCE</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.2.4.2.3.1.1 ">AS_CONFED_SET</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.2.4.2.3.1.1 ">AS_CONFED_SEQUENCE</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">3：Next_Hop</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">下一跳的IP地址</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">4：Multi_Exit_Disc</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">MED用于判断流量进入AS时的最佳路由</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">5：Local_Pref</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">Local_Pref用于判断流量离开AS时的最佳路由</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">6：Atomic_Aggregate</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">BGP Speaker选择聚合后的路由，而非具体的路由</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">7：Aggregator</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">发起聚合的路由器ID和AS号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">8：Community</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">团体属性</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">9：Originator_ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">反射路由发起者的Router ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">10：Cluster_List</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">反射路由经过的反射器列表</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">14：MP_REACH_NLRI</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">多协议可达NLRI</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">15：MP_UNREACH_NLRI</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">多协议不可达NLRI</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="17.220458553791886%" headers="mcps1.2.2.4.2.3.1.1 ">16：Extended Communtities</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.77954144620811%" headers="mcps1.2.2.4.2.3.1.2 ">扩展团体属性</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图4 </b>withdrawn路由的更新报文</span>
+
+<br><span><img src="image/BGP-header_UPDATE1.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>添加路由的更新报文</span>
+
+<br><span><img src="image/BGP-header_UPDATE2.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 827</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">Exterior Gateway Protocol (EGP)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2918</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">Route Refresh Capability for BGP-4</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 4271</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">A Border Gateway Protocol 4 (BGP-4)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="bgp_message.html">BGP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

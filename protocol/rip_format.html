@@ -1,0 +1,380 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="RIP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_1">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>RIP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_1"></a><a name="rrpp_message_format_1"></a>
+
+
+<h1 class="topictitle1">RIP报文格式</h1>
+
+<div>
+<p>RIP是Routing Information Protocol（路由信息协议）的简称。它是一种较为简单的内部网关协议IGP（Interior
+Gateway Protocol），主要用于规模较小的网络中，比如校园网以及结构较简单的地区性网络。对于更为复杂的环境和大型网络，一般不使用RIP。 </p>
+
+<p>RIP是一种基于距离矢量（Distance-Vector）算法的协议，它通过UDP报文进行路由信息的交换，使用的端口号为520。 </p>
+
+<p>RIP有两个版本：RIP-1和RIP-2。 </p>
+
+<ul><li>RIP-1是有类别路由协议（Classful Routing Protocol），它只支持以广播方式发布协议报文。RIP-1的协议报文中没有携带掩码信息，它只能识别A、B、C类这样的自然网段的路由，因此RIP-1无法支持路由聚合，也不支持不连续子网（Discontiguous
+Subnet）。 </li><li>RIP-2是一种无分类路由协议（Classless Routing Protocol），有两种报文传送方式：广播方式和组播方式，缺省将采用组播方式发送报文，使用的组播地址为224.0.0.9。当接口运行RIP-2广播方式时，也可接收RIP-1的报文。</li></ul>
+
+<div class="section"><h4 class="sectiontitle">RIP-1的报文格式</h4><p>RIP-1报文由头部（Header）和多个路由表项（Route
+Entries）部分组成。在一个RIP报文中，最多可以有25个路由表项。RIP是一个基于UDP协议的，并且RIP-1的数据包不能超过512字节。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>RIP-1的报文格式</span>
+
+<br><span><img src="image/rip-format-rip1.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="16.52974329075458%" id="mcps1.2.5.4.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="11.39379162912316%" id="mcps1.2.5.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="72.07646508012225%" id="mcps1.2.5.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">Command</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">标识报文的类型：<ul><li>1：Request报文，向邻居请求全部或部分路由信息；</li><li>2：Reponse报文，发送自己全部或部分路由信息，一个Response报文中最多包含25个路由表项。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">RIP的版本号：<ul><li>1：RIP-1</li><li>2：RIP-2</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">Must be zero</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">16/32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">必须为零字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">AFI（Address family identifier）</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">地址族标识，其值为2时表示IP协议。对于Request报文，此字段值为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">IP Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">该路由的目的IP地址，可以是自然网段的地址，也可以是子网地址或主机地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="16.52974329075458%" headers="mcps1.2.5.4.1.4.1.1 ">Metric</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.39379162912316%" headers="mcps1.2.5.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="72.07646508012225%" headers="mcps1.2.5.4.1.4.1.3 ">路由的开销值。对于Request报文，此字段值为16。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">RIP-2的报文格式</h4><div class="fignone"><span class="figcap"><b>图2 </b>RIP-2的报文格式</span>
+
+<br><span><img src="image/rip-format-rip2.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="20.047703180212014%" id="mcps1.2.6.3.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="10.830388692579506%" id="mcps1.2.6.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="69.12190812720848%" id="mcps1.2.6.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Command</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">标识报文的类型：<ul><li>1：Request报文，向邻居请求全部或部分路由信息；</li><li>2：Reponse报文，发送自己全部或部分路由信息，一个Response报文中最多包含25个路由表项。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">RIP的版本号：<ul><li>1：RIP-1</li><li>2：RIP-2</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Must be zero</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">必须为零字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">AFI（Address Family Identifier）</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">地址族标识，其值为2时表示IP协议。对于Request报文，此字段值为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Route Tag</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">外部路由标记。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">IP Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">该路由的目的IP地址，可以是自然网段的地址，也可以是子网地址或主机地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Subnet Mask</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">目的地址的掩码。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Next Hop</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">提供一个更好的下一跳地址。如果为0.0.0.0，则表示发布此路由的路由器地址就是最优下一跳地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="20.047703180212014%" headers="mcps1.2.6.3.1.4.1.1 ">Metric</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.830388692579506%" headers="mcps1.2.6.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="69.12190812720848%" headers="mcps1.2.6.3.1.4.1.3 ">路由的开销值。对于Request报文，此字段为16。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>RIP-2为了支持报文验证，使用第一个路由表项（Route Entry）作为验证项，并将AFI字段的值设为0xFFFF作为标识。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>RIP-2的验证报文格式</span>
+
+<br><span><img src="image/rip-format-rip2-auth.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="10.307420494699647%" id="mcps1.2.6.6.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="7.04946996466431%" id="mcps1.2.6.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="82.64310954063603%" id="mcps1.2.6.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">Command</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">标识报文的类型：<ul><li>1：Request报文，向邻居请求全部或部分路由信息；</li><li>2：Reponse报文，发送自己全部或部分路由信息，一个Response报文中最多包含25个路由表项。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">RIP的版本号：<ul><li>1：RIP-1</li><li>2：RIP-2</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">Must be zero</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">必须为零字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">0xFFFF</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">验证项标识，表示整个路由报文需要验证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">Authentication Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">验证类型：<ul><li>2：明文验证；</li><li>3：MD5验证。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.307420494699647%" headers="mcps1.2.6.6.1.4.1.1 ">Authentication</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.04946996466431%" headers="mcps1.2.6.6.1.4.1.2 ">16字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="82.64310954063603%" headers="mcps1.2.6.6.1.4.1.3 ">验证口令，当使用明文验证时该字段才会包含密码信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="15.597051597051594%" id="mcps1.2.7.2.1.3.1.1">文档编号</th>
+
+<th class="cellrowborder" align="center" valign="top" width="84.4029484029484%" id="mcps1.2.7.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 1058</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">Routing Information Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 1723</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP Version 2 Carrying Additional Information</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 1721</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP Version 2 Protocol Analysis</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 1722</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP Version 2 Protocol Applicability Statement</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 1724</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP Version 2 MIB Extension</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 2082</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP-2 MD5 Authentication</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="15.597051597051594%" headers="mcps1.2.7.2.1.3.1.1 ">RFC 2453</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.4029484029484%" headers="mcps1.2.7.2.1.3.1.2 ">RIP Version 2</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

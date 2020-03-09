@@ -1,0 +1,171 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="GRE报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/network-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_6">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>GRE报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_6"></a><a name="rrpp_message_format_6"></a>
+
+
+<h1 class="topictitle1">GRE报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>系统收到需要进行封装和路由的某网络层协议（如IPX）数据时，将首先对其加上GRE报文头，使之成为GRE报文，再将其封装在另一协议（如IP）中。这样，此报文的转发就可以完全由IP协议负责。封装后的报文的格式如下图所示：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>GRE报文格式</span>
+
+<br><span><img src="image/gre-format.png"></span></div>
+<p>其中：</p>
+<ul><li>净荷（Payload）：系统收到的需要封装和路由的数据报称为净荷。</li><li>乘客协议（Passenger Protocol）：封装前的报文协议称为乘客协议。</li><li>封装协议（Encapsulation Protocol）：上述的GRE协议称为封装协议，也称为运载协议（Carrier Protocol）。</li><li>传输协议（Transport Protocol或者Delivery Protocol）：负责对封装后的报文进行转发的协议称为传输协议。</li></ul>
+<p>GRE首部各字段解释如下：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="9.698996655518394%" id="mcps1.2.1.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="6.688963210702341%" id="mcps1.2.1.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="83.61204013377926%" id="mcps1.2.1.7.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">C</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">校验和验证位。如果该位置1，表示GRE头插入了校验和（Checksum）字段；该位为0表示GRE头不包含校验和字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">K</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">关键字位。如果该位置1，表示GRE头插入了关键字（Key）字段；该位为0表示GRE头不包含关键字字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Recursion</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">3 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">用来表示GRE报文被封装的层数。完成一次GRE封装后将该字段加1。如果封装层数大于3，则丢弃该报文。该字段的作用是防止报文被无限次的封装。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">5 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">预留字段。当前必须设为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">3 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">版本字段，必须置为0。Version为1是使用在RFC2637的PPTP中。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Protocol Type</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">乘客协议的协议类型。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">对GRE头及其负载的校验和字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.7.1.4.1.1 ">Key</td>
+
+<td class="cellrowborder" valign="top" width="6.688963210702341%" headers="mcps1.2.1.7.1.4.1.2 ">31 bits</td>
+
+<td class="cellrowborder" valign="top" width="83.61204013377926%" headers="mcps1.2.1.7.1.4.1.3 ">关键字字段，隧道接收端用于对收到的报文进行验证。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>因为VRP中的GRE头不包含源路由字段，因此Bit 1、Bit 3和Bit 4都置为0。</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/gre-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 1701</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Generic Routing Encapsulation (GRE)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 2784</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Generic Routing Encapsulation (GRE)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="network-layer.html">网络层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

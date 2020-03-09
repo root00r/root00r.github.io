@@ -1,0 +1,334 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IS-IS报文通用格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/isis_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="isis_message_format_1">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IS-IS报文通用格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="isis_message_format_1"></a><a name="isis_message_format_1"></a>
+
+
+<h1 class="topictitle1">IS-IS报文通用格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>IS-IS报文是直接封装在数据链路层的帧结构中的。PDU可以分为两个部分，报文头和变长字段部分。其中头部又可分为通用头部和专用头部。对于所有PDU来说，通用报头都是相同的，但专用报头根据PDU类型不同而有所差别。</p>
+<p>IS-IS的PDU有4种类型：Hello报文，LSP，CSNP，PSNP。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>IS-IS的PDU格式</span>
+
+<br><span><img src="image/ISIS-format-pdu.png"></span></div>
+<p>所有的PDU都有相同的通用头格式：</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>IS-IS通用报头格式</span>
+
+</div>
+<span><img src="image/ISIS-format-general.png"></span><ul><li>Intradomain Routing Protocol Discriminator：域内路由选择协议鉴别符，设置为0x83。</li><li>Length Indicator：PDU头部的长度（包括通用头部和专用头部），以字节为单位。</li><li>Version/Protocol ID Extension：版本/协议标识扩展，设置为1（0x01）。</li><li>ID Length：NSAP地址或NET中System ID区域的长度。值为0时，表示System ID区域的长度为6字节。值为255时，表示System
+ID区域为空（即长度为0）。</li><li>R（Reserved）：保留，设置为0。</li><li>PDU Type：PDU的类型。IS-IS PDU共有9种类型，详细信息请参考下表。</li><li>Version：设置为1（0x01）。</li><li>Maximum Area Address：支持的最大区域个数。设置为1～254的整数，表示该IS-IS进程实际所允许的最大区域地址数；设置为0，表示该IS-IS进程最大只支持3个区域地址数。 </li></ul>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>PDU类型对应关系表</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="6.666666666666667%" id="mcps1.3.1.9.2.4.1.1">类型值</th>
+
+<th class="cellrowborder" valign="top" width="25%" id="mcps1.3.1.9.2.4.1.2">PDU类型</th>
+
+<th class="cellrowborder" valign="top" width="68.33333333333333%" id="mcps1.3.1.9.2.4.1.3">简称</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">15</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-1 LAN IS-IS Hello PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L1 LAN IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">16</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-2 LAN IS-IS Hello PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L2 LAN IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">17</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Point-to-Point IS-IS Hello PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">P2P IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">18</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-1 Link State PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L1 LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">20</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-2 Link State PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L2 LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">24</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-1 Complete Sequence Numbers PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L1 CSNP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">25</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-2 Complete Sequence Numbers PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L2 CSNP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">26</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-1 Partial Sequence Numbers PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L1 PSNP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.3.1.9.2.4.1.1 ">27</td>
+
+<td class="cellrowborder" valign="top" width="25%" headers="mcps1.3.1.9.2.4.1.2 ">Level-2 Partial Sequence Numbers PDU</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.3.1.9.2.4.1.3 ">L2 PSNP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">CLV报文格式</h4><p>PDU中的变长字段部分是多个CLV（Code-Length-Value）三元组。CLV也称为TLV（Type-Length-Value）。其格式如下图所示。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>CLV格式</span>
+
+<br><span><img src="image/ISIS-format-clv.png"></span></div>
+<p>不同PDU类型所包含的CLV是不同的。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8%" id="mcps1.3.2.5.1.4.1.1">CLV Code</th>
+
+<th class="cellrowborder" valign="top" width="27.999999999999996%" id="mcps1.3.2.5.1.4.1.2">名称</th>
+
+<th class="cellrowborder" valign="top" width="64%" id="mcps1.3.2.5.1.4.1.3">所应用的PDU类型</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Area Addresses</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">IIH、LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">2</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IS Neighbors（LSP）</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Partition Designated Level2 IS</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">L2 LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">6</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IS Neighbors（MAC Address）</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">LAN IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">7</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IS Neighbors（SNPA Address）</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">LAN IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">8</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Padding</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">IIH</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">9</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">LSP Entries</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">SNP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">10</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Authentication Information</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">IIH、LSP、SNP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">128</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IP Internal Reachability Information</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">129</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Protocols Supported</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">IIH、LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">130</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IP External Reachability Information</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">L2 LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">131</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">Inter-Domain Routing Protocol Information</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">L2 LSP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.3.2.5.1.4.1.1 ">132</td>
+
+<td class="cellrowborder" valign="top" width="27.999999999999996%" headers="mcps1.3.2.5.1.4.1.2 ">IP Interface Address</td>
+
+<td class="cellrowborder" valign="top" width="64%" headers="mcps1.3.2.5.1.4.1.3 ">IIH、LSP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>其中，Code值从1到10的CLV在ISO10589中定义（有2类未在上表中列出），其他几种CLV在RFC1195中定义。</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图4 </b>IS-IS报文格式</span>
+
+<br><span><img src="image/ISIS-Example-hello.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.4.2.1.3.1.1 ">ISO 10589</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.4.2.1.3.1.2 ">ISO IS-IS Routing Protocol</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.4.2.1.3.1.1 ">RFC 1195</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.4.2.1.3.1.2 ">Use of OSI IS-IS for Routing in TCP/IP and Dual Environments</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="isis_message.html">IS-IS报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

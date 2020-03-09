@@ -1,0 +1,342 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="BFD控制报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bfd_message">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>BFD控制报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bfd_message"></a><a name="bfd_message"></a>
+
+
+<h1 class="topictitle1">BFD控制报文格式</h1>
+
+<div>
+<p>BFD控制报文封装在UDP报文中传送，对于单跳检测其UDP目的端口号为3784，对于多跳检测其UDP目的端口号为4784或3784。</p>
+
+<p>BFD控制报文根据场景不同封装不同。BFD控制报文包括两部分：强制部分和可选的认证字段。不同的认证类型，认证字段的格式不同。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>BFD控制报文强制部分的格式如下（RFC5880）：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>强制部分的格式</span>
+
+<br><span><img src="image/bfd-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8%" id="mcps1.2.3.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.333333333333334%" id="mcps1.2.3.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.66666666666667%" id="mcps1.2.3.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Version (Vers)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">3 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">BFD协议版本号，目前为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Diagnostic (Diag)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">5 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 "><p>诊断字，标明本地BFD系统最近一次会话状态发生变化的原因，取值及含义：</p>
+<p>          0 --
+No Diagnostic</p>
+<p>          1 -- Control Detection Time Expired</p>
+<p>          2 -- Echo Function Failed</p>
+<p>          3 -- Neighbor
+Signaled Session Down</p>
+<p>          4 -- Forwarding Plane Reset</p>
+<p>          5 -- Path Down</p>
+<p>          6 -- Concatenated Path
+Down</p>
+<p>          7 -- Administratively Down</p>
+<p>          8
+-- Reverse Concatenated Path Down</p>
+<p>       9-31 -- Reserved for
+future use </p>
+<ul><li>&nbsp;</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">State (Sta)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">2 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 "><p>BFD本地状态。</p>
+<p>          0 -- AdminDown</p>
+<p>         
+1 -- Down</p>
+<p>          2 -- Init</p>
+<p>          3 -- Up </p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Poll (P)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">参数发生改变时，发送方在BFD报文中置该标志，接收方必须立即响应该报文。<ul><li>1：表示发送系统请求进行连接确认，或者发送请求参数改变的确认。</li><li>0：表示发送系统不请求确认。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Final (F)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">响应P标志置位的回应报文中必须将F标志置位。<ul><li>1：表示发送系统响应一个接收到P比特为1的BFD包。</li><li>0：表示发送系统不响应一个P比特为1的包。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Control Plane Independent (C)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 "><p>转发/控制分离标志，一旦置位，控制平面的变化不影响BFD检测，如：控制平面为IS-IS，当IS-IS重启/GR时，BFD可以继续监测链路状态。</p>
+<ul><li>1：表示发送系统的BFD实现不依赖于它的控制平面。即，BFD报文在转发平面传输，即使控制平面失效，BFD仍然能够起作用。</li><li>0：表示BFD报文在控制平面传输。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Authentication Present (A)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">认证标识，置1代表会话需要进行验证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Demand (D)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">查询请求，置位代表发送方期望采用查询模式对链路进行监测。<ul><li>1：表示发送系统希望工作在查询模式。</li><li>0：表示发送系统不希望、或不能工作在查询模式。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Multipoint (M)</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">为BFD将来支持点对多点扩展而设的预留位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Detect Mult</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">检测超时倍数，用于检测方计算检测超时时间。<ul><li>查询模式：采用本地检测倍数。</li><li>异步模式：采用对端检测倍数。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">报文长度，单位为字节。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">My Discriminator</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">BFD会话连接本地标识符。发送系统产生的一个唯一的、非0鉴别值，用来区分一个系统的多个BFD会话。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Your Discriminator</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">BFD会话连接远端标识符。从远端系统接收到的鉴别值，这个域直接返回接收到的“My Discriminator”，如果不知道这个值就返回0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Desired Min TX Interval</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">本地支持的最小BFD报文发送间隔，单位为微秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Required Min RX Interval</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">本地支持的最小BFD报文接收间隔，单位为微秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.4.1.4.1.1 ">Required Min Echo RX Interval</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.4.1.4.1.3 ">本地支持的最小Echo报文接收间隔，单位为微秒（如果本地不支持Echo功能，则设置0）。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>BFD控制报文可选部分的格式</span>
+
+<br><span><img src="image/bfd-format-option.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8%" id="mcps1.2.3.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.333333333333334%" id="mcps1.2.3.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.66666666666667%" id="mcps1.2.3.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.6.1.4.1.1 ">Auth Type</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.6.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.6.1.4.1.3 ">BFD控制报文使用的认证类型。不同值表示的认证类型如下：<p>          0 - Reserved</p>
+<p>          1 - Simple Password</p>
+<p>          2 - Keyed MD5</p>
+<p>          3 - Meticulous Keyed MD5</p>
+<p>          4 - Keyed SHA1</p>
+<p>          5 - Meticulous Keyed SHA1</p>
+<p>      6-255 - Reserved
+for future use </p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.6.1.4.1.1 ">Auth Len</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.6.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.6.1.4.1.3 ">认证字段的长度，包括认证类型与认证长度字段，单位为字节。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8%" headers="mcps1.2.3.6.1.4.1.1 ">Authentication Data</td>
+
+<td class="cellrowborder" valign="top" width="10.333333333333334%" headers="mcps1.2.3.6.1.4.1.2 ">Variable</td>
+
+<td class="cellrowborder" valign="top" width="81.66666666666667%" headers="mcps1.2.3.6.1.4.1.3 "><p>认证字段净荷。</p>
+<p>如果A比特位置1且认证类型值为1（Simple Password），则认证字段格式如下：</p>
+<span><img src="image/bfd-format-option-A11.png"></span><ul><li><strong>Auth Type:</strong>认证类型，对于简单密码认证，值为1。</li><li><strong>Auth Len:</strong>认证字段长度，对于简单密码认证，长度等于密码长度+3。</li><li><strong>Auth Key ID:</strong>该报文使用的认证秘钥ID，该值允许同时激活多个秘钥。</li><li><strong>Password: </strong>密码值，是个二进制字符串，长度为1~16字节。</li></ul>
+<p>如果A比特位置1切认证类型值为2（Keyed MD5）或3（Meticulous Keyed MD5），则认证字段格式如下：</p>
+<span><img src="image/bfd-format-option-A12.png"></span><ul><li><strong>Auth Type:</strong>认证类型，值为2 (Keyed MD5)或3 (Meticulous Keyed MD5)。</li><li><strong>Auth Len:</strong>认证字段长度，对于Keyed MD5和Meticulous Keyed MD5认证，长度值为24。</li><li><strong>Auth Key ID:</strong>该报文使用的认证秘钥ID，该值允许同时激活多个秘钥。</li><li><strong>Reserved:</strong>在传输过程中，该值必须为0，接收端接收时忽略此字段。</li><li><strong>Sequence Number:</strong> 报文顺序号。对于Keyed MD5认证，该值随机增加，对于Meticulous
+Keyed MD5认证，同一个会话中的报文按顺序逐渐增加。该值用于预防重放攻击。</li><li><strong>Auth Key/Digest:</strong> 该字段携带16字节MD5摘要信息。当MD5摘要被计算后，该字段填的是MD5共享秘钥，并按需尾填充16字节的0。</li></ul>
+<p>如果A比特位置1切认证类型值为4（Keyed SHA1）或5（Meticulous Keyed SHA1），则认证字段格式如下：</p>
+<span><img src="image/bfd-format-option-A145.png"></span><ul><li><strong>Auth Type:</strong>认证类型，值为4 (Keyed SHA1)或5 (Meticulous Keyed SHA1)。</li><li><strong>Auth Len:</strong>认证字段长度，对于Keyed SHA1和Meticulous Keyed SHA1认证，长度为28。</li><li><strong>Auth Key ID:</strong>该报文使用的认证秘钥ID，该值允许同时激活多个秘钥。</li><li><strong>Reserved:</strong>在传输过程中，该值必须为0，接收端接收时忽略此字段。</li><li><strong>Sequence Number:</strong> 报文顺序号。对于Keyed SHA1认证，该值随机增加，对于Meticulous
+Keyed SHA1认证，同一个会话中的报文按顺序逐渐增加。该值用于预防重放攻击。</li><li><strong>Auth Key/Digest:</strong> 该字段携带20字节SHA1哈希值。当hash被计算后，，该字段填的是SHA1共享秘钥，并按需尾填充20字节的0。</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>BFD报文格式（不认证）</span>
+
+<br><span><img src="image/BFD_control.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>BFD报文格式（简单认证）</span>
+
+<br><span><img src="image/BFD-simple.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>BFD报文格式（MD5认证）</span>
+
+<br><span><img src="image/BFD-MD5.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>BFD报文格式（SHA1认证）</span>
+
+<br><span><img src="image/BFD-SHA1.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 5880</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Bidirectional Forwarding Detection</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

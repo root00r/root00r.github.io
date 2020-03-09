@@ -1,0 +1,349 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="LACP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_8">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>LACP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_8"></a><a name="rrpp_message_format_8"></a>
+
+
+<h1 class="topictitle1">LACP报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>基于IEEE802.3ad标准的LACP，链路汇聚控制协议是一种实现链路动态聚合与解聚合的协议。LACP协议通过LACPDU（Link
+Aggregation Control Protocol Data Unit）与对端交互信息。</p>
+<p>LACPDU报文为慢协议（平均每秒发送的协议报文不超过5个），如果接口板收到报文的DMAC是特殊的组播地址
+0x01-80-c2-00-00-02，二层协议类型字段为0x8809，协议子类型为0x01，则说明此数据报文为LACPDU报文。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>LACPDU格式</span>
+
+<br><span><img src="image/LACP-format.png"></span></div>
+<p>报文中各域的说明如下：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="13.953488372093023%" id="mcps1.2.1.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.299003322259138%" id="mcps1.2.1.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.74750830564784%" id="mcps1.2.1.6.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Destination Address</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">目的MAC地址，是一个组播地址（01-80-C2-00-00-02）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Source Address</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">源MAC地址，发送端口的MAC地址</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Length/Type</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">协议类型：0x8809</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Subtype</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">报文子类型：0x01，说明是LACP报文</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Version Number</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">协议版本号：0x01</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">TLV_type</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 "><ul><li>0x00代表Terminator字段</li><li>0x01代表Actor字段</li><li>0x02代表Partner字段</li><li>0x03代表Collector字段</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_Information_Length</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">actor信息字段长度，为20字节</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_Port</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">端口号，根据算法生成，由接口所在的槽位号、子卡号和端口号决定</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_State</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">本端状态信息：<ul><li>LACP_Activity：代表链路所在的聚合组参与LACP协商的方式。主动的LACP被编码为1，主动方式下会主动发送LACPDU报文给对方，被动方式不会主动发送协商报文，除非收到协商报文才会参与。</li><li>LACP_Timeout：代表链路接收LACPDU报文的周期，有两种，快周期1s和慢周期30s，超时时间为周期的3倍。短超时被编码为1，长超时被编码为0。</li><li>Aggregation：标识该链路能否被聚合组聚合。如果编码为0，该链路被认为是独立的，不能被聚合，即，这个链路只能作为一个个体链路运行。</li><li>Synchronization：代表该链路是否已被分配到一个正确的链路聚合组，如果该链路已经关联了一个兼容的聚合器，那么该链路聚合组的识别与系统ID和被发送的运行Key信息是一致的。编码为0，代表链路当前不在正确的聚合里。</li><li>Collecting：帧的收集使能位，假如编码为1，表示在这个链路上进来的帧的收集是明确使能的；即收集当前被使能，并且不期望在没有管理变化或接收协议信息变化的情况下被禁止。其它情况下这个值编码为0。</li><li>Distributing：帧的分配使能位，假如编码为0，意味着在这个链路上的外出帧的分配被明确禁止，并且不期望在没有管理变化或接收协议信息变化的情况下被使能。其它情况下这个值编码为1。</li><li>Default：诊断调试时使用，编码为1，代表接收到的对端的信息是管理配置的。假如编码为0，正在使用的运行伙伴信息在接收到的LACPDU里。该值不被正常LACP协议使用，仅用于诊断协议问题。</li><li>Expired：诊断调试时使用，编码为1，代表本端的接收机是处于EXPIRED超时状态；假如编码为0，本端接收状态机处于正常状态。该值不被正常LACP协议使用，仅用于诊断协议问题。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_System_Priority</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">本端系统优先级，可以设置，默认情况下为32768</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_System</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">系统ID，本端系统的MAC地址</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_key</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">端口KEY值，系统根据端口的配置生成，是端口能否成为聚合组中的一员的关 键因素，影响Key值得因素有trunk ID、接口的速率和双工模式</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Actor_Port_Priority</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">接口优先级，可以配置，默认为0x8000</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">3字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">保留字段，可用于功能调试以及扩展</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_Information_Length</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">Partner信息字段长度。<p>Partner字段代表了链路接口接收到对端的系统信息、接口信息和状态信息，与actor字段含义一致。在协商最开始未收到对端信息时，partner字段填充0，接收到对端信息后会把收到的对端信息补充到partner字段当中。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_Port</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端端口号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_State</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端状态信息</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_System_Priority</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端系统优先级</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_System</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端系统ID，对端系统的MAC地址</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_key</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端端口KEY值</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Partner_Port_Priority</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">对端接口优先级</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">保留字段</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Collector_Information_Length</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">Collector信息字段长度：0x10</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">CollectorMaxDelay</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">最大延时：默认情况下为0xffff</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">12字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">保留字段</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Terminator_Length</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">Terminator信息字段长度：0x00</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">50字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">保留字段，全置0</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.953488372093023%" headers="mcps1.2.1.6.1.4.1.1 ">FCS</td>
+
+<td class="cellrowborder" valign="top" width="10.299003322259138%" headers="mcps1.2.1.6.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="75.74750830564784%" headers="mcps1.2.1.6.1.4.1.3 ">用于帧内后续字节差错的循环冗余检验（也称为FCS或帧检验序列）。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/LACP-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">IEEE 802.3ad</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Link Aggregation Control Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

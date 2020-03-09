@@ -1,0 +1,602 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="OSPF LSU报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/ospf_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ospf_message_format_6">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>OSPF LSU报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ospf_message_format_6"></a><a name="ospf_message_format_6"></a>
+
+
+<h1 class="topictitle1">OSPF LSU报文格式</h1>
+
+<div>
+<p>用来向对端Router发送其所需要的LSA或者泛洪自己更新的LSA，内容是多条LSA（全部内容）的集合。LSU报文（Link
+State Update Packet）在支持组播和广播的链路上是以组播形式将LSA泛洪出去。为了实现Flooding的可靠性传输，需要LSAck报文对其进行确认。对没有收到确认报文的LSA进行重传，重传的LSA是直接发送到邻居的。</p>
+
+<p><span><img src="image/ospf-packet-lsu.png"></span></p>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.3.1.4.1.1 ">Number of LSAs</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.3.1.4.1.3 ">LSA的数量。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<p>常用的LSA共有5种，分别为：Router-LSA、Network-LSA、Network-summary-LSA、ASBR-summary-LSA和AS-External-LSA。</p>
+
+<p>所有的LSA都有相同的报文头：</p>
+
+<p><span><img src="image/ospf-lsa-header.png"></span></p>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.7.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS age</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA产生后所经过的时间，以秒为单位。无论LSA是在链路上传送，还是保存在LSDB中，其值都会在不停的增长。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">可选项：<ul><li>E：允许泛洪AS-External-LSA；</li><li>MC：转发IP组播报文；</li><li>N/P：处理Type-7 LSA；</li><li>DC：处理按需链路。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS type</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA的类型：<ul><li>Type1：Router-LSA</li><li>Type2：Network-LSA</li><li>Type3：Network-summary-LSA</li><li>Type4：ASBR-summary-LSA</li><li>Type5：AS-External-LSA</li><li>Type7：NSSA-LSA</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">与LSA中的LS Type和LSA description一起在路由域中描述一个LSA。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">Advertising Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">产生此LSA的路由器的Router ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS sequence number</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA的序列号。其他路由器根据这个值可以判断哪个LSA是最新的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS checksum</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">除了LS age外其它各域的校验和。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">length</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA的总长度，包括LSA Header，以字节为单位。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Router-LSA</h4><p>Router-LSA（Type1）：每个路由器都会产生，描述了路由器的链路状态和花费，在所属的区域内传播。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Router-LSA格式</span>
+
+<br><span><img src="image/ospf-lsa-Router-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.8.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.8.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.8.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">生成LSA的Router ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">V (Virtual Link)</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是虚连接的端点，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">E (External)</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是ASBR，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">B (Border)</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是ABR，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 "># links</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">LSA中所描述的链路信息的数量，包括路由器上处于某区域中的所有链路和接口。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Link ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">路由器所接入的目标，其值取决于连接的类型：<ul><li>1：Router ID；</li><li>2：DR的接口IP地址；</li><li>3：网段／子网号；</li><li>4：虚连接中对端的Router ID。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Link Data</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">连接数据，其值取决于连接的类型：<ul><li>unnumbered P2P：接口的索引值；</li><li>stub网络：子网掩码；</li><li>其它连接：路由器接口的IP地址。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">路由器连接的基本描述：<ul><li>1：点到点连接到另一台路由器；</li><li>2：连接到传输网络；</li><li>3：连接到stub网络；</li><li>4：虚拟链路。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 "># TOS</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">连接不同的TOS数量。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">链路的开销值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">TOS</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">服务类型。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">TOS metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.8.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.8.4.1.4.1.3 ">和指定TOS值相关联的度量。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Network-LSA</h4><p>Network-LSA（Type2）：由广播网或NBMA网络中的DR产生，Network-LSA中记录了这一网络上所有路由器的Router
+ID，描述本网段的链路状态，在所属的区域内传播。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>Network-LSA格式</span>
+
+<br><span><img src="image/ospf-lsa-Network-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.9.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.9.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.9.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.9.4.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.9.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.9.4.1.4.1.3 ">DR的接口IP地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.9.4.1.4.1.1 ">Network Mask</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.9.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.9.4.1.4.1.3 ">该广播网或NBMA网络地址的掩码。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.9.4.1.4.1.1 ">Attached Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.9.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.9.4.1.4.1.3 ">连接在同一个网络上的所有路由器的Router ID，也包括DR的Router ID。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Summary-LSA格式</h4><p>Network-summary-LSA（Type3）：描述区域内所有网段的路由，并通告给其他相关区域。</p>
+<p>ASBR-summary-LSA（Type4）：描述到ASBR的路由，通告给除ASBR所在区域的其他相关区域。</p>
+<p>Type3和Type4的LSA有相同的格式，它们都是由ABR产生。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>Summary-LSA格式</span>
+
+<br><span><img src="image/ospf-lsa-Summary-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.10.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.10.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.10.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.6.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.6.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.6.1.4.1.3 ">通告的网络地址。如果是ASBR Summary LSA，此字段表示ASBR的Router ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.6.1.4.1.1 ">Network Mask</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.6.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.6.1.4.1.3 ">该广播网或NBMA网络地址的掩码。如果是ASBR Summary LSA，此字段无意义，设置为0.0.0.0。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.6.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.6.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.6.1.4.1.3 ">到目的地址的路由开销。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.6.1.4.1.1 ">TOS</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.6.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.6.1.4.1.3 ">服务类型。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.6.1.4.1.1 ">TOS metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.6.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.6.1.4.1.3 ">和指定TOS值相关联的度量。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>通告缺省路由时，Link State ID和Network Mask都设置为0.0.0.0。</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">AS-External-LSA</h4><p>AS-External-LSA（Type5）：由ASBR产生，描述到AS外部的路由，这是五种LSA中，唯一一种通告到所有区域（除了Stub区域和NSSA区域）的LSA。</p>
+<div class="fignone"><span class="figcap"><b>图4 </b>AS-External-LSA格式</span>
+
+<br><span><img src="image/ospf-lsa-AS-External-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.666666666666666%" id="mcps1.2.11.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.11.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.66666666666666%" id="mcps1.2.11.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">通告的网络地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">Network Mask</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">通告的目的地址的掩码。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">E</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">外部度量值类型：<ul><li>0：第一类外部路由；</li><li>1：第二类外部路由。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">到目的地址的路由开销。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">Forwarding Address</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">到所通告的目的地址的报文将被转发到这个地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">External Route Tag</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">添加到外部路由上的标记。OSPF本身并不使用这个字段，它可以用来对外部路由进行管理。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">TOS</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">服务类型。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.11.4.1.4.1.1 ">TOS metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.11.4.1.4.1.3 ">TOS附加距离信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>Type5的LSA可以用来通告缺省路由，此时Link State ID和Network Mask都设置为0.0.0.0。 </p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图5 </b>Network-LSA</span>
+
+<br><span><img src="image/ospf-example-lsu-network-lsa.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>Router-LSA</span>
+
+<br><span><img src="image/ospf-example-lsu-router-lsa.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>Summary-LSA</span>
+
+<br><span><img src="image/ospf-example-lsu-summary-lsa.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.13.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.13.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.13.2.1.3.1.1 ">RFC2328</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.13.2.1.3.1.2 ">OSPF Version 2</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="ospf_message.html">OSPF报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div> <div class="hwcopyright">2016 &copy</div></body>
+</html>

@@ -1,0 +1,178 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IPv6报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/network-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ip_message_format_3">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IPv6报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ip_message_format_3"></a><a name="ip_message_format_3"></a>
+
+
+<h1 class="topictitle1">IPv6报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>IPv6报文头格式</span>
+
+<br><span><img src="image/IPv6-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>IP头字段解释</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.1.3.2.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.1.3.2.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.99999999999999%" id="mcps1.2.1.3.2.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 "><ul><li>4：表示为IPV4；</li><li>6：表示为IPV6。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Traffic class</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">流量类别。该字段及其功能类似于IPv4的业务类型字段。该字段以区分业务编码点（DSCP）标记一个IPv6数据包，以此指明数据包应当如何处理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Flow Label</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">20比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">流标签。该字段用来标记IP数据包的一个流，当前的标准中没有定义如何管理和处理流标签的细节。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Payload length</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">该字段表示有效载荷的长度，有效载荷是指紧跟IPv6基本报头的数据包，包含IPv6扩展报头。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Next header</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">下一报头，该字段指明了跟随在IPv6基本报头后的扩展报头的信息类型。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Hop limit</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">跳数限制，该字段定义了IPv6数据包所能经过的最大跳数，这个字段和IPv4中的TTL字段非常相似。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Source Address</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">128比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">该字段表示该报文的源地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Destination Address</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">128比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">该字段表示该报文的目的地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Extension Headers</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">扩展报头。IPv6取消了IPv4报头中的选项字段，并引入了多种扩展报文头，在提高处理效率的同时还增强了IPv6的灵活性，为IP协议提供了良好的扩展能力。当超过一种扩展报头被用在同一个分组里时，报头必须按照下列顺序出现：<ul><li>IPv6基本报头</li><li>逐跳选项扩展报头</li><li>目的选项扩展报头</li><li>路由扩展报头</li><li>分片扩展报头</li><li>授权扩展报头</li><li>封装安全有效载荷扩展报头</li><li>目的选项扩展报头（指那些将被分组报文的最终目的地处理的选项。）</li><li>上层扩展报头</li></ul>
+<p>不是所有的扩展报头都需要被转发路由设备查看和处理的。路由设备转发时根据基本报头中Next Header值来决定是否要处理扩展头。</p>
+<p>除了目的选项扩展报头出现两次（一次在路由扩展报头之前，另一次在上层扩展报头之前），其余扩展报头只出现一次。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>IPv6报文</span>
+
+</div>
+<span><img src="image/IPv6-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="16%" id="mcps1.2.3.2.1.3.1.1">标准Standard</th>
+
+<th class="cellrowborder" valign="top" width="84%" id="mcps1.2.3.2.1.3.1.2">Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="16%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 2460</td>
+
+<td class="cellrowborder" valign="top" width="84%" headers="mcps1.2.3.2.1.3.1.2 ">Internet Protocol, Version 6 (IPv6) Specification<p> (Updated
+by RFC 7045, RFC 5871, RFC 5722, RFC 6935, RFC 7112, RFC 6437, RFC
+6946, RFC 6564, RFC 5095)</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="network-layer.html">网络层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

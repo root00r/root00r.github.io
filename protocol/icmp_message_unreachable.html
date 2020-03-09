@@ -1,0 +1,142 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ICMP目的不可达消息格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/icmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_10">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ICMP目的不可达消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_10"></a><a name="icmp_message_format_10"></a>
+
+
+<h1 class="topictitle1">ICMP目的不可达消息格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>ICMP目的不可达消息格式</span>
+
+<br><span><img src="image/icmp-format-source-quench.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.875331564986737%" id="mcps1.3.1.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="7.957559681697612%" id="mcps1.3.1.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.16710875331566%" id="mcps1.3.1.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">消息类型，此处值为3。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">消息代码：<ul><li>0 = net unreachable;网络不可达</li><li>1 = host unreachable;主机不可达</li><li>2 = protocol unreachable;协议不可达</li><li>3 = port unreachable; 端口不可达，Tracert时发送的ICMP报文即为此类。</li><li>4 = fragmentation needed and DF set;需要进行分片但设置不分片比特</li><li>5 = source route failed.源站选路失败</li><li>6 = Destination network unknown目的网络不认识</li><li>7 = Destination host unknown目的主机不认识</li><li>8 = Source host isolated (obsolete)源主机被隔离（作废不用）</li><li>9 = Destination network administratively prohibited目的网络被强制禁止</li><li>10 = Destination host administratively prohibited目的主机被强制禁止</li><li>11 = Network unreachable for TOS由于TOS，网络不可达</li><li>12 = Host unreachable for TOS 由于TOS，主机不可达</li><li>13 = Communication administratively prohibited by filtering由于过滤，通信被强制禁止</li><li>14 = Host precedence violation主机越权</li><li>15 = Precedence cutoff in effect优先权中止生效</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">检验和。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">unused</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">未使用，必须填0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Internet Header + 64 bits of Original Data Datagram</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">IP首部+原始数据包的前8字节：<ul><li><p>IP首部：如果IP首部没有选项字段时为20字节</p>
+</li><li>原始数据包的前8字节：UDP首部的8字节或者TCP首部的8字节。</li></ul>
+<p>该数据是主机用来匹配消息。对于更高层协议的用户端口号，原始数据包的前64比特的这些数据会被重组。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>ICMP目的不可达消息</span>
+
+<br><span><img src="image/ICMP-unreachable.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 792</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Internet Control Message Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="icmp_message.html">ICMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

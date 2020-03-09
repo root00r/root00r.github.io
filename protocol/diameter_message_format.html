@@ -1,0 +1,277 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="Diameter协议报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_format_6">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>Diameter协议报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_format_6"></a><a name="eth_format_6"></a>
+
+
+<h1 class="topictitle1">Diameter协议报文格式</h1>
+
+<div>
+<p>Diameter协议是IETF的AAA工作组作为下一代的AAA协议标准，由RADIUS协议演进而来。</p>
+
+<p>Diameter目前主要应用于移动通信系统，固网接入主要使用RFC2865的Radius协议。随着固网与无线网络融合，统一认证计费授权服务器的趋势越来越迫切，固网接入支持Diameter协议栈已成为普遍需求。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>Diameter协议栈结构</span>
+
+<br><span><img src="image/diameter-stack.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>Diameter报文格式</span>
+
+<br><span><img src="image/diameter-header.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.03010033444816%" id="mcps1.2.3.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.698996655518394%" id="mcps1.2.3.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.27090301003345%" id="mcps1.2.3.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">必须置为1，表示Diameter协议版本号为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Message Length</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">3字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">表示Ditameter消息长度，包括Diameter的头部域。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Command Flags</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">此字段格式如下：<pre class="screen"> 0 1 2 3 4 5 6 7
++-+-+-+-+-+-+-+-+
+|R P E T r r r r|
++-+-+-+-+-+-+-+-+</pre>
+<ul><li>R(equest)   - 如果置1，表示消息为请求消息，如果置0，表示消息为应答消息。</li><li>P(roxiable) - 如果置1，表示消息可能被代理、中继或重定向。如果置0，表示消息必须本地处理。</li><li>E(rror)     - 如果置1，表示消息包含协议错误，不符合ABNF的定义。带有E比特置位的通常表示错误消息。在请求消息中该比特不应该置位。</li><li>T(Potentially re-transmitted message)    - 当发送的请求还没得到确认时，此标记置位，表示可能因为链路故障导致消息的重复。
+第1次发送的请求消息中此标记必须置0。应答消息中此标记也应该置0。</li><li>r(eserved)  - 预留将来使用，必须设置为0，接收时忽略。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Command-Code</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">3字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">命令代码，代码值由IANA分配，其中0xFFFFFE -0xFFFFFF预留给实验用。<ul><li>Abort-Session-Request (ASR):  274</li><li>Abort-Session-Answer (ASA):  274</li><li>Accounting-Request (ACR):  271</li><li>Accounting-Answer (ACA):  271</li><li>Capabilities-Exchange-Request (CER):  257</li><li>Capabilities-Exchange-Answer (CEA):  257</li><li>Device-Watchdog-Request (DWR):  280</li><li>Device-Watchdog-Answer (DWA):  280</li><li>Disconnect-Peer-Request (DPR):  282</li><li>Disconnect-Peer-Answer (DPA):  282</li><li>Re-Auth-Request (RAR):  258</li><li>Re-Auth-Answer (RAA):  258</li><li>Session-Termination-Request (STR):  275</li><li>Session-Termination-Answer (STA):  275</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Application-ID</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">用来标记消息的应用，该应用可能是认证、计费或者厂家特殊应用。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">Hop-by-Hop Identifier</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">逐跳标记，用来匹配请求和应答，通常是一个自动增加的编号，从一个随机的数开始增加。应答消息里的此字段如果无法识别，消息将被丢弃。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">End-to-End Identifier</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">用于检测重复消息。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.4.1.4.1.1 ">AVPs</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.4.1.4.1.3 ">Diameter消息使用AVP来封装信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>AVP消息格式</span>
+
+<br><span><img src="image/diameter-avp-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.03010033444816%" id="mcps1.2.3.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.698996655518394%" id="mcps1.2.3.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.27090301003345%" id="mcps1.2.3.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">AVP Code</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">AVP Code字段和Vendor-Id字段一起唯一标识了一个属性。1 &#8211; 255 预留用于和RADIUS后向兼容，不需要携带Vendor-Id字段。256及以上的值用于Diameter协议，由IANA分配。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">V</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">V（Vendor-Specific bit）位用来标识AVP头部是否必须携带Vendor-ID字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">M</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">M（Mandatory）位用来标识此AVP是否必须携带。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">P</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">P位用来标识是否需要加密。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">5 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">保留位。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">AVP Length</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">3 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">表示AVP的字节数，包括AVP Code、AVP Length、AVP Flags、Vendor-ID、AVP data字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">Vendor-ID</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">IANA分配的厂家标识。如果V比特置位，AVP必须携带Vendor-ID字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.3.6.1.4.1.1 ">Data</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.3.6.1.4.1.2 ">Variable</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.3.6.1.4.1.3 ">包括0个或多个属性。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图4 </b>Diameter报文（使用TCP封装）</span>
+
+<br><span><img src="image/diameter_example.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>Diameter报文（使用SCTP封装）</span>
+
+<br><span><img src="image/diameter_example-sctp.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 3588</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Diameter Base Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

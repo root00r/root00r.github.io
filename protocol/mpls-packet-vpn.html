@@ -1,0 +1,228 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="MPLS L2/L3VPN报文结构">
+<meta name="DC.Relation" scheme="URI" content="../message/mpls-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_format_10">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>MPLS L2/L3VPN报文结构</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_format_10"></a><a name="eth_format_10"></a>
+
+
+<h1 class="topictitle1">MPLS L2/L3VPN报文结构</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">MPLS L2/L3VPN报文结构</h4><div class="fignone"><span class="figcap"><b>图1 </b>MPLS L3VPN报文结构</span>
+
+<br><span><img src="image/mpls-format-l3vpn.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>MPLS L2VPN报文结构</span>
+
+<br><span><img src="image/mpls-format-l2vpn.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">各种公网隧道场景下的MPLS报文携带的标签</h4><p>在VPN场景下，MPLS报文携带M层私网标签+N层公网隧道标签，M取决于VPN的组网场景（请参见后文），N的取值取决于公网隧道类型。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="42%" id="mcps1.2.2.3.1.3.1.1">场景</th>
+
+<th class="cellrowborder" valign="top" width="57.99999999999999%" id="mcps1.2.2.3.1.3.1.2">公网隧道标签层数N</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">隧道为LDP LSP</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">1层公网标签</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">隧道为static LSP</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">1层公网标签</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">隧道为TE隧道</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">1层公网标签</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">隧道为LDP over TE隧道，报文在TE隧道上传输时</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">2层公网标签</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">TE FRR场景下，报文在bypass隧道上传输时</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">2层公网标签</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="42%" headers="mcps1.2.2.3.1.3.1.1 ">隧道为LDP over TE且部署TE FRR场景下，被保护接口出现故障，业务切换到bypass隧道，报文在bypass隧道上传输时</td>
+
+<td class="cellrowborder" valign="top" width="57.99999999999999%" headers="mcps1.2.2.3.1.3.1.2 ">3层公网标签</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>各种公网隧道场景下的MPLS报文格式</span>
+
+<br><span><img src="image/mpls-format-tunnel.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">跨域VPN OptionA场景</h4><p>在各AS域内传递时，报文携带1层私网MPLS标签
++ N层公网隧道标签（公网隧道标签参见上文）。</p>
+<p>在AS域间传递时，报文不携带MPLS标签。</p>
+<div class="fignone"><span class="figcap"><b>图4 </b>跨域VPN OptionA场景下的报文结构</span>
+
+<br><span><img src="image/mpls-format-optionA.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">跨域VPN OptionB场景</h4><p>在各AS域内传递时，报文携带1层私网MPLS标签
++ N层公网隧道标签（公网隧道标签参见上文）。</p>
+<p>在AS域间传递时，报文携带1层私网MPLS标签。</p>
+<div class="fignone"><span class="figcap"><b>图5 </b>跨域VPN OptionB场景下的报文结构</span>
+
+<br><span><img src="image/mpls-format-optionB.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">跨域VPN OptionC场景</h4><ul><li>在首发的AS域内传递时，报文携带1层私网标签 + 1层BGP标签 + N层公网隧道标签</li><li>在AS域间传递时，报文携带1层私网标签+1层BGP标签</li><li>在第2个AS域间传递时，报文携带1层私网标签+ N层公网隧道标签</li></ul>
+<div class="fignone"><span class="figcap"><b>图6 </b>跨域VPN OptionC场景下的报文结构</span>
+
+<br><span><img src="image/mpls-format-optionC.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">HoVPN/HVPLS场景</h4><ul><li>核心层传递时，报文携带1层内层标签+N层公网隧道标签</li><li>UPE和SPE之间传递时，报文携带1层内层标签</li></ul>
+<div class="fignone"><span class="figcap"><b>图7 </b>跨域VPN OptionC场景下的报文结构</span>
+
+<br><span><img src="image/mpls-format-optionC.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">运营商的运营商CSC（Carriers' Carrier）场景</h4><p>与普通BGP/MPLS
+IP VPN相比，运营商的运营商的实现关键在于一级运营商CE接入到一级运营商PE这一部分。而二级运营商可能只是普通SP，也可能是BGP/MPLS
+IP VPN服务提供商。</p>
+<ul><li>二级运营商是普通SP时，需要在一级运营商CE之间建立BGP会话交换外部路由。二级运营商内部通过IGP或BGP扩散二级运营商的外部路由。二级运营商用户侧PE可以不部署MPLS。</li><li>二级运营商是BGP/MPLS IP VPN服务提供商时，其PE也需要运行MPLS，与一级运营商CE之间运行IGP和LDP。二级运营商PE之间通过MP-BGP会话交换外部路由。</li></ul>
+<div class="fignone"><span class="figcap"><b>图8 </b>运营商的运营商场景(二级运营商为普通SP）</span>
+
+<br><span><img src="image/mpls-format-csc-no-mpls.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图9 </b>运营商的运营商场景(二级运营商也为MPLS VPN SP）</span>
+
+<br><span><img src="image/mpls-format-csc-mpls.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图10 </b>MPLS L2VPN报文</span>
+
+<br><span><img src="image/mpls-example-l2vpn.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.9.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.9.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 3031</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">Multiprotocol Label Switching Architecture </td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 3032</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">MPLS Label Stack Encoding</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 3034</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">Use of Label Switching on Frame Relay Networks Specification </td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 3035</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">MPLS using LDP and ATM VC Switching </td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 2547</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">BGP/MPLS VPNs</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 4090</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">Fast Reroute Extensions to RSVP-TE for LSP Tunnels</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.9.2.1.3.1.1 ">RFC 3107</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.9.2.1.3.1.2 ">Carrying Label Information in BGP-4</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="mpls-layer.html">MPLS层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

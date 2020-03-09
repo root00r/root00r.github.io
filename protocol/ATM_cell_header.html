@@ -1,0 +1,47 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ATM信元格式">
+<meta name="DC.Relation" scheme="URI" content="../message/ATM_cell.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_17">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ATM信元格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_17"></a><a name="rrpp_message_format_17"></a>
+
+
+<h1 class="topictitle1">ATM信元格式</h1>
+
+<div>
+<div class="section"><p>ATM信元头根据网络接口的不同分为UNI和NNI两种信元头类型。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>ATM信元头格式</span>
+
+<br><span><img src="image/ATM-cell-header.png"></span></div>
+<ul><li>GFC：一般流量控制，长度是4比特，只用于UNI接口，进行流量控制或在共享媒体的网络中标识不同的接入访问。</li><li>VPI：虚通道标识符，在UNI中长度是8比特，可标识256个VP；在NNI中长度是12比特，可标识4096个VP。</li><li>VCI：虚通路标识符，长度是16比特，可标识65536个VC。</li><li>CLP：信元丢弃优先等级（Cell Loss Priority），长度是1比特，用于拥塞控制。发生拥塞时优先丢弃CLP=1的信元。</li><li>PTI：净荷类型标识（Payload Type Indicator），长度是3比特，用于标识净荷的类型。</li><li>HEC：信头差错控制，长度是8比特，用于信元头中的差错控制和信元定界。可纠正１位错码，发现多位错码。在物理层进行HEC处理。</li></ul>
+<p>对于一些特定的VPI/VCI值已经保留作为特殊信元使用，下面对它们进行简单介绍。</p>
+<ul><li>空闲信元：VPI=0，VCI=0，PTI=0，CLP=1，用于速率适配。</li><li>未赋值信元：VPI=0，VCI=0，PTI=任意值，CLP=1。</li><li>OAM信元：<ul><li>对于VP，VCI=3，用于VP链路；VCI=4用于VP连接。</li><li>对于VC，PTI=4用于VC链路，PTI=5用于VC连接。</li></ul>
+</li><li>信令信元：它分为以下三种类型：<ul><li>元信令信元：VPI为任意值，VCI=1。</li><li>一般广播信令信元：VPI为任意值，VCI=2。</li><li>点对点信令信元：VPI为任意值，VCI=5。  </li></ul>
+</li><li>净荷类型PT（Payload Type）：该域长度是3比特。用于标识信息域，也就是净荷的类型。下面列出的是ITU-T I.361已定义的PT值及其含义。<ul><li>PT=000：用户数据信元，未经历拥塞，ATM层用户到ATM层用户指示AUU（ATM User to User）为0。</li><li>PT=001：用户数据信元，未经历拥塞，AUU=1。</li><li>PT=010：用户数据信元，经历拥塞，AUU=0。</li><li>PT=011：用户数据信元，经历拥塞，AUU=1。</li><li>PT=100：OAM F5段相关信元。</li><li>PT=101：OAM F5端到端相关信元。</li><li>PT=110：资源管理信元。</li><li>PT=111：将来用。</li></ul>
+</li></ul>
+<p>由此可见，当信元用于承载用户数据时：</p>
+<ul><li>PT第一位为0。</li><li>第二位标识信元是否经历拥塞，这一位可通过处于拥塞的网络节点设置。</li><li>第三位是AUU指示，其中，AUU=0表明对应的SAR-PDU是起始段或中间段，AUU=1表明为结束段。 </li></ul>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="ATM_cell.html">ATM信元格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

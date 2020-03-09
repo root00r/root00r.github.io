@@ -1,0 +1,235 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="RRPP帧封装格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_10">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>RRPP帧封装格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_10"></a><a name="rrpp_message_format_10"></a>
+
+
+<h1 class="topictitle1">RRPP帧封装格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">帧格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>RRPP帧格式</span>
+
+<br><span><img src="image/RRPP-format.png"></span></div>
+<p>各域的说明如下：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="9.000000000000002%" id="mcps1.2.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11%" id="mcps1.2.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80%" id="mcps1.2.1.4.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">Destination MAC Address</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">48比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">协议帧的目的MAC。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">Source Mac Address</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">48比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">协议帧的源MAC，固定值为0x000fe203fd75。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">EtherType</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">帧封装类型域，固定值为0x8100，表示Tagged封装。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">PRI</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">COS(Class of Service)优先级，固定值为0xe0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">VLAN ID</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">12比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">帧所属VLAN的ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">Frame Length</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">以太网帧长度，固定值为0x48。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">DSAP/SSAP</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">目的服务访问点/源服务访问点，固定值为0xaaaa。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">CONTROL</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">该字段无实际意义，固定值为0x03。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">OUI</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">该字段无实际意义，固定值为0x00e02b。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">RRPP_LENGTH</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">RRPP协议数据单元长度，固定值为0x40。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">RRPP_VERS</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">RRPP版本信息，当前是0x0001。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">RRPP TYPE</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">RRPP帧类型：<ul><li>0x05 (HEALTH)：健康检测帧，由主节点发起，对网络进行环路检测。</li><li>0x06 (COMPLETE-FLUSH-FDB)：链路DOWN帧，由传输节点、边缘节点或者辅助边缘节点发起，通知主节点有端口DOWN，环路消失。</li><li>0x07 (COMMON-FLUSH-FDB)：刷新FDB（Forwarding Database）帧，由主节点发起，通知传输节点更新各自MAC地址转发表和ARP表。</li><li>0x08 (LINK-DOWN)：<p>由主节点发起，通知传输节点、边缘节点或者辅助边缘节点更新各自MAC地址转发表和ARP表。</p>
+<p>同时通知传输节点解除临时阻塞数据VLAN的端口的阻塞状态。</p>
+</li><li>0x0a (EDGE-HELLO)：主环完整性检查帧，由子环的边缘节点发起，同子环的辅助边缘节点接收，子环通过此帧检查其所在域主环的环路完整性。</li><li>0x0b (MAJOR-FAULT)：主环故障通知帧，当子环的辅助边缘节点在规定时间内收不到边缘节点发送的EDGE-HELLO帧时发起，向边缘节点报告其所在域主环发生故障。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">DOMAIN_ID</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">帧所属RRPP域的ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">RING_ID</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">帧所属RRPP环的ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">SYSTEM_MAC_ADDR</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">48比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">发送帧节点的桥MAC。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">HELLO_TIMER</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">发送帧节点使用的Hello定时器的超时时间，单位为秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">FAIL_TIMER</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">发送帧节点使用的Fail定时器的超时时间，单位为秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">LEVEL</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">帧所属RRPP环的级别。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.4.1.4.1.1 ">HELLO_SEQ</td>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.1.4.1.4.1.3 ">Hello帧的序列号。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4><p>RRPP为华为私有协议。</p>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

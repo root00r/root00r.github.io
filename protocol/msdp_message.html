@@ -1,0 +1,238 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="MSDP报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="igmp_message_format_1">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>MSDP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="igmp_message_format_1"></a><a name="igmp_message_format_1"></a>
+
+
+<h1 class="topictitle1">MSDP报文格式</h1>
+
+
+<div><p></p>
+
+<p>MSDP（Multicast Source Discovery Protocol）称为组播源发现协议，是基于多个PIM-SM（Protocol
+Independent Multicast Sparse Mode）域互连而开发的一种域间组播解决方案。</p>
+
+<p>适用条件：域内组播路由协议必须是PIM-SM。MSDP仅对ASM（Any-Source Multicast）模型有意义。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>MSDP支持四种消息，都符合标准的TLV（Type-Length-Value）消息格式，通过TCP连接交互信息。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="11.216197172071466%" id="mcps1.3.3.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="11.216197172071466%" id="mcps1.3.3.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="77.56760565585708%" id="mcps1.3.3.3.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.56760565585708%" headers="mcps1.3.3.3.1.4.1.3 ">消息类型<ul><li>1: Source-Active，携带多组（S，G）信息，在多个RP之间传递，或者封装PIM-SM组播数据。</li><li>2: Source-Active Request，请求指定组G的（S，G）列表，减少源加入延迟</li><li>3: Source-Active Response，对Source-Active Request消息的响应</li><li>4: KeepAlive，保持MSDP对等体的连接关系</li><li>5: Reserved</li><li>6: MSDP traceroute in progress</li><li>7: MSDP traceroute reply</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.56760565585708%" headers="mcps1.3.3.3.1.4.1.3 ">消息长度，包含Type、Length和Value字段的长度，字节为计数单位。除了Keepalive消息外，其他消息要求最小长度为4字节。最大长度为9192字节。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.1 ">Value</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.216197172071466%" headers="mcps1.3.3.3.1.4.1.2 ">Variable length</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.56760565585708%" headers="mcps1.3.3.3.1.4.1.3 ">消息内容，因消息类型而异。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图1 </b>MSDP SA控制消息的格式</span>
+
+<br><span><img src="image/msdp-format-sa.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>（S，G）Entry字段格式</span>
+
+<br><span><img src="image/msdp-format-entry.png"></span></div>
+<p>The maximum
+size SA message that can be sent is 9192 octets. The 9192 octet size
+does not include the TCP, IP, layer-2 headers.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="12.724921883417736%" id="mcps1.3.3.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="12.724921883417736%" id="mcps1.3.3.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="74.55015623316453%" id="mcps1.3.3.7.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">消息类型，值为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">整个TLV的长度。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Entry Count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">消息中包含的（S，G）项总数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">RP Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">源RP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">（S，G）Entry [1]...[N]</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">（源，组）信息。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">3字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">保留字段，发送报文时置0；接收到报文时，对该字段不做任何处理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Sprefix Len</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">源地址掩码长度，以32位传输。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">组地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.1 ">Source Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.724921883417736%" headers="mcps1.3.3.7.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="74.55015623316453%" headers="mcps1.3.3.7.1.4.1.3 ">组播源地址。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>MSDP SA数据消息的格式</span>
+
+<br><span><img src="image/msdp-format-data.png"></span></div>
+<p>MSDP SA数据消息的Entry
+Count值为1。</p>
+<div class="fignone"><span class="figcap"><b>图4 </b>MSDP KeepAlive消息的格式</span>
+
+<br><span><img src="image/msdp-format-keepalive.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.4.2.1.3.1.1 ">RFC 3618</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.4.2.1.3.1.2 ">Multicast Source Discovery Protocol (MSDP)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

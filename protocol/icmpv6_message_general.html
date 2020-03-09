@@ -1,0 +1,397 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ICMPv6报文通用格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/icmpv6_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_16">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ICMPv6报文通用格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_16"></a><a name="icmp_message_format_16"></a>
+
+
+<h1 class="topictitle1">ICMPv6报文通用格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>ICMPv6报文有如下的通用格式：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>ICMPv6报文通用格式</span>
+
+<br><span><img src="image/icmp-format-general.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8.305647840531561%" id="mcps1.3.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.966777408637874%" id="mcps1.3.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.72757475083057%" id="mcps1.3.1.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8.305647840531561%" headers="mcps1.3.1.4.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="9.966777408637874%" headers="mcps1.3.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.72757475083057%" headers="mcps1.3.1.4.1.4.1.3 ">定义了报文的类型，该字段决定了其它部分的报文格式。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.305647840531561%" headers="mcps1.3.1.4.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="9.966777408637874%" headers="mcps1.3.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.72757475083057%" headers="mcps1.3.1.4.1.4.1.3 ">该字段依赖TYPE字段，在TYPE字段的基础上，它被用来在基本类型上创建更详细的报文等级。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.305647840531561%" headers="mcps1.3.1.4.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="9.966777408637874%" headers="mcps1.3.1.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="81.72757475083057%" headers="mcps1.3.1.4.1.4.1.3 ">用来在ICMPv6报文中检验数据和部分IPv6首部的完整性。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.305647840531561%" headers="mcps1.3.1.4.1.4.1.1 ">Message Body</td>
+
+<td class="cellrowborder" valign="top" width="9.966777408637874%" headers="mcps1.3.1.4.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="81.72757475083057%" headers="mcps1.3.1.4.1.4.1.3 ">大体上说，ICMPv6报文可以被分为2大类：差错报文与消息报文。这2类报文是依靠报文中的TYPE字段来标识的，当TYPE字段的最高位置0，即在0～127范围时（TYPE字段长度为1字节），被标识为差错报文，TYPE字段值为128～255范围时，则标识为消息报文。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>ICMPv6报文类型对应表</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="9.666666666666666%" id="mcps1.3.1.5.2.4.1.1">Type</th>
+
+<th class="cellrowborder" valign="top" width="9.666666666666666%" id="mcps1.3.1.5.2.4.1.2">Code</th>
+
+<th class="cellrowborder" valign="top" width="80.66666666666666%" id="mcps1.3.1.5.2.4.1.3">消息名</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">没有路由到达目的地</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">与目的地的通信由于管理被禁止</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">超过了源地址的范围</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">3</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">地址不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">端口不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">5</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">源地址的入口/出口策略失败</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">6</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">拒绝路由到达目的地</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">2</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">包太大</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">传输过程中“hop-limit”超时</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">分片重组超时</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">参数错误</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">错误的首部字段</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">不可识别的Next Header类型</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">3</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">不可识别的IPv6选项</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">100</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">私有实验用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">101</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">私有实验用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">127</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">ICMPv6差错报文扩展保留</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">128</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">回显请求</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">129</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">回显应答</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">133</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">路由请求</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">134</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">路由通告</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">135</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">邻居请求</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">136</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">邻居通告</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">137</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">重定向</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">143</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">MLDv2 (Multicast Listener Report Message v2)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">200</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">私有实验用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">201</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">私有实验用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.1 ">255</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.3.1.5.2.4.1.2 ">x</td>
+
+<td class="cellrowborder" valign="top" width="80.66666666666666%" headers="mcps1.3.1.5.2.4.1.3 ">ICMPv6消息报文扩展保留</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.2.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.2.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.2.2.1.3.1.1 ">RFC 4443</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.2.2.1.3.1.2 ">Internet Control Message Protocol (ICMPv6) for the Internet
+Protocol Version 6 (IPv6) Specification</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="icmpv6_message.html" title="">ICMPv6报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

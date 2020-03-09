@@ -1,0 +1,164 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PIM Hello消息格式">
+<meta name="DC.Relation" scheme="URI" content="../message/pim_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_13">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PIM Hello消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_13"></a><a name="bgp_message_format_13"></a>
+
+
+<h1 class="topictitle1">PIM Hello消息格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">Hello消息</h4><p>PIM路由器之间通过交互Hello消息，发现PIM邻居并维护邻居关系。Hello消息同时在PIM-DM与PIM-SM中使用。Hello消息中无法区分是PIM-DM还是PIM-SM。</p>
+<p>封装Hello消息的IP报文源地址为本地接口地址，目的地址为224.0.0.13，TTL值为1。使用组播方式发送。 </p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Hello消息格式</span>
+
+<br><span><img src="image/pim-format-hello.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="12.098474513208485%" id="mcps1.2.1.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="12.098474513208485%" id="mcps1.2.1.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="75.80305097358303%" id="mcps1.2.1.5.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.80305097358303%" headers="mcps1.2.1.5.1.4.1.3 ">PIM版本，值为2。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.80305097358303%" headers="mcps1.2.1.5.1.4.1.3 ">消息类型，值为0。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.80305097358303%" headers="mcps1.2.1.5.1.4.1.3 ">保留字段，发送时设置为0，接收时忽略此值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.80305097358303%" headers="mcps1.2.1.5.1.4.1.3 ">校验和。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.1 ">Hello Option [1]...[N]</td>
+
+<td class="cellrowborder" align="left" valign="top" width="12.098474513208485%" headers="mcps1.2.1.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.80305097358303%" headers="mcps1.2.1.5.1.4.1.3 ">采用Type-Length-Value（TLV）格式，其中：<ul><li>Type：2字节，Option参数类型。</li><li>Length：Value字段的长度，字节为单位。</li><li>Value：Option参数值。</li></ul>
+<p>Type值对应的参数名：</p>
+<ul><li>1: Holdtime，表示保持邻居为可达状态的超时时间，若超时仍没有收到Hello消息则认为邻居不可达。</li><li>2: <p>该字段由三部分组成：</p>
+<p>    LAN Prune Delay：在共享网段上传递Prune消息的延迟时间。</p>
+    Override Interval：在共享网段上执行剪枝前的否决时间。</li><li>  T：Join消息抑制能力位。</li><li>19: DR Priority，表示各路由器接口竞选DR的优先级，优先级越高越容易获胜。</li><li>20: Generation ID，Hello消息中携带的随机数，表示当前邻居状态。如果状态发生更新则随机数也会更新。当路由器发现接收到的来自上游的Hello消息中包含不同Generation
+ID值，则认为上游邻居已经丢失或上游邻居状态已经改变。</li><li>21: State Refresh Capable，表示邻居状态刷新时间间隔。</li><li>24: Address List，PIM接口的从地址列表。</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>PIM Hello消息（IPv4）</span>
+
+<br><span><img src="image/pim-example-v4-hello.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>PIM Hello消息（IPv6）</span>
+
+<br><span><img src="image/pim-example-v6-hello.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4601</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Sparse Mode (PIM-SM):Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3973</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Dense Mode （PIM-DM）:Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4607</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Source-Specific Multicast for IP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="pim_message.html">PIM报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

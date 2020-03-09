@@ -1,0 +1,121 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="OSPF LSR报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/ospf_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ospf_message_format_5">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>OSPF LSR报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ospf_message_format_5"></a><a name="ospf_message_format_5"></a>
+
+
+<h1 class="topictitle1">OSPF LSR报文格式</h1>
+
+<div>
+<p>两台路由器互相交换过DD报文之后，知道对端的路由器有哪些LSA是本地的LSDB所缺少的和哪些LSA是已经失效的，这时需要发送LSR报文（Link
+State Request Packet）向对方请求所需的LSA。内容包括所需要的LSA的摘要。LSR报文格式如下图所示，其中LS
+type、Link State ID和Advertising Router可以唯一标识出一个LSA，当两个LSA一样时，需要根据LSA中的LS
+sequence number、LS checksum和LS age来判断出所需要LSA的新旧。 </p>
+
+<p><span><img src="image/ospf-packet-lsr.png"></span></p>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.3.1.4.1.1 ">LS type</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.3.1.4.1.3 ">LSA的类型号。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.3.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.3.1.4.1.3 ">根据LSA中的LS Type和LSA description在路由域中描述一个LSA。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.3.1.4.1.1 ">Advertising Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.3.1.4.1.3 ">产生此LSA的路由器的Router ID。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图1 </b>OSPF LSR</span>
+
+<br><span><img src="image/ospf-example-lsr.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC2328</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">OSPF Version 2</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="ospf_message.html">OSPF报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

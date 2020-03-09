@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PIM Register消息格式">
+<meta name="DC.Relation" scheme="URI" content="../message/pim_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_14">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PIM Register消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_14"></a><a name="bgp_message_format_14"></a>
+
+
+<h1 class="topictitle1">PIM Register消息格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">Register消息</h4><p>当PIM-SM网络中出现活跃组播源时，源端DR向RP发送Register消息，进行源注册。Register消息只在PIM-SM中使用。 </p>
+<p>封装Register消息的IP报文源地址为源端DR，目的地址为RP。使用单播方式发送。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Register消息格式</span>
+
+<br><span><img src="image/pim-format-register.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="10.566412719443523%" id="mcps1.2.1.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="10.566412719443523%" id="mcps1.2.1.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="78.86717456111295%" id="mcps1.2.1.5.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">PIM版本，值为2。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">消息类型，值为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">保留位。发送时此字段被清零，接收时不处理此字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">校验和。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">B</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">边界位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">N</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">空注册位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Reserved2</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">30比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">保留位。发送时此字段被清零，接收时不处理此字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.1 ">Multicast data packet</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.566412719443523%" headers="mcps1.2.1.5.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" align="left" valign="top" width="78.86717456111295%" headers="mcps1.2.1.5.1.4.1.3 ">组播数据报文。源端DR将接收到的组播数据报文封装在Register消息中发往RP。RP解封装后，学习到该组播数据报文的（S，G）信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>PIM Register消息</span>
+
+<br><span><img src="image/pim-example-v4-register.png"></span>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4601</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Sparse Mode (PIM-SM):Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3973</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Dense Mode （PIM-DM）:Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4607</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Source-Specific Multicast for IP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="pim_message.html">PIM报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

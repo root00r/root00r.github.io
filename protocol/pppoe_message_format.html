@@ -1,0 +1,371 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PPPoE报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="pppoe_message_format">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PPPoE报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="pppoe_message_format"></a><a name="pppoe_message_format"></a>
+
+
+<h1 class="topictitle1">PPPoE报文格式</h1>
+
+<div>
+<p>PPPoE是对PPP的扩展，它可以使PPP协议应用于以太网。</p>
+
+<div class="section"><h4 class="sectiontitle">帧格式</h4><p>PPPoE帧格式如下：</p>
+<p><span><img src="image/PPPoE-format.png"></span></p>
+<p>PPPoE帧中字段解释：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.963455149501662%" id="mcps1.2.2.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="12.292358803986712%" id="mcps1.2.2.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.74418604651163%" id="mcps1.2.2.5.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">DMAC</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">以太网单播目的地址或者以太网广播地址（0xFFFFFFFF）。在Discovery数据包中，该域的值是以太网广播地址；在PPPoE会话流量中，该域必须是Discovery阶段已经确定的通信对方的单播地址。ry
+stage. </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">SMAC</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">源设备的以太网MAC地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Type/Length</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">链路直接封装的协议，当值为0x8863时表示Discovery阶段；当值为0x8864时表示PPPoE会话阶段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Payload Data</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">以太帧的数据字段。The Ethernet payload.</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">CRC</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">用于帧内后续字节差错的循环冗余检验（也称为FCS或帧检验序列）。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Ver</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">PPPoE版本，必须设置为0x01。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">PPPoE类型，必须设置为0x01。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">其定义在后面的Discovery和PPPoE会话中分别指定。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Session ID</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">是一个网络字节序的无符号值。其值在后面Discovery数据包中定义。对一个给定的PPPoE会话来说该值是一个固定值，并且与以太网Source_address和Destination_address一起实际地定义了一个PPPoE会话。值0xFFFF为将来的使用保留，不允许使用。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">该值是PPPoE的Payload长度。它不包括以太网头部和PPPoE头部的长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Payload Data</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">PPPoE的Payload，包含0个或多个Tag。一个Tag是一个TLV（Type-Length-Value）结构。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Tag_type</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">网络字节序。下表列出了各种Tag_Type和Tag_Value的对应关系和含义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Tag_Length</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">是一个网络字节序的无符号值，表明Tag_Value的字节数。 如果收到的Discovery数据包中包含未知的Tag_Type，则必须忽略掉该Tag。It
+is an unsigned number in network byte order, indicating the length
+in octets of the TAG_VALUE. </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.963455149501662%" headers="mcps1.2.2.5.1.4.1.1 ">Tag_value</td>
+
+<td class="cellrowborder" valign="top" width="12.292358803986712%" headers="mcps1.2.2.5.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="76.74418604651163%" headers="mcps1.2.2.5.1.4.1.3 ">Tag的数据字段。Value of a Tag.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>TLV</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8.361204013377927%" id="mcps1.2.2.6.2.4.1.1">Tag_Value</th>
+
+<th class="cellrowborder" valign="top" width="12.040133779264215%" id="mcps1.2.2.6.2.4.1.2">Tag_Type</th>
+
+<th class="cellrowborder" valign="top" width="79.59866220735786%" id="mcps1.2.2.6.2.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0000</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">End-Of-List</td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 ">该Tag值表明是最后一个Tag。该Tag的Tag_Length必须总是0。 不要求使用该标签，它是为了向后兼容。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0101</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Service-Name</td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 ">该Tag表明后面紧跟的是服务的名称。<ul><li>Tag_Value是不以NULL结束的字符串。</li><li>当Tag_Length为0时，该TAG用于表明接受任何服务。</li></ul>
+使用Service-Name标签的例子是表明Internet服务提供商ISP或者一类服务或者服务的质量。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0102</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">AC-Name </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 ">该Tag表明后面紧跟的字符串唯一地表示了某个特定的接入服务器。<p>它可以是商标、型号以及序列号等信息的集合，或者该接入服务器MAC地址的一个简单表示。它不以NULL来结束。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0103</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Host-Uniq </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 ">该Tag由主机用于把接入服务器的响应报文（PADO或者PADS）与主机的某个唯一特定的请求联系起来。Tag_Value是主机选择的长度和值，可以是任意的二进制数据。它不能由接入服务器解释。<p>主机可以在PADI或者PADR中包含一个Host-Uniq标签。如果接入服务器收到了该标签，它必须在对应的PADO或者PADS中不加改变的包含该标签。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0104</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">AC-Cookie </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 ">该Tag由接入服务器用于防止服务攻击。接入服务器可以在PADO数据包中包含该Tag。如果主机收到了该标签，它必须在接下来的PADR中不加改变的包含该标签。<p>Tag_Value的长度和值都是任意的二进制数据。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0105</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Vendor-Specific</td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 "><p>该Tag用来传送厂商自定义的信息。Tag_Value的前4个字节包含了厂商的识别码，其余字节尚未定义。</p>
+<p>厂商识别码的高字节为0，低3个字节为网络字节序的厂商的SMI网络管理专用企业码。</p>
+<p>不推荐使用该Tag。为了确保互操作性，在实现过程中，可以忽略Vendor-Specific
+Tag。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0110</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Relay-Session-Id </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 "><p>该Tag可由中继流量的中间代理加入到Discovery数据包中。</p>
+<p>Tag_Value对主机和接入服务器都是不透明。如果主机或接入服务器收到该Tag，则它们必须在所有的Discovery数据包中包含该Tag以作为响应。</p>
+<p>所有的PADI数据包必须保证足够空间来加入Tag_Value长度为12字节的Relay-Session-Id标签。</p>
+<p>如果Discovery数据包中已经包含一个Relay-Session-Id标签，则不允许再加入该标签。这种情况下，中间代理应该使用该Relay-Session-Id标签。</p>
+<p>如果它不能使用现有的标签，或者没有足够空间来增加一个Relay-Session-Id标签，那么它应该向发送者返回一个Generic-Error标签。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0201</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Service-Name-Error </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 "><p>该Tag典型的有一个长度为零的数据部分。</p>
+<p>它表明了由于某种原因，没有理睬所请求的Service-Name。如果有数据部分，并且数据部分的头一个字节非0，那么它必须是一个可打印字符串，解释请求被拒绝的原因。</p>
+<p>该字符串可以不以NULL结束。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0202</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">AC-System-Error </td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 "><p>该Tag表明了接入服务器在处理主机请求时出现了某个错误。例如没有足够资源来创建一个虚拟电路。PADS数据包中可以包含该标签。 </p>
+<p>如果有数据，并且数据的第一个字节不为0，那么数据必须是一个可打印字符串，该字符串解释了错误的性质。</p>
+<p>该字符串可以不以NULL结束。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.6.2.4.1.1 ">0x0203</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264215%" headers="mcps1.2.2.6.2.4.1.2 ">Generic-Error</td>
+
+<td class="cellrowborder" valign="top" width="79.59866220735786%" headers="mcps1.2.2.6.2.4.1.3 "><p>该Tag表明发生了一个错误。</p>
+<p>当发生一个不可恢复的错误并且没有其它合适的Tag时，它可被加到PADO、PADR或PADS数据包中。</p>
+<p>如果出现数据部分，那么数据必须是一个解释错误性质的字符串。</p>
+<p>该字符串不允许以NULL结束。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">帧示例</h4><div class="fignone"><span class="figcap"><b>图1 </b>PPPoED (PADI)</span>
+
+<br><span><img src="image/PPPoE-example_PPP-PADI.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>PPPoED (PADO)</span>
+
+<br><span><img src="image/PPPoE-example_PPP-PADO.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>PPPoED (PADR)</span>
+
+<br><span><img src="image/PPPoE-example_PPP-PADR.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>PPPoED (PADS)</span>
+
+<br><span><img src="image/PPPoE-example_PPP-PADS.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>PPP LCP</span>
+
+<br><span><img src="image/PPPoE-example_ppp-LCP.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>PPP CHAP</span>
+
+<br><span><img src="image/PPPoE-example_ppp-chap.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>PPP IPCP</span>
+
+<br><span><img src="image/PPPoE-example_ppp-ipcp.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="21.936507936507933%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" align="center" valign="top" width="78.06349206349206%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2516</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.4.2.1.3.1.2 ">A Method for Transmitting PPP Over Ethernet (PPPoE)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

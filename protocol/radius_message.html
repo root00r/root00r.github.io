@@ -1,0 +1,874 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="RADIUS报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_8">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>RADIUS报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_8"></a><a name="bgp_message_format_8"></a>
+
+
+<h1 class="topictitle1">RADIUS报文格式</h1>
+
+<div>
+<p>RADIUS（Remote Authentication Dial In User Service）远程用户拨号认证系统，是目前应用最广泛的AAA协议。</p>
+
+<p>RADIUS是一种分布式的、客户端/服务器（Client/Server）结构的信息交互协议，规定了客户端与服务器之间传递用户信息和计费信息的过程和报文格式。其用途是完成用户的认证、授权、计费功能。 </p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>RADIUS报文格式</span>
+
+<br><span><img src="image/radius-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="11.036789297658862%" id="mcps1.2.3.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.036789297658862%" id="mcps1.2.3.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="77.92642140468227%" id="mcps1.2.3.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="77.92642140468227%" headers="mcps1.2.3.3.1.4.1.3 ">用来标识RADIUS报文类型。<ul><li>Code = 1: Access-Request，接入请求报文</li><li>Code = 2: Access-Accept，接入成功回应报文</li><li>Code = 3: Access-Reject，接入拒绝回应报文</li><li>Code = 4: Accounting-Request，计费请求报文</li><li>Code = 5: Accounting-Response，计费回应报文</li><li>Code = 11: Access-Challenge，接入挑战报文</li><li>Code = 12: Status-Server (experimental)，服务器状态报文（试验）</li><li>Code = 13: Status-Client (experimental)，客户端状态报文（试验）</li><li>Code = 255: Reserved，保留</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.1 ">Packet Identifier</td>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="77.92642140468227%" headers="mcps1.2.3.3.1.4.1.3 ">用于匹配请求和回应报文。果在一个很短的时间内接收到相同的源IP地址、源UDP端口号和相同的Identifier域的请求报文，RADIUS服务器就可以认为是重复的请求报文。 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.1 ">Packet Length</td>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="77.92642140468227%" headers="mcps1.2.3.3.1.4.1.3 ">包含了报文中的Code域，Identifier域，Length域，Authenticator域和属性域的总长度。如果收到的报文实际长度超过Length，超过部分被当做填充内容忽略掉，如果实际长度小于Length，报文被丢弃。 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.1 ">Authenticator</td>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="77.92642140468227%" headers="mcps1.2.3.3.1.4.1.3 ">用于认证来自服务端的响应，也用于用户密码的加密处理中。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.1 ">AVPs</td>
+
+<td class="cellrowborder" valign="top" width="11.036789297658862%" headers="mcps1.2.3.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="77.92642140468227%" headers="mcps1.2.3.3.1.4.1.3 ">属性字段，承载认证、授权、计费以及配置等信息。采用TLV格式：<ul><li>类型（Type）： 占位一个字节。具体类型值对应的属性名请参见下表。</li><li>长度（Length）域：占位一个字节，表示包括Type、Length、Value域在内的属性的长度。</li><li>值（Value）域：占位零个或者更多字节，它包含了属性信息的详细描述。值域的格式和长度是由属性的类型和长度决定的。需要指出的是，在RADIUS中没有任何类型的属性值是以NULL（十六进制的0x00）结束的。</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>Radius属性</caption>
+<tbody>
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">属性编号</td>
+
+<td class="cellrowborder" align="center" valign="middle" width="89.98135198135198%">属性名</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">1</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">User-Name</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">2</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">User-Password</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">3</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">CHAP-Password</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">4</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-IP-Address</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">5</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-Port</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">6</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Service-Type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">7</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">8</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IP-Address</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">9</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IP-Netmask</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">10</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Routing</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">11</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Filter-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">12</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-MTU</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">13</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Compression</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">14</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-IP-Host</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">15</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-Service</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">16</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-TCP-Port</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">18</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Reply-Message</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">19</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Callback-Number</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">20</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Callback-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">22</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Route</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">23</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IPX-Network</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">24</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">State</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">25</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Class</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">26</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Vendor-Specific</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">27</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Session-Timeout</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">28</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Idle-Timeout</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">29</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Termination-Action</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">30</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Called-Station-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">31</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Calling-Station-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">32</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-Identifier</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">33</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Proxy-State</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">34</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-LAT-Service</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">35</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-LAT-Node</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">36</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-LAT-Group</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">37</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-AppleTalk-Link</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">38</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-AppleTalk-Network</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">39</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-AppleTalk-Zone</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">40</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Status-Type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">41</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Delay-Time</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">42</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Input-Octets</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">43</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Output-Octets</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">44</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Session-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">45</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Authentic</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">46</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Session-Time</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">47</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Input-Packets</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">48</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Output-Packets</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">49</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Terminate-Cause</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">50</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Multi-Session-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">51</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Link-Count</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">52</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Input-Gigawords</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">53</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Output-Gigawords</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">55</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Event-Timestamp</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">60</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">CHAP-Challenge</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">61</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-Port-Type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">62</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Port-Limit</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">63</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-LAT-Port</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">64</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">65</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Medium-Type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">66</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Client-Endpoint</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">67</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Server-Endpoint</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">68</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Tunnel-Connection</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">69</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Password</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">70</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Password</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">71</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Features</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">72</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Zone-Access</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">73</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Security</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">74</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Security-Data</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">75</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Password-Retry</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">76</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Prompt</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">77</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Connect-Info</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">78</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Configuration-Token</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">79</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">EAP-Message</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">80</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Message-Authenticator</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">81</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Private-Group-ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">82</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Assignment-ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">83</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Preference</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">84</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">ARAP-Challenge-Response</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">85</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Interim-Interval</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">86</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Acct-Tunnel-Packets-Lost</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">87</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-Port-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">88</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Pool</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">89</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Chargeable-User-Identity</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">90</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Client-Auth-ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">91</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Tunnel-Server-Auth-ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">94</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Originating-Line-Info</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">95</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">NAS-IPv6-Address</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">96</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-Interface-Id</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">97</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IPv6-Prefix</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">98</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Login-IPv6-Host</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">99</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IPv6-Route</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">100</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Framed-IPv6-Pool</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">101</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">Error-Cause</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">192-223</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">保留给实验用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">224-240</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">保留给特定实现用</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="center" valign="middle" width="10.018648018648017%">241-255</td>
+
+<td class="cellrowborder" align="left" valign="middle" width="89.98135198135198%">预留的，而且不应该使用它们</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/Radius-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 2865</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Remote Authentication Dial In User Service (RADIUS)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 2866</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">RADIUS Accounting</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 2867</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">RADIUS Accounting Modifications for Tunnel Protocol Support</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 2868</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">RADIUS Attributes for Tunnel Protocol Support</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 2869</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">RADIUS Extensions</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 3162</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">RADIUS and IPv6</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 3576</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Dynamic Authorization Extensions to Remote Authentication Dial
+In User Service (RADIUS)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 4372</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Chargeable User Identity</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

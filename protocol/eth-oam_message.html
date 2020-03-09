@@ -1,0 +1,497 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="以太OAM报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_10">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>以太OAM报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_10"></a><a name="bgp_message_format_10"></a>
+
+
+<h1 class="topictitle1">以太OAM报文格式</h1>
+
+<div>
+<p>以太网OAM技术是分级实现，分为以下两个级别：</p>
+
+<ul><li>1）链路级以太网OAM技术：多应用于网络的PE设备-CE设备-用户设备之间（也叫最后一公里）的以太网物理链路，用于监测用户网络与运营商网络之间的链路状态，典型协议为EFM
+OAM协议，参考标准802.3ah。</li><li>2）网络级以太网OAM技术：多应用于网络的接入汇聚层，用于监测整个网络的连通性、定位网络的连通性故障，典型协议为CFD（Connectivity
+Fault Detection）协议，参考标准为802.1ag和Y.1731。</li></ul>
+
+<div class="section"><h4 class="sectiontitle">EFM（802.3ah）报文格式</h4><p>EFM工作在数据链路层，其协议报文被称为OAM
+PDU。EFM通过设备之间定时交互OAM PDU来报告链路状态，使网络管理员能够对网络进行有效的管理。下图为OAMPDU的格式及其几种常见的OAMPDU。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>EFM OAM PDU格式</span>
+
+<br><span><img src="image/eoam-format-efm-pdu.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="7.6923076923076925%" id="mcps1.2.3.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.705685618729095%" id="mcps1.2.3.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80.60200668896321%" id="mcps1.2.3.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Destination Address (DA)</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">The DA in OAMPDUs is the Slow_Protocols_Multicast address.
+0x0180-C200-0002.目的MAC地址，为慢速协议组播地址：0x0180-C200-0002。慢速协议报文的特点就是不能被网桥转发，因此无论是否具备OAM功能或OAM功能是否激活，EFM
+OAMPDU都不能跨多跳转发。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Source Address (SA)</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">6字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">源MAC地址，为发送端的端口MAC地址（若没有则采用该设备的桥MAC地址），是一个单播MAC地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Length/Type</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">取值为0x8809，用于标识慢协议类型。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Subtype</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">用于标识慢协议的子协议类型，此处取值为0x03，用于标识EFM协议。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 "><p>OAMPDU. EFM实体的状态信息：</p>
+<ul><li>Remote Stable  </li><li>Remote Evaluating  </li><li>Local Stable  </li><li>Local Evaluating  </li><li>Critical Event  </li><li>Dying Gasp  </li><li>Link Fault</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">消息编码，不同取值表示不同类型的OAMPDU：<ul><li>0x00: Information OAMPDU. 信息OAMPDU，也称为心跳报文。用于在本端与远端的OAM实体之间交互各种状态信息（包括本地信息TLV、远端信息TLV和组织自定义信息TLV）。</li><li>0x01: Event Notification OAMPDU 事件通知OAMPDU，用于对连接本端与远端OAM实体的链路上所发生的故障进行告警。</li><li>0x04: Loopback Control OAMPDU 环回控制OAMPDU，用于检测链路质量和定位链路故障，该报文中带有使能/去使能信息，用来开启/关闭远端环回功能。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Local info TLV</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">本地信息TLV。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Remote infor TLV</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">对端信息TLV。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">seq</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">序列号。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Link Event TLV</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 "><ul><li>0x01 错误信号事件(Errored Symbol Period Event):单位时间内的错误信号数量超过定义的阈值</li><li>0x02 错误帧事件(Errored Frame Event):单位时间内的错误帧数量超过定义的阈值</li><li>0x03 错误帧周期事件(Errored Frame Period Event):指定帧数N为周期，在收到N个帧的周期内错误帧数超过定义的阈值</li><li>0x04 错误帧秒数事件(Errored Frame Seconds Event):指定M秒数下有错误帧的秒数超过了定义的阈值</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Command Description</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">通过非以太网OAM协议报文的环回来检测链路故障。主动模式下的OAM实体向对端（远端）发送除OAMPDU以外的所有其它报文时，对端收到报文后不按其目的地址进行转发，而是将其按原路返回给本端。远端环回只有在以太网OAM连接建立之后才能实现。<ul><li>0x01: Enable OAM Remote Loopback</li><li>0x02: Disable OAM Remote Loopback</li><li>0x00, 0x03-0xFF: 预留，OAM客户端忽略此字段。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">Data/Pad</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">OAMPDU数据和填充字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.3.4.1.4.1.1 ">CRC</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.3.4.1.4.1.3 ">校验字段。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">CFM OAM (802.1ag)协议报文格式</h4><p>CFM是通过携带不同标记的CFM协议报文实现链路的故障检测和定位的。CFM帧工作在数据链路层，Type
+= 0x8902。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>CFM PDU格式</span>
+
+<br><span><img src="image/eoam-format-cfm-pdu.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="7.6923076923076925%" id="mcps1.2.4.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.705685618729095%" id="mcps1.2.4.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80.60200668896321%" id="mcps1.2.4.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">MD level</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">维护域的级别，取值范围为0～7，取值越大表示级别越高</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">5比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">协议版本号，为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">OpCode</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">消息编码，不同取值表示不同类型的CFM PDU，常见的CFM PDU如表2所示。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">Flag域，该字段在不同类型的CFM PDU中表示不同的含义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">Sequence number</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">序列号，初始值为一个随机值，以后维护端点每发送一个CCM PDU，该字段的取值就会加1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">Loopback transaction ID</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">处理编号，初始值为0，以后维护端点每发送一个LBR/LBM PDU，该字段的取值就会加1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">LTR transaction ID</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">处理编号，初始值为0，以后维护端点每发送一个LTR PDU，该字段的取值就会加1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">LTM transaction ID</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 ">处理编号，初始值为0，以后维护端点每发送一个LTM PDU，该字段的取值就会加1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.6923076923076925%" headers="mcps1.2.4.4.1.4.1.1 ">TLV(Type, Length, Value)</td>
+
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.2.4.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="80.60200668896321%" headers="mcps1.2.4.4.1.4.1.3 "><ul><li>0: End TLV 终了TLV，长度和数值字段都不用。</li><li>1: Sender ID TLV</li><li>1: Port Status TLV</li><li>1: Data TLV </li><li>1: Interface Status TLV</li><li>1: Reply Ingress TLV</li><li>1: Reply Egress TLV</li><li>1: LTM Egress Identifier TLV</li><li>1: LTR Egress Identifier TLV</li><li>9-30: Reserved for IEEE 802.1</li><li>31: Organization-Specific TLV</li><li>32: Test TLV, Defined by ITU-T Y.1731</li><li>33-63: Reserved for ITU-T Y.1731</li><li>64-255: Reserved for IEEE 802.1</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>消息编码与PDU类型</caption>
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8.888888888888888%" id="mcps1.2.4.5.2.5.1.1">OpCode</th>
+
+<th class="cellrowborder" valign="top" width="21.111111111111107%" id="mcps1.2.4.5.2.5.1.2">PDU类型</th>
+
+<th class="cellrowborder" valign="top" width="20.370370370370374%" id="mcps1.2.4.5.2.5.1.3">目的MAC地址</th>
+
+<th class="cellrowborder" valign="top" width="49.629629629629626%" id="mcps1.2.4.5.2.5.1.4">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0x01</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">CCM（Continuity Check Message）连续性检测报文</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">01-80-C2-00-00-3x（组播地址）</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">用于连续性检测，各维护端点均可发出。x的取值：<p>MD level      x的取值      y的取值</p>
+<p> 7            7            F</p>
+<p> 6            6            E</p>
+<p> 5            5            D</p>
+<p> 4            4           
+C</p>
+<p> 3            3            B</p>
+<p> 2            2       
+    A</p>
+<p> 1            1            9</p>
+<p> 0            0   
+        8</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0x02</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">LBR (Loopback Reply) 环回应答</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">环回发起端的MAC（单播地址）</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">用于环回，由环回对端回应。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0x03</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">LBM (Loopback Message) 环回消息</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">环回目的端的MAC（单播地址）</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">用于环回，由环回发起端发出。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0x04</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">LTR (Linktrace Reply) 链路跟踪应答</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">链路跟踪发起端的MAC（单播地址）</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">用于链路跟踪，由链路跟踪对端回应。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0x05</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">LTM (Linktrace Message) 链路跟踪消息</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">01-80-C2-00-00-3y（组播地址）</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">用于链路跟踪，由链路跟踪发起端发出。y的取值：<p>MD level      x的取值      y的取值</p>
+<p> 7            7            F</p>
+<p> 6            6            E</p>
+<p> 5            5            D</p>
+<p> 4            4           
+C</p>
+<p> 3            3            B</p>
+<p> 2            2       
+    A</p>
+<p> 1            1            9</p>
+<p> 0            0   
+        8</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">0, 6-31</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">预留给IEEE 802.1</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">-</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">-</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">32-63</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">由ITU-T Y.1731定义：<ul><li>33:  AIS</li><li>35:  LCK</li><li>37:  TST</li><li>39:  APS</li><li>41:  MCC</li><li>43:  LMM</li><li>42:  LMR</li><li>45:  1DM</li><li>47:  DMM</li><li>46:  DMR</li></ul>
+</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">-</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">-</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.888888888888888%" headers="mcps1.2.4.5.2.5.1.1 ">64-255</td>
+
+<td class="cellrowborder" valign="top" width="21.111111111111107%" headers="mcps1.2.4.5.2.5.1.2 ">预留给IEEE 802.1</td>
+
+<td class="cellrowborder" valign="top" width="20.370370370370374%" headers="mcps1.2.4.5.2.5.1.3 ">-</td>
+
+<td class="cellrowborder" valign="top" width="49.629629629629626%" headers="mcps1.2.4.5.2.5.1.4 ">-</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="21.936507936507933%" id="mcps1.2.5.2.1.3.1.1">文档</th>
+
+<th class="cellrowborder" align="center" valign="top" width="78.06349206349206%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE Std 802.3ah-2004</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.5.2.1.3.1.2 ">Carrier Sense Multiple Access with Collision Detection (CSMA/CD)
+Access Method and Physical Layer Specifications <p>Amendment: Media
+Access Control Parameters, Physical Layers, and Management Parameters
+for Subscriber Access Networks</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE Std 802.1ag-2007</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.5.2.1.3.1.2 ">IEEE Standard for Local and metropolitan area networks-Virtual
+Bridged Local Area Networks Amendment 5: Connectivity Fault Management</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE 802.1ag/Draft7.0</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.5.2.1.3.1.2 ">Virtual Bridged Local Area Networks&#8212; Amendment 5: Connectivity
+Fault Management </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.5.2.1.3.1.1 ">ITU-T Y.1731 (02/2008)</td>
+
+<td class="cellrowborder" rowspan="2" valign="top" width="78.06349206349206%" headers="mcps1.2.5.2.1.3.1.2 ">Y.1731 is an OAM protocol organized
+by the ITU-T. It covers not only the contents defined by IEEE802.1ag
+but also combinations of OAM messages, including the Alarm Indication
+Signal (AIS), Remote Defect Indication (RDI), Locked Signal (LCK),
+Test Signal, Automatic Protection Switching (APS), Maintenance Communication
+Channel (MCC), Experimental (EXP), and Vendor Specific (VSP) for fault
+management and performance monitoring, such as frame loss measurement
+(LM) and delay measurement (DM).</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.5.2.1.3.1.1 ">IITU-T G.8013/Y.1731 Amendment 1 (05/2012)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

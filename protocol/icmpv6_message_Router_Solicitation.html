@@ -1,0 +1,143 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ICMPv6路由器请求（Router Solicitation）消息">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/icmpv6_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_22">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ICMPv6路由器请求（Router Solicitation）消息</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_22"></a><a name="icmp_message_format_22"></a>
+
+
+<h1 class="topictitle1">ICMPv6路由器请求（Router Solicitation）消息</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>ICMPv6路由器请求消息的格式</span>
+
+<br><span><img src="image/icmpv6-format-rs.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.875331564986737%" id="mcps1.3.1.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="7.957559681697612%" id="mcps1.3.1.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.16710875331566%" id="mcps1.3.1.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">消息类型，此处值为133。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Code</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">该ICMPv6差错报文的始发者必须将该字段置为0，且接收端忽略该字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">用来在ICMPv6报文中检验数据和部分IPv6首部的完整性。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">此字段不使用。它必须由发送者初始化为0，接收者必须忽略它。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.875331564986737%" headers="mcps1.3.1.3.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="7.957559681697612%" headers="mcps1.3.1.3.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="81.16710875331566%" headers="mcps1.3.1.3.1.4.1.3 ">选项<ul><li><p>源链路层地址：发送者的链路层地址，如果知道。如果Source Address是未指定地址，必须不 包括在内。否则，有地址的链路层上应当包括源链路层地址。</p>
+<p>为TLV格式，各字段含义如下：</p>
+<ul><li>Type: = 1，长度是1字节。</li><li>Length: 1字节，标识选项的长度(包括类型字段和长度字段)以8字节为单位计算。例如，IEEE802 地址的长度是1。Length值最少为1，0为非法值，须丢弃。</li><li>Link-Layer Address: 可变长度的链路层地址。此字段的内容和形式(包括字节和比特顺序)一般由描述IPv6在不同链路层上如何运行的特定文件中规定。</li></ul>
+</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>ICMPv6路由器请求消息</span>
+
+<br><span><img src="image/ICMPv6-Router_Solicitation.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 4443</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Internet Control Message Protocol (ICMPv6) for the Internet
+Protocol Version 6 (IPv6) Specification</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="icmpv6_message.html" title="">ICMPv6报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

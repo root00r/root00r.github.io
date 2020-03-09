@@ -1,0 +1,192 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP通用报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_26">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP通用报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_26"></a><a name="icmp_message_format_26"></a>
+
+
+<h1 class="topictitle1">SCTP通用报文格式</h1>
+
+
+<div><p></p>
+
+<p>SCTP ( Stream Control Transmission Protocol )，即流媒体控制传输协议，是一种可靠的基于无连接数据包网络如IP网络之上传输协议。他被设计用来在IP网络上传输PSTN在窄带信令消息，同时也能支持宽带信令消息的传输。</p>
+
+<p>SCTP可以看作OSI层次结构中的传输层，它的上层作为SCTP用户应用，下层为分组网络IP层。</p>
+
+<div class="fignone"><span class="figcap"><b>图1 </b>SCTP所处的协议栈结构</span>
+
+<br><span><img src="image/SCTP-protocol-architecture.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">SCTP报文格式</h4><p>一个SCTP分组含了一个公共的分组头（Common Header）和若干数据块（Chunk），每个数据块中既可以包含控制信息，也可以包含用户数据。</p>
+<p>除了INIT、INIT ACK和SHUTDOWN COMPLETE数据块外，其他类型的多个数据块可以捆绑在一个SCTP分组中，以满足对MTU大小的要求。当然，这些数据块也可以不与其他数据块捆绑在一个分组中。如果一个用户消息不能放在一个SCTP分组中，这个消息可以被分成若干个数据块。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>SCTP报文格式</span>
+
+<br><span><img src="image/sctp-format-general.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.333333333333334%" id="mcps1.3.4.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.333333333333334%" id="mcps1.3.4.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.33333333333333%" id="mcps1.3.4.5.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Source Port Number</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">16比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">源端口号，识别SCTP发送端点的SCTP端口号。接收方可以使用源端口号、源IP地址、目的端口号和目的IP地址标识该SCTP分组所属的偶联。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Destination Port Number</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">16比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">目的端口号，为目的端点的SCTP端口号。接收主机可以使用目的端口号将SCTP分组复用到正确的端点或应用中。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Verification Tag</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">32比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 "><p>验证标签是偶联建立时，本端端点为这个偶联生成一个随机标识。偶联建立过程中，双方会交换这个TAG，到了数据传递时，发送端必须在公共分组头中带上对端的这个TAG，以备校验。</p>
+<ul><li>包含INIT数据块的分组中验证标签必须为0。</li><li>在包含SHUTDOWN-COMPLETE数据块且设置了T比特的分组中，验证标签必须要从包含 SHUTDOWN-ACK数据块的分组中复制。</li><li>在包含ABORT数据块的分组中，验证标签必须要从触发这个ABORT发送的分组中复制。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">32比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">SCTP通过对用户数据使用ADLER-32算法，计算出一个32位的校验码，带在数据报中，在接收端进行同样的运算，通过检查校验码是否相等来验证用户数据是否遭到破坏。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Chunk Type</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">8比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">块类型定义在块值（Chunk Value）中消息所属的类型。包括：INIT、INIT ACK、SACK、ABORT、ERROR、SHUTDOWN、COOKIE
+ACK等13种数据块类型。<p>该参数的取值范围为0～254，255留作今后的扩展。</p>
+<p>数据块类型字段的编码分配如下：</p>
+<ul><li>0：净荷数据(DATA)</li><li>1：启动(INIT)</li><li>2：启动证实  (INIT ACK)</li><li>3：选择证实  (SACK)</li><li>4：Heartbeat请求(HEARTBEAT)</li><li>5：Heartbeat证实(HEARTBEAT ACK)</li><li>6：中止  (ABORT)</li><li>7：关闭(SHUTDOWN)</li><li>8：关闭证实(SHUTDOWN ACK)</li><li>9：操作差错(ERROR)</li><li>10：状态Cookie(COOKIE ECHO)</li><li>11：Cookie证实(COOKIE ACK)</li><li>12：为明确拥塞通知响应(ECNE)预留</li><li>13：为降低拥塞窗口(CWR)预留</li><li>14：关闭完成(SHUTDOWN COMPLETE)</li><li>15～62：IETF预留</li><li>63：IETF定义的数据块扩展</li><li>64～126：IETF预留</li><li>127：IETF定义的数据块扩展</li><li>128～190：IETF预留</li><li>191：IETF定义的数据块扩展</li><li>192～254：IETF预留</li><li>255：IETF定义的数据块扩展</li></ul>
+<p>Chunk type的高两位bit指示了收端不认识对应的chunk type的处理原则:</p>
+<ul><li>00：停止处理数据报并丢弃，不再处理报中的其他Chunk。</li><li>01：与00相同处理外，还要在ERROR或INIT ACK中上报，原因为不认识的参数类型。</li><li>10：忽略该Chunk ，继续处理数据报中的其他Chunk。</li><li>11：同10相同处理外，还要在ERROR中上报，原因为不认识的Chunk类型。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Chunk Flags</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">8比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">块标志位用法由块类型决定。除非被置为其他值，块标记在传送过程中会被置0而且接收端点会忽视块标记。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Chunk Length</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">16比特的无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 ">块长度用来表示包括块类型、块标记、块长度和块值在内的字节数，长度使用二进制表示。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.4.5.1.4.1.1 ">Chunk Value</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.4.5.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.4.5.1.4.1.3 "><p>块值字段是在该数据块中真正传送的信息，内容由数据块类型决定。块值的长度为不定长。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">SCTP报文交互流程</h4><div class="fignone"><span class="figcap"><b>图3 </b>Association建立流程</span>
+
+<br><span><img src="image/SCTP-Asossiation_setup.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>Association关闭流程（Ungraceful）</span>
+
+<br><span><img src="image/SCTP-Asossiation_close-ungraceful.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>Association关闭流程（Graceful）</span>
+
+<br><span><img src="image/SCTP-Asossiation_close-graceful.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>数据包的发送和确认流程</span>
+
+<br><span><img src="image/SCTP-data-transit.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.6.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.6.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.6.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.6.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

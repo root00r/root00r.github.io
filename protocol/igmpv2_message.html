@@ -1,0 +1,142 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IGMPv2报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/igmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="igmp_message_format_4">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IGMPv2报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="igmp_message_format_4"></a><a name="igmp_message_format_4"></a>
+
+
+<h1 class="topictitle1">IGMPv2报文格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>IGMPv2报文格式</span>
+
+<br><span><img src="image/IGMPv2-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.367892976588628%" id="mcps1.3.1.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="8.695652173913043%" id="mcps1.3.1.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80.93645484949832%" id="mcps1.3.1.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.3.1.3.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="8.695652173913043%" headers="mcps1.3.1.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.93645484949832%" headers="mcps1.3.1.3.1.4.1.3 ">报文类型，有以下几种类型：<ul><li>0x11 = Membership Query IGMP查询消息。</li><li>0x12 = Version 1 Membership Report IGMPv1成员报告消息。 </li><li>0x16 = Version 2 Membership Report IGMPv2成员报告消息。</li><li>0x17 = Leave Group 离开消息。</li></ul>
+<p>在IGMP版本2中，旧的4位版本字段和旧的4位类型字段拼成了一个新的8位类型字段，通过分别将成员查询（版本1和版本2的）及版本1的成员报告报文的IGMP版本2的类型代码置为0x11和0x12，保持了IGMP版本1和版本2包格式的向后兼容。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.3.1.3.1.4.1.1 ">Max Resp Time</td>
+
+<td class="cellrowborder" valign="top" width="8.695652173913043%" headers="mcps1.3.1.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.93645484949832%" headers="mcps1.3.1.3.1.4.1.3 "><p>在发出响应报告前的以1/10秒为单位的最长时间，缺省值为10秒。</p>
+<p>新的最大响应时间（以1/10秒为单位）字段允许查询用路由器为它的查询报文指定准确的查询间隔响应时间。IGMP版本2主机在随机选择它们的响应时间值时以此作为上限。</p>
+<p>这样在查询响应间隔时有助于控制响应的爆发。 </p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.3.1.3.1.4.1.1 ">Checksum</td>
+
+<td class="cellrowborder" valign="top" width="8.695652173913043%" headers="mcps1.3.1.3.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.93645484949832%" headers="mcps1.3.1.3.1.4.1.3 ">IGMP消息的校验和。传送报文时，必须计算校验和并填入该字段中；接收报文时，必须在处理报文之前检验校验和，以判断IGMP消息在传输过程中是否发生了错误。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.3.1.3.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" valign="top" width="8.695652173913043%" headers="mcps1.3.1.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="80.93645484949832%" headers="mcps1.3.1.3.1.4.1.3 "><p>组播组地址（如果是通用查询则为0.0.0.0）。</p>
+<p>除了在通用查询时这一字段置为0.0.0.0外，这一字段和IGMP版本1中的这一字段意义相同。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>IGMPv2成员查询消息</span>
+
+<br><span><img src="image/IGMPv2-query.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>IGMPv2成员报告消息</span>
+
+<br><span><img src="image/IGMPv2-report.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>IGMPv2离开组消息</span>
+
+<br><span><img src="image/IGMPv2-leave-group.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2236</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Internet Group Management Protocol, Version 2</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="igmp_message.html" title="">IGMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

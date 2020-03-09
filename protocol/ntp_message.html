@@ -1,0 +1,397 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="NTP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_4">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>NTP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_4"></a><a name="bgp_message_format_4"></a>
+
+
+<h1 class="topictitle1">NTP报文格式</h1>
+
+<div>
+<p>NTP是从时间协议（Time Protocol）和ICMP时间戳报文（ICMP TimeStamp Message）演变而来，在准确性和健壮性方面进行了特殊的设计，理论上精度可达十亿分之一秒。</p>
+
+<p>NTP协议应用于分布式时间服务器和客户端之间，实现客户端和服务器的时间同步，从而使网络内所有设备的时钟基本保持一致。</p>
+
+<p>NTP协议是基于UDP进行传输的，使用端口号为123。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>NTP数据报文格式</span>
+
+<br><span><img src="image/ntp-format-data.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="10.998496240601503%" id="mcps1.2.4.3.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="13.780451127819548%" id="mcps1.2.4.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="75.22105263157896%" id="mcps1.2.4.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">LI（Leap Indicator）</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">2比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">这是一个两位的代码，表示在NTP时间标尺中将要插入的下一跳情况。值为“11”时表示告警状态，时钟不能被同步。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">VN（Version Number）</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">NTP的版本号。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Mode</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">NTP的工作模式。不同值表示的含义如下：0：reserved，保留。1：symmetric
+active，主动对等体模式。2：symmetric passive，被动对等体模式。3：client，客户模式。4：server，服务器模式。5：broadcast，广播模式。6：reserved
+for NTP control messages，NTP控制报文。7：reserved for private use，内部使用预留。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Stratum</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">时钟的层数，定义了时钟的准确度。层数为1的时钟准确度最高，从1到15依次递减。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Poll Interval</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">轮询时间，即发送报文的最小间隔时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Precision</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">时钟的精度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Root Delay</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">到主参考时钟的总往返延迟时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Root Dispersion</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">本地时钟相对于主参考时钟的最大误差。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Reference Identifier</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">标识特定参考时钟。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Reference Timestamp</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">64比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">本地时钟最后一次被设定或更新的时间。如果值为0表示本地时钟从未被同步过。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Originate Timestamp</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">64比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">NTP报文离开源端时的本地时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Receive Timestamp</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">64比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">NTP报文到达目的端的本地时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Transmit Timestamp</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">64比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">目的端应答报文离开服务器端的本地时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.998496240601503%" headers="mcps1.2.4.3.1.4.1.1 ">Authenticator</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.780451127819548%" headers="mcps1.2.4.3.1.4.1.2 ">96比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22105263157896%" headers="mcps1.2.4.3.1.4.1.3 ">（可选）验证信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>NTP控制报文格式</span>
+
+<br><span><img src="image/ntp-format-control.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="11.00618054406833%" id="mcps1.2.4.5.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="13.77313944570595%" id="mcps1.2.4.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="75.22068001022572%" id="mcps1.2.4.5.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">0</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">2比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">保留位。NTP本身不做处理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">VN（Version Number）</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">NTP的版本号，目前值为3。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">6</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">表明是控制报文。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">REM</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">R：0表示命令，1表示响应。E：0表示发送正常响应，1表示发送错误响应。M：0表示最后一个分片，1表示其他。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Op</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">5比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">操作码，表明命令的类型。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Sequence</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">发送或接受到报文的顺序号。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Status</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">表明当前系统的状态。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Association ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">连接标示。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Offset</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">偏移量。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">数据域的长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Data</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">最大468比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">包括发送报文或接受报文中的数据信息。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Padding</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">填充字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.00618054406833%" headers="mcps1.2.4.5.1.4.1.1 ">Authenticator</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.77313944570595%" headers="mcps1.2.4.5.1.4.1.2 ">96比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="75.22068001022572%" headers="mcps1.2.4.5.1.4.1.3 ">（可选）验证信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>NTP报文（Broadcast）</span>
+
+<br><span><img src="image/ntp-example-broadcast.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>NTP报文（client）</span>
+
+<br><span><img src="image/ntp-example-client.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>NTP报文（server）</span>
+
+<br><span><img src="image/ntp-example-server.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="22.843822843822846%" id="mcps1.2.6.2.1.3.1.1">文档编号</th>
+
+<th class="cellrowborder" align="center" valign="top" width="77.15617715617715%" id="mcps1.2.6.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="22.843822843822846%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 1095</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.15617715617715%" headers="mcps1.2.6.2.1.3.1.2 ">Network Time Protocol (Version 1)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="22.843822843822846%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 1119</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.15617715617715%" headers="mcps1.2.6.2.1.3.1.2 ">Network Time Protocol (Version 2)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="22.843822843822846%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 1305</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.15617715617715%" headers="mcps1.2.6.2.1.3.1.2 ">Network Time Protocol (Version 3)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="22.843822843822846%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 5905</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.15617715617715%" headers="mcps1.2.6.2.1.3.1.2 ">Network Time Protocol Version 4: Protocol and
+Algorithms Specification</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="22.843822843822846%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 5906</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.15617715617715%" headers="mcps1.2.6.2.1.3.1.2 ">Network Time Protocol Version 4:
+Autokey Specification</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

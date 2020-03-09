@@ -1,0 +1,468 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="BGP的NOTIFICATION报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/bgp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_21">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>BGP的NOTIFICATION报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_21"></a><a name="rrpp_message_format_21"></a>
+
+
+<h1 class="topictitle1">BGP的NOTIFICATION报文格式</h1>
+
+<div>
+<p>如果BGP报文头中的TYPE为3，则该报文为NOTIFICATION报文。报文头后面所接的报文内容如下（RFC 4271），NOTIFICATION报文用于处理BGP进程中的各种错误。</p>
+
+<div class="fignone"><span class="figcap"><b>图1 </b>NOTIFICATION报文格式</span>
+
+<br><span><img src="image/bgp-format-NOTIFICATION.png"></span></div>
+
+<p>各字段解释如下：</p>
+
+<ul><li><strong>Error code：</strong>占1个字节（无符号位），定义错误的类型，非特定的错误类型用零表示。</li><li><strong>Error subcode：</strong>占1个字节（无符号位），指定错误细节编号，非特定的错误细节编号用零表示。</li><li><strong>Data：</strong>指定错误数据内容。</li></ul>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="23.00352733686067%" id="mcps1.2.5.1.3.1.1">错误码</th>
+
+<th class="cellrowborder" align="center" valign="top" width="76.99647266313933%" id="mcps1.2.5.1.3.1.2">错误子码</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" rowspan="3" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">1：消息头错误</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">1：连接未同步</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">2：错误的消息长度</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">3：错误的消息类型</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="7" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">2：Open消息错误</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">1：不支持的版本号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">2：错误的对等AS</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">3：错误的BGP标识符</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">4：不支持的可选参数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">5：认证失败</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">6：不可接受的保持时间</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">7：不支持的能力</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="11" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">3：Update消息错误</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">1：畸形属性列表</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">2：不可识别的公认属性</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">3：缺少公认属性</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">4：属性标志错误</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">5：属性长度错误</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">6：无效Origin属性</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">7：AS路由环路</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">8：无效Next_Hop属性</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">9：可选属性错误</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">10：无效网络字段</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">11：畸形AS_Path</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">4：Hold Timer溢出</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">0：没有特别的错误子码定义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">5：有限状态机错误</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">0：没有特别的错误子码定义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="9" align="left" valign="top" width="23.00352733686067%" headers="mcps1.2.5.1.3.1.1 ">6：终止</td>
+
+<td class="cellrowborder" align="left" valign="top" width="76.99647266313933%" headers="mcps1.2.5.1.3.1.2 ">1：前缀超过最大值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">2：管理关闭</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">3：删除邻居</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">4：管理重置</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">5：连接失败</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">6：其他配置改变</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">7：连接冲突</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">8：资源短缺</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.5.1.3.1.1 ">9：BFD断开连接</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="13.7636684303351%" id="mcps1.2.6.1.3.1.1">Error Code</th>
+
+<th class="cellrowborder" align="center" valign="top" width="86.2363315696649%" id="mcps1.2.6.1.3.1.2">Error Subcode</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" rowspan="3" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">1: Message header error</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">1: connection not synchronized</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">2: error message length</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">3: error message type</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="7" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">2: Open message error</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">1: unsupported version number</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">2: error peer AS</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">3: error BGP identifier</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">4: unsupported optional parameter</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">5: authentication failed</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">6: unacceptable Holdtime</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">7: unsupported capability</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="11" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">3: Update message error</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">1: malformed attribute list</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">2: unrecognized well-known attribute</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">3: well-known attribute is missing</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">4: attribute flags error</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">5: attribute length error</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">6: invalid origin attribute</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">7: AS routing loop</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">8: invalid Next-Hop attribute</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">9: error optional attribute</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">10: invalid network field</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">11: abnormal AS-Path</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">4: Hold timer expired</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">0: no special definition of the error subcode</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">5: Finite state machine error</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">0: no special definition of the error subcode</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="9" align="left" valign="top" width="13.7636684303351%" headers="mcps1.2.6.1.3.1.1 ">6: Cease</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.2363315696649%" headers="mcps1.2.6.1.3.1.2 ">1: maximum number of prefixes reached</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">2: administrative shutdown</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">3: peer de-configured</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">4: administrative reset</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">5: connection rejected</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">6: other configuration change</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">7: connection collision resolution</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">8: out of resources</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" headers="mcps1.2.6.1.3.1.1 ">9: BFD session Down</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文实例</h4><span><img src="image/BGP-header_NOTIFICATION.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.8.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.8.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 827</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">Exterior Gateway Protocol (EGP)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 2918</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">Route Refresh Capability for BGP-4</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 4271</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">A Border Gateway Protocol 4 (BGP-4)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="bgp_message.html">BGP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

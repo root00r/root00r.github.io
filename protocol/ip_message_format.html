@@ -1,0 +1,389 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/network-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ip_message_format_2">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ip_message_format_2"></a><a name="ip_message_format_2"></a>
+
+
+<h1 class="topictitle1">IP报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>IP头格式</span>
+
+<br><span><img src="image/IP-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>IP头字段解释</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.1.3.2.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.1.3.2.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.99999999999999%" id="mcps1.2.1.3.2.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 "><ul><li>4：表示为IPV4；</li><li>6：表示为IPV6。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">IHL</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">首部长度，如果不带Option字段，则为20，最长为60，该值限制了记录路由选项。以4字节为一个单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Type of Service</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">服务类型。只有在有QoS差分服务要求时这个字段才起作用。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Total Length</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">总长度，整个IP数据报的长度，包括首部和数据之和，单位为字节，最长65535，总长度必须不超过最大传输单元MTU。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Identification</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">标识，主机每发一个报文，加1，分片重组时会用到该字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">3比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">标志位：<div class="fignone"><span class="figcap"><b>图2 </b>IP Flag字段格式</span>
+
+<br><span><img src="image/IP-format-flag.png"></span></div>
+<ul><li>Bit 0: 保留位，必须为0。</li><li>Bit 1: DF（Don't Fragment），能否分片位，0表示可以分片，1表示不能分片。</li><li>Bit 2: MF（More Fragment），表示是否该报文为最后一片，0表示最后一片，1代表后面还有。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Fragment Offset</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">12比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">片偏移：分片重组时会用到该字段。表示较长的分组在分片后，某片在原分组中的相对位置。以8个字节为偏移单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Time to Live</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">生存时间：可经过的最多路由数，即数据包在网络中可通过的路由器数的最大值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Protocol</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 "><p>协议：下一层协议。指出此数据包携带的数据使用何种协议，以便目的主机的IP层将数据部分上交给哪个进程处理。</p>
+<p>常见值：</p>
+<ul><li>0: 保留Reserved</li><li>1: ICMP, Internet Control Message [RFC792]</li><li>2: IGMP, Internet Group Management [RFC1112] </li><li>3: GGP, Gateway-to-Gateway [RFC823] </li><li>4: IP in IP (encapsulation) [RFC2003]</li><li>6: TCP Transmission Control Protocol [RFC793]</li><li>17: UDP User Datagram Protocol [RFC768]</li><li>20: HMP Host Monitoring Protocol [RFC 869]</li><li>27: RDP Reliable Data Protocol [ RFC908 ]</li><li>46: RSVP (Reservation Protocol) </li><li>47: GRE (General Routing Encapsulation)</li><li>50: ESP Encap Security Payload [RFC2406]</li><li>51: AH (Authentication Header) [RFC2402]</li><li>54: NARP (NBMA Address Resolution Protocol) [RFC1735] </li><li>58: IPv6-ICMP (ICMP for IPv6) [RFC1883]</li><li>59: IPv6-NoNxt (No Next Header for IPv6) [RFC1883]</li><li>60: IPv6-Opts (Destination Options for IPv6) [RFC1883]</li><li>89: OSPF (OSPF Version 2) [RFC 1583]</li><li>112: VRRP (Virtual Router Redundancy Protocol) [RFC3768]</li><li>115: L2TP (Layer Two Tunneling Protocol)</li><li>124: ISIS over IPv4</li><li>126: CRTP (Combat Radio Transport Protocol)</li><li>127: CRUDP (Combat Radio User Protocol)</li><li>132: SCTP (Stream Control Transmission Protocol)</li><li>136: UDPLite [RFC 3828]</li><li>137: MPLS-in-IP [RFC 4023]</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Header Checksum</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">首部检验和，只检验数据包的首部，不检验数据部分。这里不采用CRC检验码，而采用简单的计算方法。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Source Address</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">源IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Destination Address</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">目的IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">选项字段，用来支持排错，测量以及安全等措施，内容丰富（请参见下表）。选项字段长度可变，从1字节到40字节不等，取决于所选项的功能。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.1 ">Padding</td>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.3.2.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75.99999999999999%" headers="mcps1.2.1.3.2.4.1.3 ">填充字段，全填0。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表2 </b>IP Header Options</caption>
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="7.000000000000001%" id="mcps1.2.1.4.2.5.1.1">CLASS</th>
+
+<th class="cellrowborder" valign="top" width="9%" id="mcps1.2.1.4.2.5.1.2">NUMBER</th>
+
+<th class="cellrowborder" valign="top" width="9%" id="mcps1.2.1.4.2.5.1.3">长度</th>
+
+<th class="cellrowborder" valign="top" width="75%" id="mcps1.2.1.4.2.5.1.4">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">-</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>Code为0代表了选项列表的结束，放在所有选项链表的后面，用来补字节对齐。</p>
+<p>该选项无长度字段，占一个字节。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-00.png"></span></p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">-</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>表示无操作的选项。用在各种选项之间，占一个字节。用于填充4字节对齐。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-01.png"></span></p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">11字节</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>表示安全和处理限制的选项。</p>
+<p>该选项提供一种主机可以发送安全、分隔、处理限制及TCC（关闭使用组）的参数功能。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-02.png"></span></p>
+<ul><li><strong>Type=130(10000010)：</strong>占1字节，code 的值此处设为130</li><li><strong>length=11：</strong>占1字节，长度选项固定为11，表示该选项的长度为11字节</li><li><p><strong>SSS：</strong>占2字节，表示安全域，下面列出了16种不同的安全标准，其中8个至今还没使用，预留将来使用，列表如下：</p>
+<p>            00000000 00000000 - Unclassified</p>
+<p>          
+ 11110001 00110101 - Confidential</p>
+<p>            01111000 10011010
+- EFTO</p>
+<p>            10111100 01001101 - MMMM</p>
+<p>         
+  01011110 00100110 - PROG</p>
+<p>            10101111 00010011 - Restricted</p>
+<p>            11010111 10001000 - Secret</p>
+<p>            01101011
+11000101 - Top Secret</p>
+<p>            00110101 11100010 - (Reserved
+for future use)</p>
+<p>            10011010 11110001 - (Reserved for
+future use)</p>
+<p>            01001101 01111000 - (Reserved for future
+use)</p>
+<p>            00100100 10111101 - (Reserved for future use)</p>
+<p>            00010011 01011110 - (Reserved for future use)</p>
+<p>            10001001 10101111 - (Reserved for future use)</p>
+<p> 
+          11000100 11010110 - (Reserved for future use)</p>
+<p>   
+        11100010 01101011 - (Reserved for future use)</p>
+</li><li><strong>CCC：</strong>占2个字节，表示分隔域，当传输的数据没被分隔的时候，此值设为0，其他的具体值可以从国防情报局获取。</li><li><strong>HHH：</strong>占2个字节，操作限制域，该值由国防情报局DIAM手册65－19，《标准安全记号》描述。</li><li><strong>TCC：</strong>占3个字节，传输控制码。提供一种传输隔离的手段，该值为3字母词，可用值从HQ DCA Code 530。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>松散的源站选路（为数据报指定一系列必须经过的IP地址）</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-03.png"></span></p>
+<ul><li>Type: 类型。占1字节，此处设为131。</li><li>length: 占1字节，记录整个选项的长度。</li><li>pointer: 指针项，占1个字节，指向下一个被处理的源站地址，最小值为4。</li><li>route data: 路由数据。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">7</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>记录路径（让每个路由器都记下它的IP地址）。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-07.png"></span></p>
+<ul><li>Type: 指明IP选项的类型。此处值为7。</li><li>length: 选项的总字节长度。不包含填充的长度，IP填满时最大为39；。</li><li>pointer: 它是一个基于1的指针，指向存放下一个IP地址的位置。它的最小值为4，指向存放第一个IP地址的位置。随着每个IP地址存入清单，ptr的值分别为8，12，16，最大到36，当记录下9个IP地址后，ptr的值为40，表示清单已满。</li><li>route data: 路由数据。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">8</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>流标识选项。该选项长度固定为4字节，code值为136，后面的字段固定为0x02，流ID为2字节。该选项提供了一种携带SATNET流标识符通过不支持流方式的网络。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-08.png"></span></p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">9</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>严格的源站选路选项。与宽松的源站选路类似，但是要求只能经过指定的这些地址，不能经过其他的地址。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-09.png"></span></p>
+<ul><li><strong>Type=137(10001001)：</strong>占1字节，code 的值此处设为137。</li><li><strong>length：</strong>占1字节，记录整个选项的长度。</li><li><strong>pointer：</strong>指针项，占1个字节，指向下一个被处理的源站地址，最小值为4。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="7.000000000000001%" headers="mcps1.2.1.4.2.5.1.1 ">2</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9%" headers="mcps1.2.1.4.2.5.1.3 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.1.4.2.5.1.4 "><p>时间戳选项。</p>
+<p>选项格式如下：</p>
+<p><span><img src="image/IP-format-option-24.png"></span></p>
+<ul><li><strong>Type (01000100)：</strong>时间戳选项，代码为68；</li><li><strong>length：</strong>选项的总长度（一般为36或40）；</li><li><strong>ponter：</strong>指向下一个可用空间的指针（5，9，13等）；</li><li><strong>oflw：</strong>表示溢出字段；</li><li><strong>flg：</strong>表示标志字段：<ul><li>0：只记录时间戳。</li><li>1：每台路由器都记录它的IP地址和时间戳。在选项列表中只有存放4对地址和时间戳的空间。</li><li>3：发送端对选项列表进行初始化，存放了4个IP地址和4个取值为0的时间戳值。只有当列表中的下一个IP地址与当前路由器地址相匹配时，才记录它的时间戳。</li></ul>
+</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/IP-Example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="16%" id="mcps1.2.3.2.1.3.1.1">标准Standard</th>
+
+<th class="cellrowborder" valign="top" width="84%" id="mcps1.2.3.2.1.3.1.2">Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="16%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 791</td>
+
+<td class="cellrowborder" valign="top" width="84%" headers="mcps1.2.3.2.1.3.1.2 ">INTERNET PROTOCOL</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="network-layer.html">网络层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

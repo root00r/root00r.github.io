@@ -1,0 +1,148 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SNMPv3报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/snmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_42">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SNMPv3报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_42"></a><a name="icmp_message_format_42"></a>
+
+
+<h1 class="topictitle1">SNMPv3报文格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><span><img src="image/SNMPv3-format.png"></span><p>SNMPv3报文结构从功能上来说，与SNMPv1、SNMPv2c的区别主要增加了报头数据和安全参数。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="14.499999999999998%" id="mcps1.3.1.4.1.3.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="85.5%" id="mcps1.3.1.4.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">版本</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 ">表示SNMP的版本，版本字段的值是报文版本号减1，如果是SNMPv3报文则对应字段值为3。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">报头数据</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 "><p>主要包含消息发送者所能支持的最大消息尺寸、消息是否进行加密/认证、采用的安全模式等描述内容。</p>
+<p>格式如下：</p>
+<span><img src="image/SNMPv3-headerdata.png"></span><ul><li>Msg ID：可以使请求和应答相互关联，响应报文中的Msg ID和发送报文中的值相同。</li><li>Msg Max size：消息发送者支持的最大的消息尺寸。</li><li>Msg Sec Model：指明了发送方采用的安全模式。</li><li>Msg Flag：请求报文指定是否要求回应report消息，消息是否进行了加密和认证。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">安全参数</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 "><p>包含用户名、密钥、加密参数等安全信息。</p>
+<p>格式如下：</p>
+<span><img src="image/SNMPv3-security.png"></span><ul><li>Auth Engin ID：唯一的标识一个认证。</li><li>Auth Engin Boots：从配置认证引擎到现在，认证引擎重新启动的次数。</li><li>Auth Engin Time：从配置认证引擎到现在的时间。</li><li>User Name：用户名。</li><li>Auth Para：认证参数值。</li><li>Priv Para：加密后的参数值。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">SNMPv3 PDU</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 "><p>包含PDU类型、请求标识符、变量绑定列表等信息，可以为GetRequest PDU、GetNextRequest
+PDU、SetRequest PDU、Response PDU、Trap PDU、GetBulk PDU等几种类型。</p>
+<p>格式如下：</p>
+<span><img src="image/SNMPv3-pdu.png"></span><ul><li>Context Egine ID：SNMP唯一标识符，和PDU类型一起决定应该发往那个应用程序。</li><li>Context Name：指明上下文之间的关系，由应用程序决定。</li><li>Data：报文的数据内容。</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SNMPv3-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2570</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Introduction to Version 3 of the Internet-standard Network
+Management Framework  </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2574</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">User-based Security Model (USM) for version 3 of the Simple
+Network Management Protocol (SNMPv3)  </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 3414</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">User-based Security Model (USM) for version 3 of the Simple
+Network Management Protocol (SNMPv3)  </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 3584</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Coexistence between Version 1, Version 2, and Version 3 of
+the Internet-standard Network Management Framework  </td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="snmp_message.html" title="">SNMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

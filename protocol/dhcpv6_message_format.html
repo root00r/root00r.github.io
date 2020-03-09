@@ -1,0 +1,315 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="DHCPv6报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_24">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>DHCPv6报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_24"></a><a name="rrpp_message_format_24"></a>
+
+
+<h1 class="topictitle1">DHCPv6报文格式</h1>
+
+<div>
+<p>DHCPv6报文是承载于UDP上的高层协议报文，RFC推荐采用547（DHCPv6服务器/Relay）和546（DHCPv6客户端）两个端口号。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>客户端/服务器端的DHCPv6消息格式</span>
+
+<br><span><img src="image/dhcpv6-format.png"></span></div>
+<p>各字段的含义：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.333333333333334%" id="mcps1.2.2.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="6.333333333333334%" id="mcps1.2.2.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="82.33333333333334%" id="mcps1.2.2.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.2.2.4.1.4.1.1 ">msg-type</td>
+
+<td class="cellrowborder" valign="top" width="6.333333333333334%" headers="mcps1.2.2.4.1.4.1.2 ">1字节 </td>
+
+<td class="cellrowborder" valign="top" width="82.33333333333334%" headers="mcps1.2.2.4.1.4.1.3 "><p>报文类型：</p>
+<ul><li>SOLICIT (1)</li><li>ADVERTISE (2)</li><li>REQUEST (3) </li><li>CONFIRM (4)</li><li>RENEW (5)</li><li>REBIND (6)</li><li>REPLY (7)</li><li>RELEASE (8)</li><li>DECLINE (9)</li><li>RECONFIGURE (10)</li><li>INFORMATION-REQUEST (11)</li><li>RELAY-FORW (12)</li><li>RELAY-REPL (13)</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.2.2.4.1.4.1.1 ">transaction-id</td>
+
+<td class="cellrowborder" valign="top" width="6.333333333333334%" headers="mcps1.2.2.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="82.33333333333334%" headers="mcps1.2.2.4.1.4.1.3 "><p>消息ID</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.2.2.4.1.4.1.1 ">options</td>
+
+<td class="cellrowborder" valign="top" width="6.333333333333334%" headers="mcps1.2.2.4.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="82.33333333333334%" headers="mcps1.2.2.4.1.4.1.3 "><p>选项字段</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>中继的DHCPv6消息格式</span>
+
+<br><span><img src="image/dhcpv6-format-relay.png"></span></div>
+<p>各字段的含义：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11%" id="mcps1.2.2.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.333333333333334%" id="mcps1.2.2.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="79.66666666666667%" id="mcps1.2.2.7.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.2.7.1.4.1.1 ">msg-type</td>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.2.7.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="79.66666666666667%" headers="mcps1.2.2.7.1.4.1.3 "><ul><li>Relay-forward Message: RELAY-FORW</li><li>Relay-reply Message: RELAY-REPL</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.2.7.1.4.1.1 ">hop-count</td>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.2.7.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="79.66666666666667%" headers="mcps1.2.2.7.1.4.1.3 "><ul><li>Relay-forward Message: Number of relay agents that have relayed
+this message.</li><li>Relay-reply Message: Copied from the Relay-forward message.</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.2.7.1.4.1.1 ">link-address</td>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.2.7.1.4.1.2 ">12字节</td>
+
+<td class="cellrowborder" valign="top" width="79.66666666666667%" headers="mcps1.2.2.7.1.4.1.3 "><ul><li>Relay-forward Message: A global or site-local address that will
+be used by the server to identify the link on which the client is
+located.</li><li>Relay-reply Message: Copied from the Relay-forward message.</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.2.7.1.4.1.1 ">peer-address</td>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.2.7.1.4.1.2 ">12字节</td>
+
+<td class="cellrowborder" valign="top" width="79.66666666666667%" headers="mcps1.2.2.7.1.4.1.3 "><ul><li>Relay-forward Message: The address of the client or relay agent
+from which the message to be relayed was received.</li><li>Relay-reply Message: Copied from the Relay-forward message.</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11%" headers="mcps1.2.2.7.1.4.1.1 ">options</td>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.2.7.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="79.66666666666667%" headers="mcps1.2.2.7.1.4.1.3 ">必须包含名为"Relay Message option"的选项，当然，中继可以添加其他选项。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>DHCPv6 Options字段的格式</span>
+
+<br><span><img src="image/dhcpv6-format-options.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="8.361204013377927%" id="mcps1.2.2.9.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.367892976588628%" id="mcps1.2.2.9.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.27090301003345%" id="mcps1.2.2.9.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.9.1.4.1.1 ">option-code</td>
+
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.2.2.9.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.9.1.4.1.3 "><p>无符号整数，标识选项的类型：</p>
+<ul><li>OPTION_CLIENTID (1): 标识客户端身份，用于识别客户。</li><li>OPTION_SERVERID (2): 用于识别服务器。</li><li>OPTION_IA_NA (3): 非临时地址集合选项。</li><li>OPTION_IA_TA (4): 临时地址集合选项。</li><li>OPTION_IAADDR (5): 用于携带地址选项。</li><li>OPTION_ORO (6): 选项请求选项，用来在客户端和服务器之间标识一系列选项。</li><li>OPTION_PREFERENCE (7)</li><li>OPTION_ELAPSED_TIME (8): Elapsed Time Option</li><li>OPTION_RELAY_MSG (9): 在Relay-forward消息或Relay-reply消息中传递DHCP消息。</li><li>OPTION_AUTH (11): Authentication Option</li><li>OPTION_UNICAST (12): Server Unicast Option</li><li>OPTION_STATUS_CODE (13): Status Code Option</li><li>OPTION_RAPID_COMMIT (14): Rapid Commit Option</li><li>OPTION_USER_CLASS (15): User Class Option</li><li>OPTION_VENDOR_CLASS (16): Vendor Class Option</li><li>OPTION_VENDOR_OPTS (17): Vendor-specific Information Option</li><li>OPTION_INTERFACE_ID (18): 用于标识用户接入接口</li><li>OPTION_RECONF_MSG (19): Reconfigure Message Option</li><li>OPTION_RECONF_ACCEPT (20): Reconfigure Accept Option</li><li>DNS Recursive Name Server (23)</li><li>DNS Domain Search List (24)</li><li>IA_PD (25): (Identity association for prefix delegation)，授权的前缀集合选项。</li><li>IA_PD Prefix (26): 用于携带前缀选项。</li><li>Relay Agent Remote-ID (37)</li><li>Relay Agent Subscriber-ID (38)</li><li>AFTR Name  (64): 用于DS-Lite方案中携带AFTR的域名。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.9.1.4.1.1 ">option-len</td>
+
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.2.2.9.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.9.1.4.1.3 ">无符号整数，标示option-data字段的字节数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.361204013377927%" headers="mcps1.2.2.9.1.4.1.1 ">option-data</td>
+
+<td class="cellrowborder" valign="top" width="10.367892976588628%" headers="mcps1.2.2.9.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.2.9.1.4.1.3 ">选项的数据部分。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图4 </b>DHCPv6 Solicit报文(IAPD &amp; IANA)</span>
+
+<br><span><img src="image/DHCPv6-Solid.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>DHCPv6 Request报文</span>
+
+<br><span><img src="image/DHCPv6-Request.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>DHCPv6 Relay-Forw报文</span>
+
+<br><span><img src="image/DHCPv6-Solid_Relay.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>DHCPv6 Relay-Reply报文</span>
+
+<br><span><img src="image/DHCPv6-Relay-Reply.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="13.5%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="86.5%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC3315</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Dynamic Host Configuration Protocol for IPv6 (DHCPv6)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC3633</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">IPv6 Prefix Options for Dynamic Host Configuration Protocol
+(DHCP) version6</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC3646</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">DNS Configuration options for Dynamic Host Configuration Protocol
+for IPv6 (DHCPv6)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC3736</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Stateless Dynamic Host Configuration Protocol (DHCP) Service
+for IPv6</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC6221</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Lightweight DHCPv6 Relay Agent</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC2131</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Dynamic Host Configuration Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC2131</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">DHCP Options and BOOTP Vendor Extensions</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC3406</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">DHCP Relay Agent Information Option</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

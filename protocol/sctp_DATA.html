@@ -1,0 +1,187 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP DATA数据块格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_30">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP DATA数据块格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_30"></a><a name="icmp_message_format_30"></a>
+
+
+<h1 class="topictitle1">SCTP DATA数据块格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">净荷数据(DATA)数据块的格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>SCTP DATA数据块格式</span>
+
+<br><span><img src="image/sctp-format-general-COOKIE-DATA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="6.020066889632107%" id="mcps1.3.1.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="12.040133779264213%" id="mcps1.3.1.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.93979933110369%" id="mcps1.3.1.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">5比特</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">预留，应当设置为全0，在接收方忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">U</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 "><p>U比特称为非顺序比特。如果该比特设置为1，则指示这是一个非顺序的DATA数据块，不需要给该数据块分配流顺序号码，所有接收方必须忽略流顺序号码。在重新组装完成后(如果需要)，非顺序的数据块不需要尝试任何重新排序的过程，可以由接收方直接递交到高层；如果一个非顺序的用户消息被分段，则消息的每个分段中的U比特必须被设置为1。</p>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">B</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">B比特称为分段开始比特。如果该比特被设置，则指示这是用户消息的第一个分段。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">E</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 "><p>E比特称为分段结束比特。如果该比特被设置，则指示这是用户消息的最后一个分段。一个未分段的用户消息应当把所有的B和E比特设置为1。如果B和E比特都设置为0，则表明这是一个分段的用户消息的一个中间分段。当用户消息被分段到多个数据块中，接收方需要使用TSN对消息进行重组，这意味着给分段的用户消息的每个分段都必须要使用连续的TSN。</p>
+<p>BE比特的取值含义如下：</p>
+<ul><li>B=1, E=0：用户消息的第1个分片</li><li>B=0, E=0：用户消息的中间分片</li><li>B=0, E=1：用户消息的最后一个分片</li><li>B=1, E=1：未分片的消息</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">该字段用来指示DATA数据块从类型字段开始到用户数据字段结束之间的字节数，但不包含任何填充字节，如果DATA数据块的用户数据字段为0，则长度字段设为16。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">TSN</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">该值表示该数据块的TSN，TSN的有效值从0～2 -1。TSN的值达到4294967295后将回转到0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">Stream Identifier S</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">该字段用来识别用户数据属于的流。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">Stream Sequence Number n</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">该值用来表示所在流中的用户数据的顺序号码。该字段的有效值为0～65535。当一个用户消息被SCTP分段后，则必须在消息的每个分段中都带有相同的流顺序号码。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">Payload Protocol Identifier</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 "><p>该值表示一个应用(或上层协议)特定的协议标识符。这个值由高层协议传递到SCTP并发送到对等层。这个标识符不由SCTP使用，但却可以由特定的网络实体或对等的应用来识别在DATA数据块中携带的信息类型。甚至在每个分段的DATA数据块中也应包含该字段(以确保对网络中间的代理可用)。0表示高层未对该协议净荷规定应用标识符。其中“M2UA”协议净荷使用编码2；“M3UA”协议净荷使用编码3；“SUA”协议净荷使用编码4；“M2PA”协议净荷使用的编码待定。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.020066889632107%" headers="mcps1.3.1.3.1.4.1.1 ">User Data</td>
+
+<td class="cellrowborder" valign="top" width="12.040133779264213%" headers="mcps1.3.1.3.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="81.93979933110369%" headers="mcps1.3.1.3.1.4.1.3 ">用来携带用户数据净荷。该字段必须被填充为4字节的整数情，发送方填充的字节数应不超过3个字节，接收方忽略所有的填充字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SCTP-example-data.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

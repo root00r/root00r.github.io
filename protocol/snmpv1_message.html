@@ -1,0 +1,174 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SNMPv1 Packet FormatSNMPv1报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/snmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_40">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SNMPv1 Packet FormatSNMPv1报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_40"></a><a name="icmp_message_format_40"></a>
+
+
+<h1 class="topictitle1">SNMPv1 Packet FormatSNMPv1报文格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><span><img src="image/SNMPv1-format.png"></span><p>SNMPv1报文主要由版本、团体名、SNMP PDU三部分构成。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="14.499999999999998%" id="mcps1.3.1.4.1.3.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="85.5%" id="mcps1.3.1.4.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">版本</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 ">表示SNMP的版本，版本字段的值是报文版本号减1，如果是SNMPv1报文则对应字段值为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">团体名</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 ">用于在Agent与NMS之间完成认证，字符串形式，常用的是6个字符“public”。团体名包括“可读”和“可写”两种，执行Get、GetNext操作时，采用“可读团体名”进行认证；执行Set操作时，则采用“可写团体名”认证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.4.1.3.1.1 ">SNMPv1 PDU</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.4.1.3.1.2 ">包含PDU类型、请求标识符、变量绑定列表等信息，可以为GetRequest PDU、GetNextRequest PDU、SetRequest
+PDU、Response PDU或Trap PDU几种类型。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>其中，PDU的格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>SNMPv1 PUD格式</span>
+
+<br><span><img src="image/snmpv1-pdu.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="14.499999999999998%" id="mcps1.3.1.7.1.3.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="85.5%" id="mcps1.3.1.7.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.7.1.3.1.1 ">PDU Type</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.7.1.3.1.2 ">协议数据单元的类型。PDU（Protocol Data Unit）共有5种类型：<ul><li>GetRequest-PDU</li><li>GetNextRequest-PDU</li><li>GetResponse-PDU</li><li>SetRequest-PDU</li><li>Trap-PDU</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.7.1.3.1.1 ">Request ID</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.7.1.3.1.2 ">请求标示字段，唯一的标示一个请求报文。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.7.1.3.1.1 ">Error Status</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.7.1.3.1.2 ">错误状态标示字段，SNMPv1中错误码包括：<ul><li>noSuchName：指定了一个代理不知道的对象。</li><li>tooBig：代理不能一次把请求的结果放入到一个PDU中。</li><li>badValue：进行set操作时候把变量修改为一个无效的值。</li><li>genErr：除以上错误外的其他错误。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.7.1.3.1.1 ">Error Index</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.7.1.3.1.2 ">错误索引字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.499999999999998%" headers="mcps1.3.1.7.1.3.1.1 ">Variable Bindings</td>
+
+<td class="cellrowborder" valign="top" width="85.5%" headers="mcps1.3.1.7.1.3.1.2 ">变量绑定字段。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>SNMPv1 GetNextRequest报文</span>
+
+<br><span><img src="image/SNMPv1-example-getnextrequest.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>SNMPv1 GetResponse报文</span>
+
+<br><span><img src="image/SNMPv1-example-getresponse.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>SNMPv1 Trap报文</span>
+
+<br><span><img src="image/SNMPv1-example-trap.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 1157</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">A Simple Network Management Protocol (SNMP)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="snmp_message.html" title="">SNMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

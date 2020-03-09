@@ -1,0 +1,258 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="MPLS Ping/Tracert (MPLS Echo)报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/mpls-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_format_11">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>MPLS Ping/Tracert (MPLS Echo)报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_format_11"></a><a name="eth_format_11"></a>
+
+
+<h1 class="topictitle1">MPLS Ping/Tracert (MPLS Echo)报文格式</h1>
+
+<div>
+<p>MPLS LSP Ping/Tracert通过发送MPLS Echo消息实现。MPLS Echo消息使用IPv4/IPv6的UDP协议封装，UDP端口为3503，只有使能MPLS的路由器才能够识别该端口号。</p>
+
+<p>MPLS LSP Traceroute和传统的Traceroute类似，通过连续发送一个TTL步进为1的Echo Request报文，让LSP沿途的每一个LSR都会收到TTL超时的Echo
+Request报文，同时回送一个携带下游信息（可选）以及相应返回码的Echo Reply给发送者。这样发送者就会得到该LSP沿途每一个节点的信息。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>MPLS Echo消息封装在IPv4/IPv6的UDP报文中，可能还带有MPLS标签。MPLS
+Echo消息中，UDP负载的格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>MPLS LSP Echo报文格式</span>
+
+<br><span><img src="image/mpls-format-ping.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="14.666666666666666%" id="mcps1.2.3.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.333333333333334%" id="mcps1.2.3.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="72.00000000000001%" id="mcps1.2.3.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Version Number</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">标识MPLS Echo的版本号，目前为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Must Be Zero</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">必须填全0，接收时忽略。. </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Message Type</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">标识该MPLS Echo消息的类型：<ul><li>1: MPLS Echo请求消息</li><li>2: MPLS Echo响应消息</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Reply mode</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">指示Reply Router采用什么方式回应这个消息：<ul><li>1: Do Not Reply</li><li>2: Reply via an IPv4 UDP Packet</li><li>3: Reply via an IPv4 UDP packet with Router Alert</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Return Code</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">发送端设置为0，接收端可以设置为如下值之一：<ul><li>0: No return code</li><li>1: Malformed Echo Request Received</li><li>2: One Or More of the TLVs Was Not Understood</li><li>3: Replying Router Is an Egress for the FEC at stack-depth &lt;RSC&gt;</li><li>4: Replying Router Has No Mapping for the FEC at stack-depth &lt;RSC&gt;</li><li>5: Downstream Mapping Mismatch </li><li>6: Upstream Interface Index Unknown </li><li>7: Reserved</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Return subcode</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">Return Subcode字段包含了标签栈的处理结束的指针。如果Return subcode值为0，标识报文没有携带标签，不需要处理标签。否则，报文携带了标签。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Sender's Handle</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">发送者句柄，是用来标识一个MPLS Echo的，其值是在应用程序发送一个MPLS Echo Request时随机生成的。单次的LSP
+Ping操作可以产生多个Echo Request，但是这些Echo Request所包含的Sender’s Handle的值是相同，即单次LSP
+Ping操作仅能产生一个Sender’s Handle的Echo Request。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Sequence Number</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">序列号，Sequence Number同样是用来标识MPLS Echo的，它是一个进程的概念，进程内有效，可以用来检测丢失的Reply的个数，从而可以对网络进行延时和抖动统计。单次LSP
+Ping操作可以产生多个Sequence Number，其值一般从零开始逐一递增。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">Timestamp</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">时间戳，采用NTP协议的时间格式，包含两部分：收到的时间戳和发送时间戳；可以用来计算报文从一个节点到另一个节点所需要花费的时间。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="14.666666666666666%" headers="mcps1.2.3.4.1.4.1.1 ">TLVs</td>
+
+<td class="cellrowborder" valign="top" width="13.333333333333334%" headers="mcps1.2.3.4.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="72.00000000000001%" headers="mcps1.2.3.4.1.4.1.3 ">TLV (Type, Length, Value):<ul><li>Type = 1: Target FEC Stack TLV</li><li>Type = 2: Downstream mapping TLV</li><li>Type = 3: PAD TLV</li><li>Type = 4: Error Code TLV</li><li>Type = 5: Vendor Enterprise Code TLV</li></ul>
+<p>Length: Value字段的长度，字节为计数单位。</p>
+<p>Value: 取决于Type的取值，如果TLV不足4字节的整数倍，需要填充。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>MPLS LSP ping request</span>
+
+<br><span><img src="image/mpls-format-ping-lsppingRequest.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>MPLS LSP ping reply</span>
+
+<br><span><img src="image/mpls-format-ping-lsppingReply.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>MPLS TE ping request</span>
+
+<br><span><img src="image/mpls-format-ping-tepingRequest.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>MPLS TE ping reply</span>
+
+<br><span><img src="image/mpls-format-ping-tepingReply.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>VCCV ping request</span>
+
+<br><span><img src="image/mpls-format-ping-vccvpingRequest.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>VCCV ping request alert</span>
+
+<br><span><img src="image/mpls-format-ping-vccvpingRequest-alert.png"></span>
+</div>
+<div class="fignone"><span class="figcap"><b>图8 </b>VPLS MAC Ping Request</span>
+
+<br><span><img src="image/mpls-format-ping-VPLSMACPingRequest.png"></span>
+</div>
+<div class="fignone"><span class="figcap"><b>图9 </b>VPLS MAC Ping Reply</span>
+
+<br><span><img src="image/mpls-format-ping-VPLSMACPingReply.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图10 </b>VPLS PW Ping Request</span>
+
+<br><span><img src="image/mpls-format-ping-VPLSpwPingRequest.png"></span>
+</div>
+<div class="fignone"><span class="figcap"><b>图11 </b>VPLS Multi-Hop Ping Request</span>
+
+<br><span><img src="image/mpls-format-ping-VPLSMulPingRequest.png"></span>
+</div>
+<div class="fignone"><span class="figcap"><b>图12 </b>VPLS Multi-Hop Ping Reply</span>
+
+<br><span><img src="image/mpls-format-ping-VPLSMulPingReply.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 4379</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Detecting Multi-Protocol Label Switched (MPLS) Data Plane Failures</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 4377</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Operations and Management (OAM) Requirements for Multi-Protocol
+Label Switched (MPLS) Networks</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 5085</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Pseudowire Virtual Circuit Connectivity Verification (VCCV):
+A Control Channel for Pseudowires</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.5.2.1.3.1.1 ">RFC 4447</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.5.2.1.3.1.2 ">Pseudowire Setup and Maintenance Using the Label Distribution
+Protocol (LDP)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="mpls-layer.html">MPLS层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

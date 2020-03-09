@@ -1,0 +1,375 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="STP/RSTP/MSTP帧格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_9">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>STP/RSTP/MSTP帧格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_9"></a><a name="rrpp_message_format_9"></a>
+
+
+<h1 class="topictitle1">STP/RSTP/MSTP帧格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">STP帧格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>STP帧格式</span>
+
+</div>
+<span><img src="image/mstp-format-stp.png"></span>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="15.5%" id="mcps1.2.1.4.1.3.1.1">字段内容</th>
+
+<th class="cellrowborder" valign="top" width="84.5%" id="mcps1.2.1.4.1.3.1.2">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Protocol Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">协议ID＝“0”</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Protocol Version Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">协议版本标识符，STP为0，RSTP为2，MSTP为3。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">BPDU Type </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">BPDU类型，MSTP为0x02。<ul><li>0x00：STP的Configuration BPDU</li><li>0x80：STP的TCN BPDU（Topology Change Notification BPDU）</li><li>0x02：RST BPDU（Rapid Spanning-Tree BPDU）或者MST BPDU（Multiple Spanning-Tree
+BPDU）</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Flags </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">对于“标记域”（Flags），第一个bit（左边、高位bit）表示“TCA（拓扑改变响应）”，最后一个bit（右边、低位bit）表示“TC（拓扑改变）”。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Root Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">网桥ID都是8个字节&#8212;&#8212;前两个字节是网桥优先级，后6个字节是网桥MAC地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Root Path Cost </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">根路径开销，本端口累计到根桥的开销。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Bridge Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">发送者BID，本交换机的BID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Port Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">发送端口PID，发送该BPDU的端口ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Message Age </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">该BPDU的消息年龄。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Max Age </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">消息老化年龄。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Hello Time </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">发送两个相邻BPDU间的时间间隔。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.1.4.1.3.1.1 ">Forward Delay</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.1.4.1.3.1.2 ">控制Listening和Learning状态的持续时间。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">RSTP帧格式</h4><p>在BPDU的格式上，除了保证和STP格式基本一致之外，RSTP作了一些小的变化。一个是在Type字段，配置BPDU类型不再是0而是2，版本号也变成了2。所以运行STP的交换机收到该类BPDU时会丢弃。</p>
+<p>另一个变化是在Flag字段，把原来保留的中间6位使用起来。这样改变了的配置BPDU叫做RST BPDU。</p>
+<p>RSTP
+Flag字段格式：</p>
+<ul><li>Bit7：TCA</li><li>Bit6：Agreement</li><li>Bit5：Forwarding</li><li>Bit4：Learning</li><li>Bit3和Bit2：端口角色<ul><li>00：未知</li><li>01：根端口</li><li>10：Alternate / Backup</li><li>11：指定端口</li></ul>
+</li><li>Bit1：Proposal</li><li>Bit0：TC</li></ul>
+</div>
+
+<div class="section"><h4 class="sectiontitle">MSTP帧格式</h4><p>多生成树协议MSTP是生成树协议的一种，用于消除网络环路，它兼容生成树协议STP和快速生成树RSTP协议，并且弥补了两者的缺陷。</p>
+<p>MSTP使用多生成树桥协议数据单元MST BPDU（Multiple Spanning Tree Bridge Protocol
+Data Unit）作为生成树计算的依据。 MST BPDU报文用来计算生成树的拓扑、维护网络拓扑以及传达拓扑变化记录。MST BPDU报文结构如下图所示：</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>MSTP帧格式</span>
+
+<br><span><img src="image/mstp-format.png"></span></div>
+<p>无论是域内的MST BPDU还是域间的，前35个字节和RST BPDU相同。 </p>
+<p>从第36个字节开始是MSTP专有字段。最后的MSTI配置信息字段由若干MSTI配置信息组连缀而成。 </p>
+<p>MST BPDU中的主要信息如下表所示。</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="15.5%" id="mcps1.2.3.8.1.3.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="84.5%" id="mcps1.2.3.8.1.3.1.2">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Protocol Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">协议标识符。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Protocol Version Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">协议版本标识符，STP为0，RSTP为2，MSTP为3。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">BPDU Type </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">BPDU类型，MSTP为0x02。<ul><li>0x00：STP的Configuration BPDU</li><li>0x80：STP的TCN BPDU（Topology Change Notification BPDU）</li><li>0x02：RST BPDU（Rapid Spanning-Tree BPDU）或者MST BPDU（Multiple Spanning-Tree
+BPDU）</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Flags </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST标志字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Root Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST的总根交换机ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST External Path Cost </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST外部路径开销指从本交换机所属的MST域到CIST根交换机的累计路径开销。CIST外部路径开销根据链路带宽计算。 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Regional Root Identifier</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST的域根交换机ID，即IST Master的ID。 如果总根在这个域内，那么域根交换机ID就是总根交换机ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 "> CIST Port Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">本端口在IST中的指定端口ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Message Age </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">BPDU报文的生存期。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Max Age </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">BPDU报文的最大生存期，超时则认为到根交换机的链路故障。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Hello Time </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">Hello定时器，缺省为2秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Forward Delay</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">Forward Delay定时器，缺省为15秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Version 1 Length </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">Version1 BPDU的长度，值固定为0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">Version 3 Length </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">Version3 BPDU的长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">MST Configuration Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 "><p>MST配置标识，表示MST域的标签信息，包含4个字段：</p>
+<span><img src="image/MSTP-configuration-id.png"></span><ul><li>Configuration Identifier Format Selector：固定为0。</li><li>Configuration Name：“域名”，32字节长字符串。</li><li>Revision Level：2字节非负整数。</li><li>Configuration Digest：利用HMAC-MD5算法将域中VLAN和实例的映射关系加密成16字节的摘要。</li></ul>
+<p>只有MST Configuration Identifier中的四个字段完全相同的，并且互联的交换机，才属于同一个域。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Internal Root Path Cost </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST内部路径开销指从本端口到IST Master交换机的累计路径开销。CIST内部路径开销根据链路带宽计算。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Bridge Identifier </td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">CIST的指定交换机ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">CIST Remaining Hops</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 ">BPDU报文在CIST中的剩余跳数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.5%" headers="mcps1.2.3.8.1.3.1.1 ">MSTI Configuration Messages (may be absent)</td>
+
+<td class="cellrowborder" valign="top" width="84.5%" headers="mcps1.2.3.8.1.3.1.2 "><p>MSTI配置信息。每个MSTI的配置信息占16 bytes，如果有n个MSTI就占用n×16bytes。单个MSTI
+Configuration Messages的字段说明如下：</p>
+<p><span><img src="image/mstp-msti.png"></span></p>
+<div class="p"><ul><li>MSTI Flags：MSTI标志。</li><li>MSTI Regional Root Identifier：MSTI域根交换机ID。</li><li>MSTI Internal Root Path Cost：MSTI内部路径开销指从本端口到MSTI域根交换机的累计路径开销。MSTI内部路径开销根据链路带宽计算。</li><li>MSTI Bridge Priority：本交换机在MSTI中的指定交换机的优先级。</li><li>MSTI Port Priority：本交换机在MSTI中的指定端口的优先级。</li><li>MSTI Remaining Hops：BPDU报文在MSTI中的剩余跳数。</li></ul>
+</div>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">帧示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>STP帧格式</span>
+
+<br><span><img src="image/mstp-example-stp.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>RSTP帧格式</span>
+
+<br><span><img src="image/mstp-example-rstp.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="50%" id="mcps1.2.5.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="50%" id="mcps1.2.5.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE Std 802.1S</td>
+
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.2 ">Virtual Bridged Local Area Networks&#8212;Amendment 3: Multiple Spanning
+Trees</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE Std 802.1D</td>
+
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.2 ">Information technology&#8212;Telecommunicationsand information exchange
+between systems&#8212;Local and metropolitan area networks&#8212;Common specifications&#8212;Part
+3:Media Access Control (MAC) Bridges.]</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.1 ">IEEE Std 802.1W</td>
+
+<td class="cellrowborder" valign="top" width="50%" headers="mcps1.2.5.2.1.3.1.2 ">IEEE Standard for Information technology&#8212;Telecommunications
+and information exchange between systems&#8212;Local and metropolitan area
+networks&#8212;Common specifications&#8212;Part 3: Media Access Control (MAC)
+Bridges&#8212;Amendment 2: Rapid Reconfiguration. [Amendment to IEEE Std
+802.1D, 1998 Edition (ISO/IEC 15802-3:1998) and IEEE Std 802.1t-2001].</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

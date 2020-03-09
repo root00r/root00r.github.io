@@ -1,0 +1,294 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="BGP OPEN报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/bgp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_20">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>BGP OPEN报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_20"></a><a name="rrpp_message_format_20"></a>
+
+
+<h1 class="topictitle1">BGP OPEN报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>如果BGP报文头中的TYPE为1，则该报文为OPEN报文。报文头后面所接的报文内容如下，OPEN报文用于建立BGP连接：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>OPEN报文格式</span>
+
+<br><span><img src="image/bgp-format-open.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="9.333333333333334%" id="mcps1.2.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.666666666666666%" id="mcps1.2.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81%" id="mcps1.2.1.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">1个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 ">表示协议的版本号，现在BGP的版本号为4。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">My Autonomous System</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">2个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 ">发送者自己的AS域号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">Hold Time</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">2个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 ">发送者自己设定的hold time值（单位：秒），用于协商BGP对等体间保持建立连接关系，发送KEEPALIVE或UPDATE等报文的时间间隔。BGP的状态机必须在收到对等体的OPEN报文后，对发出的OPEN报文和收到的OPEN报文两者的hold
+time时间作比较，选择较小的时间作为协商结果。Hold Time的值可为零（不发KEEPALIVE报文）或大于等于3，我们系统的默认为180。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">BGP Identifier</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">4个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 ">发送者的router id。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">Opt Parm Len</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">1个字节（无符号位）</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 ">表示Optional Parameters（可选参数）的长度。如果此值为0，表示没有可选参数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.333333333333334%" headers="mcps1.2.1.4.1.4.1.1 ">Optional Parameters</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.1.4.1.4.1.2 ">&nbsp;</td>
+
+<td class="cellrowborder" valign="top" width="81%" headers="mcps1.2.1.4.1.4.1.3 "><p>此值为BGP可选参数列表，每一个可选参数是一个TLV格式的单元(RFC3392)。</p>
+<pre class="screen">0                   1
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-...
+|  Parm. Type   | Parm. Length  |  Parameter Value (variable)
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-...
+</pre>
+<ul><li><strong>Parm. Type：</strong>占1个字节（无符号位），为可选参数类型。我们现在的实现中，只在type值为2时有意义，表示携带的参数为协商能力。 </li><li><strong>Parm. Length：</strong>占1个字节（无符号位），为Parameter Value的长度。</li><li><p><strong>Parameter. Value：</strong>根据Parm.Type的不同值填写不同的参数内容，在Parm.Type为2表示协商能力时，Parameter.Value是表示所支持的各种协商能力的列表，列表中的每一个单元是如下的一个TLV三元组：</p>
+<pre class="screen">+------------------------------+
+| Capability Code (1 octet)    |
++------------------------------+
+| Capability Length (1 octet)  |
++------------------------------+
+| Capability Value (variable)  |
++------------------------------+
+</pre>
+<ul><li>Capability Code：所支持的能力编号，占1个字节。Code为1时，表示支持的地址族能力；Code为2时，表示支持REFRESH能力。</li><li>Capability Length：表示Capability Value的长度，占1个字节。</li><li><p>Capability Value：根据Code值的不同其内容与长度也不同。</p>
+<p>Capability Code为1：</p>
+<p>Capability Value值是一个TLV三元组，共占4个字节：</p>
+<pre class="screen">0       7      15      23      31
++-------+-------+-------+-------+
+|      AFI      | Res.  | SAFI  |
++-------+-------+-------+-------+
+</pre>
+<p><strong>AFI：</strong>地址族标识(Address Family Identifier)，占2个字节，能力所支持地址族标识信息，用以和SAFI一同确定网络层协议和IP地址间的关系，编码方式与多协议扩展中的规定相同。其值按照RFC1700中ADDRESS
+FAMILY NUMBERS的定义；</p>
+<p><strong>Res：</strong>保留位，占1个字节，发送者应将其设置为零，在接受的时候忽略；</p>
+<p><strong>SAFI：</strong>子地址族标识(Address Family Identifier)，占1个字节，能力所支持的子地址族标识信息，用以和AFI一同确定网络层协议和IP地址间的关系，编码方式与多协议扩展中的规定相同。其值按照RFC1700中ADDRESS
+FAMILY NUMBERS的定义。</p>
+<p>Capability Code为2（RFC2918）</p>
+<p>表示支持路由刷新能力，即Route
+Refresh Capability。此能力的code为2，length为零，无value部分。</p>
+<p>需要说明的是，只有在能力协商中使能了支持Route
+Refresh Capability，路由器才能处理REFRESH报文。我们的实现是默认情况下，支持IPv4单播能力与路由刷新能力，其他能力需要另外设定。</p>
+</li></ul>
+</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>AFI及SAFI编码说明</caption>
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="6.2248995983935735%" id="mcps1.2.1.5.2.6.1.1">AFI编码</th>
+
+<th class="cellrowborder" valign="top" width="11.244979919678714%" id="mcps1.2.1.5.2.6.1.2">AFI说明</th>
+
+<th class="cellrowborder" valign="top" width="27.510040160642568%" id="mcps1.2.1.5.2.6.1.3">SAFI编码</th>
+
+<th class="cellrowborder" valign="top" width="27.510040160642568%" id="mcps1.2.1.5.2.6.1.4">SAFI说明</th>
+
+<th class="cellrowborder" valign="top" width="27.510040160642568%" id="mcps1.2.1.5.2.6.1.5">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" rowspan="3" valign="top" width="6.2248995983935735%" headers="mcps1.2.1.5.2.6.1.1 ">1</td>
+
+<td class="cellrowborder" rowspan="3" valign="top" width="11.244979919678714%" headers="mcps1.2.1.5.2.6.1.2 ">IPv4地址族</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.3 ">1</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.4 ">单播</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.5 ">IPv4单播</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.1 ">2</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.2 ">组播</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.3 ">IPv4组播</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.1 ">128</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.2 ">VPN</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.3 ">IPv4的L3VPN</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" rowspan="3" valign="top" width="6.2248995983935735%" headers="mcps1.2.1.5.2.6.1.1 ">2</td>
+
+<td class="cellrowborder" rowspan="3" valign="top" width="11.244979919678714%" headers="mcps1.2.1.5.2.6.1.2 ">IPv6地址族</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.3 ">1</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.4 ">单播</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.5 ">IPv6单播</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.1 ">2</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.2 ">组播</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.3 ">IPv6组播</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.1 ">128</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.2 ">VPN</td>
+
+<td class="cellrowborder" valign="top" headers="mcps1.2.1.5.2.6.1.3 ">IPv6的L3VPN</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.2248995983935735%" headers="mcps1.2.1.5.2.6.1.1 ">196</td>
+
+<td class="cellrowborder" valign="top" width="11.244979919678714%" headers="mcps1.2.1.5.2.6.1.2 ">二层</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.3 ">128</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.4 ">VPN</td>
+
+<td class="cellrowborder" valign="top" width="27.510040160642568%" headers="mcps1.2.1.5.2.6.1.5 ">L2VPN的Kompella方式</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文实例</h4><span><img src="image/BGP-header_OPEN-example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 827</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Exterior Gateway Protocol (EGP)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 2918</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Route Refresh Capability for BGP-4</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4271</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">A Border Gateway Protocol 4 (BGP-4)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="bgp_message.html">BGP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

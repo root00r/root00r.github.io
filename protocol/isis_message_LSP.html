@@ -1,0 +1,91 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IS-IS LSP消息格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/isis_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="isis_message_format_3">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IS-IS LSP消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="isis_message_format_3"></a><a name="isis_message_format_3"></a>
+
+
+<h1 class="topictitle1">IS-IS LSP消息格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>链路状态报文LSP（Link State PDUs）用于交换链路状态信息。LSP分为两种：Level&#8211;1
+LSP和Level&#8211;2 LSP。Level&#8211;1 LSP由Level-1路由器传送，Level&#8211;2 LSP由Level-2路由器传送，Level-1-2路由器则可传送以上两种LSP。</p>
+<p>两类LSP有相同的报文格式。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>L1/L2 LSP格式</span>
+
+<br><span><img src="image/ISIS-format-lsp-l1l2.png"></span></div>
+<p>主要字段的解释如下：</p>
+<ul><li>PDU Length：PDU的总长度，以字节为单位。</li><li>Remaining Lifetime：LSP的生存时间，以秒为单位。</li><li>LSP ID：由三部分组成，System ID、伪节点ID（一字节）和LSP分片后的编号（一字节）。</li><li>Sequency Number：LSP的序列号。  </li><li>Checksum：LSP的校验和。  </li><li>P（Partition Repair）：仅与L2 LSP有关，表示路由器是否支持自动修复区域分割。  </li><li><p>ATT（Attachment）：由Level-1-2路由器产生，用来指明始发路由器是否与其它区域相连。虽然此标志位也存在于Level-1和Level-2的LSP中，但实际上此字段只和Level-1-2路由器始发的L1
+LSP有关。此字段有4bit，用来表明相连的区域所使用的度量方式。</p>
+<p>从右至左这4位依次表示如下所示：</p>
+<ul><li>第4位：缺省度量；</li><li>第5位：时延度量；</li><li>第6位：代价度量；</li><li>第7位：差错度量。</li></ul>
+</li><li>OL（LSDB Overload）：过载标志位。设置了过载标志位的LSP虽然还会在网络中扩散，但是在计算通过超载路由器的路由时不会被采用。即，对路由器设置过载位后，其它路由器在进行SPF计算时不会考虑这台路由器。当路由器内存不足时，系统自动在发送的LSP报文中设置过载标志位。</li><li>IS Type：生成LSP的路由器的类型。用来指明是Level-1还是Level-2路由器（01表示Level-1，11表示Level-2）。</li></ul>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>IS-IS LSP消息</span>
+
+<br><span><img src="image/ISIS-Example-lsp.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">ISO 10589</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">ISO IS-IS Routing Protocol</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC1195</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Use of OSI IS-IS for Routing in TCP/IP and Dual Environments</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="isis_message.html">IS-IS报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

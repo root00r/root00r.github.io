@@ -1,0 +1,416 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ICMP报文通用格式">
+<meta name="DC.Relation" scheme="URI" content="../message/icmp_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_8">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ICMP报文通用格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_8"></a><a name="icmp_message_format_8"></a>
+
+
+<h1 class="topictitle1">ICMP报文通用格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>有很多情况都会发送ICMP消息，例如，报文无法发送到目的地址，再如，网关设备没有足够的缓存来存储转发报文。</p>
+<p>ICMP消息封装在IP报文中，格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>ICMP消息封装格式</span>
+
+<br><span><img src="image/icmp-format-encap.png"></span></div>
+<p>ICMP消息头部格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>ICMP消息头部格式</span>
+
+<br><span><img src="image/icmp-format-general.png"></span></div>
+<p>其中，最后一个字段的长度和内容，取决于消息的类型和代码。对应的列表如下：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>ICMP消息类型代码对应表</caption>
+
+
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="8.900523560209423%" id="mcps1.2.1.8.2.4.1.1">类型Type</th>
+
+<th class="cellrowborder" valign="top" width="9.424083769633507%" id="mcps1.2.1.8.2.4.1.2">代码Code</th>
+
+<th class="cellrowborder" valign="top" width="81.67539267015707%" id="mcps1.2.1.8.2.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">0</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">回显应答（ping应答）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">网络不可达 </td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">主机不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">协议不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">3</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">端口不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">需要进行分片但设置不分片比特</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">5</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">源站选路失败</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">6</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">目的网络不认识</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">7</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">目的主机不认识</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">8</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">源主机被隔离（作废不用）</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">9</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">目的网络被强制禁止</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">10</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">目的主机被强制禁止</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">11</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">由于TOS，网络不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">12</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">由于TOS，主机不可达</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">13</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">由于过滤，通信被强制禁止</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">14</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">主机越权</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">15</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">优先权中止生效</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">4</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">源端被关闭</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">5</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">对网络重定向</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">5</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">对主机重定向</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">5</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">对服务类型和网络重定向</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">5</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">3</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">对服务类型和主机重定向</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">8</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">请求回显（ping请求）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">9</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">路由器通告</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">10</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">路由器请求告</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">11</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">传输期间生存时间为0</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">11</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">在数据报组装期间生存时间为0</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">12</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">坏的IP首部</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">12</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">缺少必须的选项</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">13</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">时间戳请求（作废不用）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">14</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">时间戳应答（作废不用）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">15</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">信息请求（作废不用）</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">16</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">信息应答（作废不用）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">17</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">地址掩码请求</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="8.900523560209423%" headers="mcps1.2.1.8.2.4.1.1 ">18</td>
+
+<td class="cellrowborder" valign="top" width="9.424083769633507%" headers="mcps1.2.1.8.2.4.1.2 ">0</td>
+
+<td class="cellrowborder" valign="top" width="81.67539267015707%" headers="mcps1.2.1.8.2.4.1.3 ">地址掩码应答</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>封装了ICMP消息的IP头部格式示例</span>
+
+<br><span><img src="image/ICMP-format.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 792</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Internet Control Message Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="icmp_message.html">ICMP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

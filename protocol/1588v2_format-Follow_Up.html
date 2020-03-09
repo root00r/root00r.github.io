@@ -1,0 +1,241 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="1588v2 Follow_Up消息">
+<meta name="DC.Relation" scheme="URI" content="../message/1588v2_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="eth_7">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>1588v2 Follow_Up消息</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="eth_7"></a><a name="eth_7"></a>
+
+
+<h1 class="topictitle1">1588v2 Follow_Up消息</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>Follow_Up消息格式</span>
+
+<br><span><img src="image/1588v2_PTP_format_Follow_Up.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.03010033444816%" id="mcps1.2.1.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.698996655518394%" id="mcps1.2.1.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.27090301003345%" id="mcps1.2.1.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">TranSpec</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">传送相关。<ul><li>0表示PTP消息由1588协议使用</li><li>1表示PTP消息由802.1as协议使用</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">MsgType</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">消息类型。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">保留字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">VerPTP</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">表示1588协议的版本。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">MsgLength</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">PTP消息的长度，即PTP消息的全部字节数目。计入字节始于报头的第一个字节，同时包含并收尾于任何尾标的最后一个字节，或是无尾标成员时收尾于消息的最后一个字节。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">DomainNumber</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">域编号，表示发送该消息时钟所属的域。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">保留字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">FlagField</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">标志域。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">CorrectionField</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">64 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">修正域，各报文都有，主要用在Sync报文中，用于补偿网络中的传输时延，E2E的频率同步。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">保留字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">SourcePortIdentity</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">&nbsp;</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">源端口标识符，发送该消息时钟的ID和端口号。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">SequenceID</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">序列号ID，表示消息的序列号，以及关联消息的对应关系。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">ControlField</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">控制域，由消息类型决定。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">LogMsgInterval</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">录入消息周期，PTP消息的发送时间间隔。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.03010033444816%" headers="mcps1.2.1.3.1.4.1.1 ">preciseOriginTimestamp</td>
+
+<td class="cellrowborder" valign="top" width="9.698996655518394%" headers="mcps1.2.1.3.1.4.1.2 ">10 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.27090301003345%" headers="mcps1.2.1.3.1.4.1.3 ">精确源时间标签。PTP提供传输时间戳的机制，这个时间戳包括事件消息产生的时刻和相应的修正域，通过这个机制保证接收方接收到的是最精确的时间戳。在实际应用中时间戳分布在：originTimestamp或者preciseOriginstamp和correctionField中，由具体的执行决定。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>基于UDP的Follow_Up消息</span>
+
+<br><span><img src="image/1588v2_example-Follow_Up.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图3 </b>基于以太的Follow_Up消息</span>
+
+<br><span><img src="image/1588v2_example-Follow_Up-mac.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">IEEE 1588 V2</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Precision Clock Synchronization Protocol for Networked Measurement
+and Control Systems</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">IEEE P1588&#8482; D2.2</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Draft Standard for a Precision Clock Synchronization Protocol
+for Networked Measurement and Control Systems</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="1588v2_message.html">1588v2（PTP）报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

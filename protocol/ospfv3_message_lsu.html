@@ -1,0 +1,881 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="OSPFv3 LSU报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/ospfv3_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ospf_message_format_13">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>OSPFv3 LSU报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ospf_message_format_13"></a><a name="ospf_message_format_13"></a>
+
+
+<h1 class="topictitle1">OSPFv3 LSU报文格式</h1>
+
+<div>
+<p>用来向对端Router发送其所需要的LSA或者泛洪自己更新的LSA，内容是多条LSA（全部内容）的集合。LSU报文（Link
+State Update Packet）在支持组播和广播的链路上是以组播形式将LSA泛洪出去。为了实现Flooding的可靠性传输，需要LSAck报文对其进行确认。对没有收到确认报文的LSA进行重传，重传的LSA是直接发送到邻居的。</p>
+
+<p><span><img src="image/ospfv3-packet-lsu.png"></span></p>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.3.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.3.1.4.1.1 "># LSAs</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.3.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.3.1.4.1.3 ">LSA的数量。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<p>OSPFv3常用的LSA共有7种，分别为：</p>
+
+<ul><li>Router-LSA（Type1）</li><li>Network-LSA（Type2）</li><li>Inter-Area-Prefix-LSA（Type3）</li><li>Inter-Area-Router-LSA（Type4）</li><li>AS-external-LSA（Type5）</li><li>Link-LSA（Type8）</li><li>Intra-Area-Prefix-LSA（Type9）</li></ul>
+
+<div class="fignone"><span class="figcap"><b>图1 </b>LSA头部结构</span>
+
+<br><span><img src="image/ospfv3-lsa-header.png"></span></div>
+
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.7.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS age</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA产生后所经过的时间，以秒为单位。无论LSA是在链路上传送，还是保存在LSDB中，其值都会在不停的增长。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS type</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 "><p>LSA的类型，标识了LSA的功能。该字段的高3位标识LSA的通用属性，剩下的比特位标识LSA的特定功能。LS Type字段的格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>LS Type字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-ls-type.png"></span></div>
+<p>U比特位标识标识对未知LSA的处理方法：</p>
+<ul><li>0：把此LSA当作具有链路本地泛洪范围来对待，从而只能泛洪到本地链路上。</li><li>1：把此LSA当作类型已知的LSA来处理，也就是存储下来并泛洪出去。</li></ul>
+<p>S1和S2比特位标识了LSA的泛洪范围：</p>
+<ul><li>S2 S1 = 0 0: 链路本地范围内，即只在始发链路上泛洪。</li><li>S2 S1 = 0 1: 区域范围内，即泛洪到始发区域内的所有路由器。</li><li>S2 S1 = 1 0: AS范围内，即泛洪到本AS的所有路由器。</li><li>S2 S1 = 1 1: 预留</li></ul>
+<p>LSA的功能代码定义如下：</p>
+<ul><li>Type1: Router-LSA (LS Type = 0x2001)</li><li>Type2: Network-LSA (LS Type = 0x2002)</li><li>Type3: Inter-Area-Prefix-LSA (LS Type = 0x2003)</li><li>Type4: Inter-Area-Router-LSA (LS Type = 0x2004)</li><li>Type5: AS-external-LSA (LS Type = 0x2005)</li><li>Type8: Link-LSA (LS Type = 0x2008)</li><li>Type9: Intra-Area-Prefix-LSA (LS Type = 0x2009)</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">与LSA中的LS Type和LSA description一起在路由域中描述一个LSA。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">Advertising Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">产生此LSA的路由器的Router ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS sequence number</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA的序列号。其他路由器根据这个值可以判断哪个LSA是最新的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">LS checksum</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">除了LS age外其它各域的校验和。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.7.1.4.1.1 ">length</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.7.1.4.1.3 ">LSA的总长度，包括LSA Header，以字节为单位。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Router-LSA</h4><p>Router-LSA（Type1）：每个路由器都会产生，描述了路由器的链路状态和花费，在所属的区域内传播。</p>
+<div class="fignone"><span class="figcap"><b>图3 </b>Router-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-Router-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.8.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13%" id="mcps1.2.8.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75%" id="mcps1.2.8.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">生成LSA的Router ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">W</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">如果置1，标识该路由器是个组播“通吃者”（wild-card receiver）。当运行MOSPF时，无论目的地址是什么，这些路由器接收所有的组播数据。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">V (Virtual Link)</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是虚连接的端点，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">E (External)</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是ASBR，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">B (Border)</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">如果产生此LSA的路由器是ABR，则置为1。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">Options字段使OSPF路由器能支持可选的能力，并且与其它路由器互相通告其能力。通过这种机制，具有不同能力的路由器可以在一个OSPF路由域中混合工作。其格式为：<div class="fignone"><span class="figcap"><b>图4 </b>Options字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-options.png"></span></div>
+<ul><li>DC：当且仅当路由器可以正确处理LSA的LS age 字段中出现的DoNotAge位的时候设置为1。当且仅当路由器想把相连的点到点电路当作按需电路时，它把Hello和DD包的DC位设置为1。在点到点按需电路上，两个端点设备都必须支持对Hello包的抑止，以便节省带宽资源。为了确保这一点，路由器在按需电路的接口发送的Hello包和Database
+Description包上把DC位设置为1。如果对方发送的DD包或返回的Hello包的DC位为0，说明对方不支持对Hello的抑止功能，所以路由器必须继续周期性地发送Hello包。
+按需电路特性的支持只需要在两个端点之一配置即可。如果一个路由器实现了按需电路特性，但是没有配置，那么当它接收到设置了DC位的Hello包时，应该把这个点到点电路按照按需电路来对待，从而改变其相应进程。但是LSA中的DC位含义却有微妙的差别。设置LSA的DC位并不意味着路由器能够作为按需电路的一个端点，而是说明它能否正确处理设置了DoNotAge位的LSA。当且仅当路由器可以正确处理LSA的LS
+age 字段中出现的DoNotAge位的时候，它才把自己建立的LSA中的DC位设置为1。 处于不同位置的Options字段会对协议运作产生不同的影响。某些选项的不匹配，会阻止邻接关系的形成，例如如果过Hello包的发送和接收，两个路由器发现E位不匹配，就不能形成邻居关系。某些选项的不匹配，会阻止特定类型的LSA的泛洪，例如如果通过DD包的交换，两个路由器发现彼此的MC位不匹配，那么组播路由使用的Group-membership-LSA就不能泛洪。某些选项如果不匹配，会使路由器不能被纳入某一种或多种路由的计算，例如如果路由器从LSA中发现某个路由器的MC位没有设置，那么在组播路由计算时它就不会考虑这个路由器。
+在发送Hello包、发送DD包和建立LSA时，路由器应该对Options字段中不认可的位进行清零。在接收Hello包、接收DD包和接收LSA时，路由器应该忽略OSPF
+Options字段中不认可的位，并且正常处理这个包或LSA。</li><li>R：设置为1。指出该公告者是否一个路由器。如果清零，则说明该公告者并不能路由数据。所以经过该公告者的路由不能纳入路由计算。如果多宿主机希望分享OSPF路由信息，但又不希望转发数据时，可以使用之。</li><li>N：描述了路由器对Type-7 LSA的处理。当且仅当一个接口的所属区域为NSSA区域时设置为1。 </li><li>MC：描述路由器是否运行了MOSPF。当且仅当路由器运行MOSPF时设置为1。</li><li>E：当且仅当所属区域为stub区域时设置为0。描述AS-external-LSA的泛洪方式。在Hello包中，当且仅当这个区域能够处理AS-external-LSA的时候，E位设置为1（例如在非stub区域中），否则为0。如果E位设置不正确，邻接关系就不能形成。在DD包中，当一个链路所属的区域是非stub区域时，E位设置为1，否则为0。而在LSA头中，E位表现了相应的LSA的特性&#8212;&#8212;骨干区域的LSA、非stub区域的LSA和AS-external-LSA的E位都应该设置为1；而在stub区域的LSA中应该设置为0。LSA中的E位设置仅仅是为了发布信息，而不影响路由表计算。</li><li>V6：设置为1。表示这个路由器或链路是不是在路由IPv6。如果清零，这个路由器或链路不应该纳入IPv6路由计算。</li></ul>
+<p>所有未定义的位都应该清零。</p>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">链路的类型:<ul><li>1: 点到点连接到另一台路由器</li><li>2: 连接到穿越(Transit)网</li><li>3: 保留</li><li>4: 虚连接</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">流量出接口的开销值。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Interface ID</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">接口ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Neighbor Interface ID</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 ">邻居的接口ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.8.4.1.4.1.1 ">Neighbor Router ID</td>
+
+<td class="cellrowborder" valign="top" width="13%" headers="mcps1.2.8.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="75%" headers="mcps1.2.8.4.1.4.1.3 "><p>邻居的路由器ID。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Network-LSA</h4><p>Network-LSA（Type2）：由广播网或NBMA网络中的DR产生，Network-LSA中记录了这一网络上所有路由器的Router
+ID，描述本网段的链路状态，在所属的区域内传播。</p>
+<div class="fignone"><span class="figcap"><b>图5 </b>Network-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-Network-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.9.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.9.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.9.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.9.4.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.9.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.9.4.1.4.1.3 ">参见Router-LSA的字段解释。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.9.4.1.4.1.1 ">Attached Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.9.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.9.4.1.4.1.3 ">连接在同一个网络上的所有路由器的Router ID，也包括DR的Router ID。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Inter-Area-Prefix-LSA格式</h4><p>IPv6的这些LSA与IPv4的OSPFv2中的type
+3 summary-LSAs等同。由区域边界路由器始发，这些LSA描述了到其他区域的IPv6地址前缀。每个IPv6地址前缀单独发一个Inter-Area-Prefix-LSA。</p>
+<div class="fignone"><span class="figcap"><b>图6 </b>Inter-Area-Prefix-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-Inter-Area-Prefix-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.10.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.10.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.10.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.4.1.4.1.2 ">24 bits</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.4.1.4.1.3 ">到目的地址的开销值。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.4.1.4.1.1 ">PrefixLength</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.4.1.4.1.3 ">前缀的比特数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.4.1.4.1.1 ">PrefixOptions</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.4.1.4.1.3 ">用来表达这个前缀的一些特性，以便在各种不同的路由计算时做相应的判断和处理。例如希望在特定情况下忽略一个前缀的计算。 由LSA公告的每个前缀都拥有一个自己的PrefixOptions字段。PrefixOptions字段格式如下：<div class="fignone"><span class="figcap"><b>图7 </b>PrefixOptions字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-prefix.png"></span></div>
+<ul><li>P位: 传播位。如果一个NSSA区域的前缀需要被ABR传播出去，就需要设置这一位。</li><li>MC位: 组播位。如果设置为1，则这个前缀应该纳入组播计算中，否则不纳入组播计算。</li><li>LA位: 本地地址位。如果设置为1，则这个前缀是路由器的一个接口地址。</li><li>NU位: 非单播位。如果设置为1，则这个前缀不会纳入IPv6单播路由计算中。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.10.4.1.4.1.1 ">Address Prefix</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.10.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.10.4.1.4.1.3 ">IPv6地址前缀。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>缺省路由的前缀长度为0。</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Inter-Area-Router-LSA格式</h4><p>IPv6的这些LSA与IPv4的OSPFv2中的Type
+4 summary-LSAs等同。由区域边界路由器始发，这些LSA描述了到其他区域的IPv6地址前缀。每个LSA描述了到某台路由器的一条路由。</p>
+<div class="fignone"><span class="figcap"><b>图8 </b>Inter-Area-Prefix-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-Inter-Area-Router-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.11.4.1.4.1.1">Field</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.11.4.1.4.1.2">Length</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.11.4.1.4.1.3">Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.11.4.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.11.4.1.4.1.3 ">Options字段描述的不是源路由器的能力，而是目的路由器所支持的能力，所以此字段值应该等于目的路由器的router-LSA的Options字段值。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.11.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.11.4.1.4.1.3 ">到目的地址的开销值。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.11.4.1.4.1.1 ">Destination Router ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.11.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.11.4.1.4.1.3 ">LSA中描述的目的路由器的Router ID。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">AS-External-LSA</h4><p>每个AS-external-LSA描述到达自治系统外部的一个前缀的路径。</p>
+<div class="fignone"><span class="figcap"><b>图9 </b>AS-External-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-AS-External-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.666666666666666%" id="mcps1.2.12.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.12.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.66666666666666%" id="mcps1.2.12.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">E</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">外部路由的Metric类型。如果设置为1，表示此为2类外部路由，其Metric不随着路由的传递而增长。如果设置为0，表示此为1类外部路由，其Metric随着路由的传递而增长。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">F</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">如果设置为1，则表示后面的Forwarding Address可选字段存在。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">T</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">1比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">如果设置为1，则表示后面的External Route Tag可选字段存在。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">metric</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">24比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">到目的地址的路由开销。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">PrefixLength</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">前缀的比特数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">PrefixOptions</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">用来表达这个前缀的一些特性，以便在各种不同的路由计算时做相应的判断和处理。例如希望在特定情况下忽略一个前缀的计算。 由LSA公告的每个前缀都拥有一个自己的PrefixOptions字段。PrefixOptions字段格式如下：<div class="fignone"><span class="figcap"><b>图10 </b>PrefixOptions字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-prefix.png"></span></div>
+<ul><li>P位: 传播位。如果一个NSSA区域的前缀需要被ABR传播出去，就需要设置这一位。</li><li>MC位: 组播位。如果设置为1，则这个前缀应该纳入组播计算中，否则不纳入组播计算。</li><li>LA位: 本地地址位。如果设置为1，则这个前缀是路由器的一个接口地址。</li><li>NU位: 非单播位。如果设置为1，则这个前缀不会纳入IPv6单播路由计算中。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">Referenced LS type</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">表明这个LSA是参考一个Router-LSA，还是一个Network-LSA。1表示参考一个router-LSA，2表示参考一个Network-LSA。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">Address Prefix</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">IPv6地址前缀。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">Forwarding Address</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">可选的128位Pv6地址。当前面的F位为1时存在。表示到达目的的数据应该转发到这个地址。在公告路由器不是最优的下一跳的时候可以使用。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">External Route Tag</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">可选的标记位。可以用于ASBR之间的通信。一个比较常见的例子是，在OSPF自治系统的两个边界路由器上进行路由分发时，通过对引入的路由进行标记，可以很方便地进行路由过滤。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.12.4.1.4.1.1 ">Referenced Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.12.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.66666666666666%" headers="mcps1.2.12.4.1.4.1.3 ">当设置了前面的Reference LS Type时存在。如果存在，说明此条外部路由有一些相关信息需要参考另外一个LSA。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Link-LSA</h4><p>每个连接的链路产生一个Link-LSA。</p>
+<p>作用：</p>
+<ul><li>向该链路上其他路由器通知本地的Link-Local地址，即到本地的下一跳地址；</li><li>收集本路由器在该链路上配置的所有的IPv6前缀，并通知该链路上其他路由器；</li><li>向Network-LSA提供选项信息。收集该链路上所有的Link-LSA，与操作得到的该链路上Network-LSA中选项信息。</li></ul>
+<div class="fignone"><span class="figcap"><b>图11 </b>Link-LSA format</span>
+
+<br><span><img src="image/ospfv3-lsa-Link-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.666666666666666%" id="mcps1.2.13.6.1.4.1.1">Field</th>
+
+<th class="cellrowborder" valign="top" width="8.333333333333332%" id="mcps1.2.13.6.1.4.1.2">Length</th>
+
+<th class="cellrowborder" valign="top" width="80%" id="mcps1.2.13.6.1.4.1.3">Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">Rtr Pri</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">该路由器在该链路上的优先级(Router Priority)。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">24bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">提供给Network LSA的Options。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">Link-local Interface Address</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">128 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">路由器与该链路相连的接口上配置的Link Local地址(Link Local地址只出现在Link LSA中)。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 "># prefixes</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">该LSA中携带了多少IPv6地址Prefix。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">PrefixLength</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">前缀的比特数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">PrefixOptions</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">用来表达这个前缀的一些特性，以便在各种不同的路由计算时做相应的判断和处理。例如希望在特定情况下忽略一个前缀的计算。 由LSA公告的每个前缀都拥有一个自己的PrefixOptions字段。PrefixOptions字段格式如下：<div class="fignone"><span class="figcap"><b>图12 </b>PrefixOptions字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-prefix.png"></span></div>
+<ul><li>P位: 传播位。如果一个NSSA区域的前缀需要被ABR传播出去，就需要设置这一位。</li><li>MC位: 组播位。如果设置为1，则这个前缀应该纳入组播计算中，否则不纳入组播计算。</li><li>LA位: 本地地址位。如果设置为1，则这个前缀是路由器的一个接口地址。</li><li>NU位: 非单播位。如果设置为1，则这个前缀不会纳入IPv6单播路由计算中。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.13.6.1.4.1.1 ">Address Prefix</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.13.6.1.4.1.2 ">Variable</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.13.6.1.4.1.3 ">IPv6地址前缀。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">Intra-Area-Prefix-LSA</h4><p>Intra-Area-Prefix-LSA携带区域内IPv6
+Prefix信息。</p>
+<div class="fignone"><span class="figcap"><b>图13 </b>Intra-Area-Prefix-LSA格式</span>
+
+<br><span><img src="image/ospfv3-lsa-Intra-Area-Prefix-LSA.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.666666666666666%" id="mcps1.2.14.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="8.333333333333332%" id="mcps1.2.14.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80%" id="mcps1.2.14.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 "># prefixes</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">在LSA中包含的IPv6前缀数量。必要的话，可以通过多个intra-area-prefix-LSA来携带前缀，这样可以控制LSA的长度。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">Referenced LS type</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">表明这个LSA是参考一个Router-LSA，还是一个Network-LSA。1表示参考一个router-LSA，2表示参考一个Network-LSA。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">Referenced Link State ID</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">当这个LSA是参考一个Router-LSA时，设置为0。当这个LSA是参考一个Network-LSA时，设置为该链路的DR的Interface
+ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">Referenced Advertising Router</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">当这个LSA是参考一个Router-LSA时，设置为这个路由器的Router ID。当这个LSA是参考一个Network-LSA时，设置为该链路的DR的Router
+ID。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">PrefixLength</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">前缀的比特数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">PrefixOptions</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">用来表达这个前缀的一些特性，以便在各种不同的路由计算时做相应的判断和处理。例如希望在特定情况下忽略一个前缀的计算。 由LSA公告的每个前缀都拥有一个自己的PrefixOptions字段。PrefixOptions字段格式如下：<div class="fignone"><span class="figcap"><b>图14 </b>PrefixOptions字段格式</span>
+
+<br><span><img src="image/ospfv3-packet-lsu-prefix.png"></span></div>
+<ul><li>P位: 传播位。如果一个NSSA区域的前缀需要被ABR传播出去，就需要设置这一位。</li><li>MC位: 组播位。如果设置为1，则这个前缀应该纳入组播计算中，否则不纳入组播计算。</li><li>LA位: 本地地址位。如果设置为1，则这个前缀是路由器的一个接口地址。</li><li>NU位: 非单播位。如果设置为1，则这个前缀不会纳入IPv6单播路由计算中。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">Metric</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">前缀开销值。与Router-LSA的接口开销值相同单位。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.666666666666666%" headers="mcps1.2.14.4.1.4.1.1 ">Address Prefix</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.14.4.1.4.1.2 ">Variable</td>
+
+<td class="cellrowborder" valign="top" width="80%" headers="mcps1.2.14.4.1.4.1.3 ">IPv6地址前缀。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.15.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.15.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.15.2.1.3.1.1 ">RFC 2740</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.15.2.1.3.1.2 ">OSPF for IPv6</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="ospfv3_message.html">OSPFv3报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div> <div class="hwcopyright">2016 &copy</div></body>
+</html>

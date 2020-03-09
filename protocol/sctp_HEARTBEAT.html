@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP HEARTBEAT数据块格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_32">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP HEARTBEAT数据块格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_32"></a><a name="icmp_message_format_32"></a>
+
+
+<h1 class="topictitle1">SCTP HEARTBEAT数据块格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">HeartBeat请求(HEARTBEAT)数据块的格式</h4><p>SCTP端点通过向对端点发送这个数据块用来检测定义在该偶联上到特定目的地传送地址的可达性。</p>
+<p>参数字段包含HEARTBEAT信息，它是一个可变长度的非透明数据结构，其信息通常只需要发送方明白即可。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>SCTP HEARTBEAT数据块格式</span>
+
+<br><span><img src="image/sctp-format-general-HEARTBEAT.png"></span></div>
+<ul><li>Chunk Flags (8bit)：在发送方设置为全0，并在接收方忽略。</li><li>HEARTBEAT Length(16bit)：设置为数据块长度的字节数，包括数据块头和HEARTBEAT信息字段。</li><li>HEABTBEAT Information TLV：当该HEARTBEAT数据块发送到目的地传送地址时，发送方特定的HEARTBEAT信息字段通常包括关于发送方当前的时间信息。</li></ul>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SCTP-example-Heartbeat.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

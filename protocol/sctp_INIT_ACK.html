@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP INIT ACK数据块格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_35">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP INIT ACK数据块格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_35"></a><a name="icmp_message_format_35"></a>
+
+
+<h1 class="topictitle1">SCTP INIT ACK数据块格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">Format of Initiation Acknowledgement (INIT ACK)</h4><p>INIT ACK数据块用来确认SCTP偶联的启动。</p>
+<p>INIT ACK的参数部分与INIT数据块的参数部分相同，它额外还使用两个的可变长度的参数即：状态COOKIE(STATE
+COOKIE)和未识别的参数。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>SCTP INIT ACK数据块格式</span>
+
+<br><span><img src="image/sctp-format-general-INIT-ACK.png"></span></div>
+<p>INIT ACK数据块应包含以下参数：</p>
+<ul><li><p>必备参数：</p>
+<ul><li>启动标签；</li><li>通告的接收方窗口信用；</li><li>输入流数量；</li><li>输出流数量；</li><li>初始TSN。</li></ul>
+</li><li><p>可变长参数：</p>
+<ul><li>STATECOOKIE       类型值=7              必备</li><li>IPv4地址          类型值=5              任选</li><li>IPv6地址          类型值=6              任选</li><li>未识别的参数      类型值=9              任选</li><li>ECN能力预留       类型值=32768(0x8000)  任选</li><li>主机名地址        类型值=11             任选</li></ul>
+</li></ul>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.333333333333334%" id="mcps1.3.1.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.333333333333334%" id="mcps1.3.1.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.33333333333333%" id="mcps1.3.1.7.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">启动标签（Initiate Tag）</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 ">INIT ACK的接收方记录启动标签参数的值，并把该值放到INITACK接收方需要在相应的偶联上发送的每个SCTP分组中的验证标签中。启动标签不允许为0。如果收到的INIT
+ACK数据块中的启动标签为0，则接收方当作错误来处理并通过发送ABORT来关闭偶联。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">通告的接收方窗口信用值Advertised Receiver Window Credit (a_rwnd)</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 ">这个值表示指定的缓冲区的容量，用字节数表示，是INIT ACK发送方为偶联预留的窗口，在偶联存活期间，这个缓冲区的容量不应减少(即不应把该偶联的专用缓冲区取走)。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">输出流数量Number of Outbound Streams (OS)</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 ">定义发送INIT ACK数据块的一方希望在该偶联中创建的输出流的数量。该值不允许为0，接收方收到该参数为0的INIT
+ACK数据块后应中止该偶联并舍弃TCB。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">输入流数量Number of Inbound Streams (MIS)</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 ">定义发送INIT ACK数据块的一方允许对端点在该偶联中所创建的流的最大数量。该值不允许为0，接收方收到该参数为0的INIT
+ACK数据块后应中止该偶联并舍弃该TCB。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">Initial TSN(I-TSN) </td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 ">定义发送方将使用的初始的TSN，该值可以设置为启动标签字段的值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.7.1.4.1.1 ">Optional/Variable-length Parameters</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.7.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.7.1.4.1.3 "><ul><li><p>State Cookie：该参数类型为7，为可变长度参数，该参数长度取决于COOKIE的长度，该参数值的取值必须包含由INIT
+ACK发送方创建该偶联所需的所有状态和参数信息，连同消息授权码。</p>
+</li><li><p>不识别的参数：该参数类型为8，可变长度参数。该参数内容是INIT数据块中包含的一个不识别的参数，该参数用来返回给INIT数据块的产生者一个指示，这个参数值字段包含了从INIT数据块中复制过来的不识别参数的完整的参数类型、长度和参数值。</p>
+</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SCTP-example-INIT_ACK.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

@@ -1,0 +1,772 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="TWAMP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_7">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>TWAMP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_7"></a><a name="bgp_message_format_7"></a>
+
+
+<h1 class="topictitle1">TWAMP报文格式</h1>
+
+<div>
+<p>TWAMP：Two-way Active Measurement Protocol(TWAMP)，双向测量协议，用于对丢包、时延和抖动等进行性能监控。</p>
+
+<p>TWAMP是基于TCP连接进行协商和利用UDP报文进行测量。TWAMP的端口号可配置。</p>
+
+<div class="section"><h4 class="sectiontitle">TWAMP工作时序图</h4><span><img src="image/TWAMP-flow.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">TWAMP控制报文格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>Server Greeting消息格式</span>
+
+<br><span><img src="image/TWAMP-server_greeting.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.803921568627452%" id="mcps1.2.4.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="14.59694989106754%" id="mcps1.2.4.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.59912854030502%" id="mcps1.2.4.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.3.1.4.1.1 ">Modes</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.3.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.3.1.4.1.3 "><ul><li>1：不认证</li><li>2 ：认证</li><li>4：加密</li></ul>
+<p>如果值为0，表示服务器不希望和客户端交互，可能会立刻关闭连接。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.3.1.4.1.1 ">Challenge</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.3.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.3.1.4.1.3 ">服务器生成的随机数，用于接收者对共享秘钥的处理中。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.3.1.4.1.1 ">Salt</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.3.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.3.1.4.1.3 ">用于从共享秘钥中提出秘钥的一个参数。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.3.1.4.1.1 ">Count</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.3.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.3.1.4.1.3 ">用于从共享秘钥中提出秘钥的一个参数，2的次幂</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.3.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.3.1.4.1.2 ">12 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.3.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>Set-Up-Response消息格式</span>
+
+<br><span><img src="image/TWAMP-setup-response.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.803921568627452%" id="mcps1.2.4.5.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="14.59694989106754%" id="mcps1.2.4.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.59912854030502%" id="mcps1.2.4.5.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.5.1.4.1.1 ">Modes</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.5.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.5.1.4.1.3 ">认证模式</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.5.1.4.1.1 ">KeyID</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.5.1.4.1.2 ">80 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.5.1.4.1.3 ">用于认证或加密模式中。不认证模式中，不使用此字段。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.5.1.4.1.1 ">Token</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.5.1.4.1.2 ">64 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.5.1.4.1.3 ">用于认证或加密模式中。不认证模式中，不使用此字段。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.5.1.4.1.1 ">Client-IV</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.5.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.5.1.4.1.3 ">用于认证或加密模式中。不认证模式中，不使用此字段。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>Server Start消息格式</span>
+
+<br><span><img src="image/TWAMP-server-Start.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.803921568627452%" id="mcps1.2.4.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="14.59694989106754%" id="mcps1.2.4.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.59912854030502%" id="mcps1.2.4.7.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.7.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.7.1.4.1.2 ">15 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.7.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.7.1.4.1.1 ">Accept</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.7.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.7.1.4.1.3 ">表示服务器意愿继续交互，0表示服务器接受认证，愿意后续交互。非0表示服务器不接受认证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.7.1.4.1.1 ">Server-IV</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.7.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.7.1.4.1.3 ">Server-IV是服务器随机产生的，Server-IV不用于不认证模式。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.7.1.4.1.1 ">Start-Time</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.7.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.7.1.4.1.3 ">时间戳，代表服务器当前操作开始的时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.7.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.7.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.7.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图4 </b>Request TW-Session消息格式</span>
+
+<br><span><img src="image/TWAMP-request-tw-session.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="11.86770428015564%" id="mcps1.2.4.9.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.727626459143968%" id="mcps1.2.4.9.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="78.40466926070039%" id="mcps1.2.4.9.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">IPVN</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">发送和接收者的IP版本号，当前有效值为4或6。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Conf-Sender</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">客户端设置为0或1。服务器将所有非0值解析为1。如果值为1，表示要求服务器配置对应的代理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Conf-Receiver</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">客户端设置为0或1。服务器将所有非0值解析为1。如果值为1，表示要求服务器配置对应的代理。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Number of Schedule Slots</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">表示在两块HMAC之间的槽位记录数量，发送者用来确认发送测试报文的时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Number of Packets</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">在TWAMP测试会话中发送的主动测量报文的数量。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Sender Port</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">如果Conf-Receive不置位，发送端口是指发送TWAMP测试报文的UDP端口。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Receiver Port</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">如果Conf-Receive不置位，接收端口是指接收TWAMP测试报文的UDP端口。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Sender Address</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">TWAMP测试会话的发送者IP地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Receiver Address</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">TWAMP测试会话的接收者IP地址。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">SID</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">会话ID，只有Conf-Receiver为0才有意义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Padding Length</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">普通TWAMP测试报文的Padding字节数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Start Time</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">会话发起的时间。格式与TWAMP-Test的时间戳相同。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Timeout</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">超时或时延阈值，时间戳格式。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">Type-P Descriptor</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 "><p>前两比特如果为00，后面6个比特指定了发送的TWAMP测试报文的DSCP值（RFC2474定义的DSCP）。</p>
+<p>前两比特如果为01，后面16个比特标识要求的PHB Identification Code (PHB ID)(RFC2836定义的）。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="11.86770428015564%" headers="mcps1.2.4.9.1.4.1.1 ">HMAC</td>
+
+<td class="cellrowborder" valign="top" width="9.727626459143968%" headers="mcps1.2.4.9.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="78.40466926070039%" headers="mcps1.2.4.9.1.4.1.3 ">TWAMP使用的HMAC是HMAC-SHA1，128比特，所以HMAC字段为16字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图5 </b> Accept Session消息格式</span>
+
+<br><span><img src="image/TWAMP-accept-session.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.803921568627452%" id="mcps1.2.4.11.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="14.59694989106754%" id="mcps1.2.4.11.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.59912854030502%" id="mcps1.2.4.11.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">Accept</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">表示服务器意愿继续交互，0表示服务器接受认证，愿意后续交互。非0表示服务器不接受认证。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">Port</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">回应消息中Port的含义取决于请求消息中的Conf-Sender和Conf-Receiver的值。如果两者都置位，则Port字段是不使用的。如果只是Conf-Sender置位，则Port表示接受TWAMP-Test报文的端口。如果只是Conf-Receiver置位，Port表示TWAMP-Test报文发送的端口。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">SID</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">如果只发送了Conf-Sender，回应消息里的SID字段是不使用的。否则，SID唯一标识一个会话。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">12 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.11.1.4.1.1 ">HMAC</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.11.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.11.1.4.1.3 ">TWAMP使用的HMAC是HMAC-SHA1，128比特，所以HMAC字段为16字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图6 </b>Start Session消息格式</span>
+
+<br><span><img src="image/TWAMP-start-session.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>Start ACK消息格式</span>
+
+<br><span><img src="image/TWAMP-Start-ack.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.803921568627452%" id="mcps1.2.4.14.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="14.59694989106754%" id="mcps1.2.4.14.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.59912854030502%" id="mcps1.2.4.14.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.14.1.4.1.1 ">Accept</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.14.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.14.1.4.1.3 ">如果是非0值，Start-Sessions请求将被拒绝。0表示接受。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.14.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.14.1.4.1.2 ">15 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.14.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.803921568627452%" headers="mcps1.2.4.14.1.4.1.1 ">HMAC</td>
+
+<td class="cellrowborder" valign="top" width="14.59694989106754%" headers="mcps1.2.4.14.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="75.59912854030502%" headers="mcps1.2.4.14.1.4.1.3 ">TWAMP使用的HMAC是HMAC-SHA1，128比特，所以HMAC字段为16字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图8 </b>Stop Session消息格式</span>
+
+<br><span><img src="image/TWAMP-stop-session.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="9.090909090909092%" id="mcps1.2.4.16.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.090909090909092%" id="mcps1.2.4.16.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="81.81818181818183%" id="mcps1.2.4.16.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.1 ">Accept</td>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.2 ">1 byte</td>
+
+<td class="cellrowborder" valign="top" width="81.81818181818183%" headers="mcps1.2.4.16.1.4.1.3 ">如果是非0值，表示故障，0表示正常。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.2 ">2 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.81818181818183%" headers="mcps1.2.4.16.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.1 ">Number of Sessions</td>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.2 ">4 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.81818181818183%" headers="mcps1.2.4.16.1.4.1.3 ">表示Control-Client即将停止的会话的数量。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.2 ">8 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.81818181818183%" headers="mcps1.2.4.16.1.4.1.3 ">置0，接收时忽略。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.1 ">HMAC</td>
+
+<td class="cellrowborder" valign="top" width="9.090909090909092%" headers="mcps1.2.4.16.1.4.1.2 ">16 bytes</td>
+
+<td class="cellrowborder" valign="top" width="81.81818181818183%" headers="mcps1.2.4.16.1.4.1.3 ">TWAMP使用的HMAC是HMAC-SHA1，128比特，所以HMAC字段为16字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">TWAMP测量报文的格式</h4><div class="fignone"><span class="figcap"><b>图9 </b>Sender-test</span>
+
+<br><span><img src="image/TWAMP-sender-test.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图10 </b>Reflector test</span>
+
+<br><span><img src="image/TWAMP-reflector-test.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="10%" id="mcps1.2.5.4.1.3.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="90%" id="mcps1.2.5.4.1.3.1.2">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Sequence Number</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">根据传输顺序生成的报文序列号。从0开始并逐包增加，每个报文分配一个序号。Session-Reflector生成的报文序列号与到达的报文的序列号无关。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">MBZ</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">必须填为0，客户端忽略此字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Timestamp</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 "><p>时间戳字段表示Session-Reflector反射的检测报文所打上的传输时间戳。其定义和格式请参见OWAMP标准[RFC4656]的第4.1.2章节。</p>
+<p>时间戳的格式与OWAMP [RFC4656]标准定义的时间戳格式相同，如下：</p>
+<div class="fignone"><span class="figcap"><b>图11 </b>时间戳字段的格式</span>
+
+<br><span><img src="image/TWAMP-format-timestamp.png"></span></div>
+<p>与RFC1305标准定义的时间戳格式相同，前32比特表示从1900年1月1日0时至今的秒数的整数部分，后32比特表示小数部分。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Error Estimate</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 "><p>错误检测字段表示Session-Reflector反射的错误检测，其定义和格式请参见OWAMP标准[RFC4656]的第4.1.2章节。</p>
+<p>错误检测字段指定了错误的检测和同步。其格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图12 </b>Error Estimate字段格式</span>
+
+<br><span><img src="image/TWAMP-format-ErrorEstimate.png"></span></div>
+<ul><li>S：如果产生时间戳的设备的时钟与使用外部源的UTC同步，则S位置1。例如，如果使用GPS硬件，此比特必须置位，表示需要时钟源的当前位置和时间，或者使用了NTP，此比特也必须置位，表示与外部时钟源同步。如果没有外部时钟源同步需求，则此比特置0。</li><li>Z：与MBZ字段相同，必须置0，接收端忽略此字段。</li><li>Scale和 Multiplier字段都是无符号整数，Error Estimate = Multiplier*2^(-32)*2^Scale，单位是秒。Multiplier字段不能为0，如果为0，表示为错误报文必须被丢弃。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Sender Timestamp和 Sender Error Estimate</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">这两个字段是从Session-Sender的检测报文的对应字段里复制过来的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Sender TTL</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">Session-Sender发送的检测报文的Sender TTL设置为255。Session-Reflector发送的检测报文里的Sender
+TTL设置为IP报文头的TTL值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Receive Timestamp</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">表示Session-Reflector接收到检测报文的时间。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Sender Sequence Number</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">发送序列号是从Session-Sender发送的报文的序列号复制的。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">HMAC</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 ">TWAMP测量报文的HMAC字段包含了AES（Advanced Encryption Standard）加密的字段，所以在认证模式下，HMAC包含了第1个块（16字节）。在加密模式下，HMAC包含了前6个块（96字节）。TWAMP测量报文中，HMAC字段不能被加密。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10%" headers="mcps1.2.5.4.1.3.1.1 ">Packet Padding</td>
+
+<td class="cellrowborder" valign="top" width="90%" headers="mcps1.2.5.4.1.3.1.2 "><p>TWAMP测量报文的报文填充字段。该字段不能被加密。</p>
+<p>TWAMP测量报文的数据段在非认证模式时最小长度为41字节，认证模式或加密模式下最小长度为104字节。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.6.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.6.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 5357</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.6.2.1.3.1.2 ">Two-Way Active Measurement Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.6.2.1.3.1.1 ">RFC 4656</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.6.2.1.3.1.2 ">A One-way Active Measurement Protocol (OWAMP)</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

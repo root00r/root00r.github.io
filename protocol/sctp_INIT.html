@@ -1,0 +1,168 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP INIT数据块格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_34">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP INIT数据块格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_34"></a><a name="icmp_message_format_34"></a>
+
+
+<h1 class="topictitle1">SCTP INIT数据块格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">Initiation (INIT)数据块格式</h4><p>该数据块用来启动两个SCTP端点间的一个偶联，其格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>SCTP INIT数据块格式</span>
+
+<br><span><img src="image/sctp-format-general-INIT.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.333333333333334%" id="mcps1.3.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.333333333333334%" id="mcps1.3.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.33333333333333%" id="mcps1.3.1.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">启动标签</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 ">INIT的接收方(响应端)记录启动标签参数的值。这个值必须被放置到INIT的接收方发送的与该偶联相关的每个SCTP分组中的验证标签字段中。启动标签允许除0以外的的任何值。如果在收到的INIT数据块中的启动标签为0，则接收方必须作为错误处理，并且发送ABORT数据块中止该偶联。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">A通告的接收方窗口信用(a_rwnd)</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 ">表示指定的缓冲区的容量，用字节数表示，为INIT发送方为偶联预留的窗口大小。在偶联存活期间，这个缓冲区的容量不应减少(即不应把该偶联的专用缓冲区取走)，但端点可以在发送的SACK数据块中修改a_rwnd的值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">输出流数量</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 ">用来定义发送INIT数据块的一方希望在该偶联中创建的输出流的数量。该值不允许为0，接收方收到该参数为0的INIT数据块后应中止该偶联。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">输入流数量</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">16比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 ">定义了发送这个INIT块的一方允许对端在该偶联中所创建的流的数量。该值不允许为0，接收方收到该参数为0的INIT数据块后应中止该偶联。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">初始的TSN</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">32比特无符号整数</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 ">定义发送方将使用的初始的TSN，该值可以设置为启动标签字段的值。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.333333333333334%" headers="mcps1.3.1.4.1.4.1.1 ">任选／可变长参数</td>
+
+<td class="cellrowborder" valign="top" width="11.333333333333334%" headers="mcps1.3.1.4.1.4.1.2 ">可变长度</td>
+
+<td class="cellrowborder" valign="top" width="76.33333333333333%" headers="mcps1.3.1.4.1.4.1.3 "><ul><li><p>IPv4地址参数(5)</p>
+<p><span><img src="image/sctp-format-general-INIT-Type5.png"></span></p>
+<p>IPv4地址（32bit无符号整数）：包含发送方端点的IPv4地址，采用二进制编码。</p>
+</li><li><p>IPv6地址参数(6) </p>
+<p><span><img src="image/sctp-format-general-INIT-Type6.png"></span></p>
+<p>IPv6地址(128bit的无符号整数)：包含发送方端点的IPv6地址，采用二进制编码。发送方不必把IPv4地址映射到IPv6地址中，可以直接在IPv4地址参数中使用IPv4地址。</p>
+</li><li><p>防止Cookie过期参数(9) </p>
+<p>INIT的发送方应使用这个参数来建议INIT的接收方提供较长存活跨度的状态CooKIE。</p>
+<p><span><img src="image/sctp-format-general-INIT-Type9.png"></span></p>
+<p>建议的COOKIE存活跨度增量(32bit的无符号整数)，该参数用来向接收方指示发送方希望接收方为其缺省的COOKIE的存活跨度增加的毫秒数。</p>
+<p>由于失效的cookie操作差错原因，前一次尝试与对等端建立偶联失败后，又重新尝试偶联建立时，这个任选参数应能由发送方添加到INIT数据块中。接收方出于安全的考虑可以选择忽略建议的COOKIE存活跨度增量。</p>
+</li><li><p>主机名地址(11)</p>
+<p>INIT发送方使用这个参数把其主机名(在其IP地址的位置中)传递到对等层。这个对等层负责解析这个主机名，用这个参数可以使偶联工作通过NAT
+box进行工作。</p>
+<p><span><img src="image/sctp-format-general-INIT-Type11.png"></span></p>
+<p>主机名：可变长度，该字段包含了按照RFC1123规定的“主机名句法”定义的主机名，主机名地址的解析不在本标准中规定，该参数中至少有一个非空的中止符包含在主机名字符串中，并且应包含长度。</p>
+</li><li><p>支持的地址类型(12) </p>
+<p>INIT的发送方使用该参数列出其所支持的全部地址类型。</p>
+<p><span><img src="image/sctp-format-general-INIT-Type12.png"></span></p>
+<p>地址类型(16bit无符号整数)：该参数使用对应的地址类型的类型值(例如：IPv4=5，IPv6=6，主机名=11)。</p>
+</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SCTP-example-INIT.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

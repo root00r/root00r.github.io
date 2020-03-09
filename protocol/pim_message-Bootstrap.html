@@ -1,0 +1,224 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PIM Bootstrap消息格式">
+<meta name="DC.Relation" scheme="URI" content="../message/pim_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_18">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PIM Bootstrap消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_18"></a><a name="bgp_message_format_18"></a>
+
+
+<h1 class="topictitle1">PIM Bootstrap消息格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">Bootstrap消息</h4><p>当PIM-SM网络中使用动态RP时，配置了C-BSR的路由器从所有PIM接口周期性的发送Bootstrap消息，参与BSR竞选。竞选获胜者，继续发送Bootstrap消息，向域内所有PIM路由器发布RP-Set信息。 </p>
+<p>Bootstrap消息只在PIM-SM中使用。 </p>
+<p>封装Bootstrap消息的IP报文源地址为C-BSR地址，目的地址为224.0.0.13，使用组播方式发送。TTL为1，在PIM-SM网络中逐跳转发，最终达到全网泛滥。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Bootstrap消息格式</span>
+
+<br><span><img src="image/pim-format-bootstrap.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>Group-RP Record字段格式</span>
+
+<br><span><img src="image/pim-format-group-rp-record.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="10.416633750967721%" id="mcps1.2.1.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="10.416633750967721%" id="mcps1.2.1.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="79.16673249806455%" id="mcps1.2.1.7.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">PIM版本，值为2。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">消息类型，值为4。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Fragment Tag</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">随机数，用来区分Bootstrap消息。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Hash Mask length</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-BSR的Hash掩码长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">BSR-priority</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-BSR优先级。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">BSR-Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-BSR地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">组播组地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">RP-Count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">希望为该组服务的C-RP的总数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">Frag RP-Cnt</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">在本段内包含的C-RP地址的个数。对于一个给定的组来说，如果Bootstrap消息分片，Frag
+RP-Cnt字段便于将RP-Set分片。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">RP-address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-RP的地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">RP-holdtime</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-RP发出的advertisement消息的老化时间，表示C-RP的有效时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.1 ">RP-Priority</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.416633750967721%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.16673249806455%" headers="mcps1.2.1.7.1.4.1.3 ">C-RP的优先级。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>PIM Bootstrap消息</span>
+
+<br><span><img src="image/pim-example-v4-bootstrap.png"></span>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4601</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Sparse Mode (PIM-SM):Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3973</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Dense Mode （PIM-DM）:Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4607</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Source-Specific Multicast for IP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="pim_message.html">PIM报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div> <div class="hwcopyright">2016 &copy</div></body>
+</html>

@@ -1,0 +1,409 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="DHCP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_2">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>DHCP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_2"></a><a name="rrpp_message_format_2"></a>
+
+
+<h1 class="topictitle1">DHCP报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>DHCP报文是承载于UDP上的高层协议报文，采用67（DHCP服务器）和68（DHCP客户端）两个端口号。</p>
+<p>DHCP的报文格式如下图所示。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>DHCP报文格式</span>
+
+<br><span><img src="image/dhcp-format.png"></span></div>
+<p>DHCP报文中各字段的含义：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="6%" id="mcps1.2.1.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="9.000000000000002%" id="mcps1.2.1.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="85%" id="mcps1.2.1.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">OP </td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">1字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 "><p>表示报文的类型：</p>
+<ul><li>1：客户端请求报文</li><li>2：服务器响应报文</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">htype</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">1字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">表示硬件地址的类型。对于以太网，该类型的值为“1”。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">hlen</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">表示硬件地址的长度，单位是字节。对于以太网，该值为6。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">Hops </td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">1字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">跳数。客户端设置为0，也能被一个代理服务器设置。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">xid</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">4字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">事务ID，由客户端选择的一个随机数，被服务器和客户端用来在它们之间交流请求和响应，客户端用它对请求和应答进行匹配。该ID由客户端设置并由服务器返回，为32位整数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">secs</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">2字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">由客户端填充，表示从客户端开始获得IP地址或IP地址续借后所使用了的秒数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">flags</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">2字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 "><p>此字段在BOOTP中保留未用，在DHCP中表示标志字段。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>Flags字段格式</span>
+
+<br><span><img src="image/dhcp-format-flags.png"></span></div>
+<p>只有标志字段的最高位才有意义，其余的位均被置为0。</p>
+<p>最左边的字段被解释为广播响应标志位，内容如下所示：</p>
+<ul><li>0：客户端请求服务器以单播形式发送响应报文</li><li>1：客户端请求服务器以广播形式发送响应报文</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">ciaddr</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">4字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">客户端的IP地址。只有客户端是Bound、Renew、Rebinding状态，并且能响应ARP请求时，才能被填充。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">yiaddr</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">4字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">"你自己的"或客户端的IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">siaddr</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">表明DHCP协议流程的下一个阶段要使用的服务器的IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">giaddr</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">4字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">该字段表示第一个DHCP中继的IP地址（注意：不是地址池中定义的网关）。当客户端发出DHCP请求时，如果服务器和客户端不在同一个网络中，那么第一个DHCP中继在转发这个DHCP请求报文时会把自己的IP地址填入此字段。服务器会根据此字段来判断出网段地址，从而选择为用户分配地址的地址池。服务器还会根据此地址将响应报文发送给此DHCP中继，再由DHCP中继将此报文转发给客户端。<p>若在到达DHCP服务器前经过了不止一个DHCP中继，那么第一个DHCP中继后的中继不会改变此字段，只是把Hops的数目加1。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">chaddr</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">16字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">该字段表示客户端的MAC地址，此字段与前面的“Hardware Type”和“Hardware Length”保持一致。当客户端发出DHCP请求时，将自己的硬件地址填入此字段。对于以太网，当“Hardware
+Type”和“Hardware Length”分别为“1”和“6”时，此字段必须填入6字节的以太网MAC地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">sname</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">64字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">该字段表示客户端获取配置信息的服务器名字。此字段由DHCP Server填写，是可选的。如果填写，必须是一个以0结尾的字符串。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">file</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">128字节 </td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">该字段表示客户端的启动配置文件名。此字段由DHCP Server填写，是可选的，如果填写，必须是一个以0结尾的字符串。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6%" headers="mcps1.2.1.6.1.4.1.1 ">options</td>
+
+<td class="cellrowborder" valign="top" width="9.000000000000002%" headers="mcps1.2.1.6.1.4.1.2 ">可变</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.1.6.1.4.1.3 ">该字段表示DHCP的选项字段，至少为312字节，格式为"代码+长度+数据"。DHCP通过此字段包含了服务器分配给终端的配置信息，如网关IP地址，DNS服务器的IP地址，客户端可以使用IP地址的有效租期等信息。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">DHCP Options</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="6.666666666666667%" id="mcps1.2.2.2.1.4.1.1">Option id</th>
+
+<th class="cellrowborder" valign="top" width="8.333333333333332%" id="mcps1.2.2.2.1.4.1.2">长度(字节）</th>
+
+<th class="cellrowborder" valign="top" width="85%" id="mcps1.2.2.2.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">1</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Subnet Mask</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">3</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n*4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Router(网关）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">6</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n*4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">DNS Server</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">7</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n*4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Log Server</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">26</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">2</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Interface MTU</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">33</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n*8</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Static route</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">35</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">ARP cache timeout</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">42</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n*4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">NTP servers</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">51</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">IP address lease time</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">53</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">1</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">Message type：<ul><li>1-DHCPDISCOVER</li><li>2-DHCPOFFER</li><li>3-DHCPREQUEST</li><li>4-DHCPDECLINE</li><li>5-DHCPACK</li><li>6-DHCPNAK</li><li>7-DHCPRELEASE</li><li>8-DHCPINFORM</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">54</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">4</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">DHCP Server Identifier</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">60</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">华为自定义：可配置该终端设备在发起DHCP请求时，通过Option 60携带域信息。收到DHCP报文时，可根据Option
+60中携带的域信息来分配IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="6.666666666666667%" headers="mcps1.2.2.2.1.4.1.1 ">82</td>
+
+<td class="cellrowborder" valign="top" width="8.333333333333332%" headers="mcps1.2.2.2.1.4.1.2 ">n</td>
+
+<td class="cellrowborder" valign="top" width="85%" headers="mcps1.2.2.2.1.4.1.3 ">华为自定义：作为DHCP Relay，在中继用户DHCP报文时，可在Option 82中填写用户的物理位置信息，通知DHCP服务器按物理位置信息对为用户分配IP地址。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>DHCP报文格式（discover阶段）</span>
+
+<br><span><img src="image/DHCP-discovery.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>DHCP报文格式（offer阶段）</span>
+
+<br><span><img src="image/DHCP-offer.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>DHCP报文格式（request阶段）</span>
+
+<br><span><img src="image/DHCP-request.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>DHCP报文格式（ACK阶段）</span>
+
+<br><span><img src="image/DHCP-ACK.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="13.5%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="86.5%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 951</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Bootstrap Protocol (BOOTP)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 1542</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Clarifications and Extensions for the Bootstrap Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2131</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">Dynamic Host Configuration Protocol</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="13.5%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2132</td>
+
+<td class="cellrowborder" valign="top" width="86.5%" headers="mcps1.2.4.2.1.3.1.2 ">DHCP Options and BOOTP Vendor Extensions</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

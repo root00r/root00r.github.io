@@ -1,0 +1,249 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PPP帧格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ppp_message_encapsulation_format">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PPP帧格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ppp_message_encapsulation_format"></a><a name="ppp_message_encapsulation_format"></a>
+
+
+<h1 class="topictitle1">PPP帧格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">帧格式</h4><p>PPP帧的内容是指Address、Control、Protocol和Information四个域的内容。各字段的含义如下。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>PPP帧格式</span>
+
+<br><span><img src="image/PPP-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="15.333333333333336%" id="mcps1.2.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="6.999999999999999%" id="mcps1.2.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="77.66666666666667%" id="mcps1.2.1.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Flag</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">Flag域标识了一个物理帧的起始和结束，该字节为0x7E。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Address</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">PPP协议室被运用在点对点的链路上，它可唯一标识对方，因此无须知道对方数据链路层地址。所以该字节无任何意义，按协议规定填充为全1广播地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Control</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">同Address域一样，PPP数据帧的Control域也没实际意义，规定值为0x03，该域与Address域一起标识了PPP报文，即PPP报文头为FF03。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Protocol</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节或2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">协议域，可用来区分PPP数据帧中信息域所承载的数据报文的内容。协议域的内容必须依据ISO 3309的地址扩展机制所给出的规定。该机制规定协议域所填充的内容必须为奇数，也就是要求低字节的最低位为“1”，高字节的最低位为“0”。如果当发送端发送的PPP数据帧的协议域字段不符合上述规定，接收端则会认为此数据帧是不可识别的。接收端向发送端发送一个Protocol-Reject报文，在该报文尾部将填充被拒绝报文的协议号。<ul><li>0021: IP报文</li><li>002b: Novell IPX</li><li>002d: Van Jacobson Compressed TCP/IP</li><li>002f: Van Jacobson Uncompressed TCP/IP</li><li>0057: IPV6报文</li><li>8021: IPCP报文</li><li>802b: Novell IPX Control Protocol</li><li>8031: Bridging NC</li><li>8057: IPv6 CP报文</li><li>C021: LCP报文</li><li>C023: Password Authentication Protocol</li><li>C223: Challenge Handshake Authentication Protocol</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Information</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">0~1500字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 "><p>信息域最大长度是1500字节，其中包括填充域的内容。信息域的最大长度等于PPP协议中MRU（Maximum Receive
+Unit）的缺省值。在实际应用当中可根据实际需要进行信息域最大封装长度选项的协商。</p>
+<p>如果信息域长度不足1500字节，可被填充，但不是必须的。如果填充则需通信双方的两端能辨认出有用与无用的信息方可正常通信。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">FCS</td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">0/1/2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 "><p>FCS域计算范围是除了flag域的其他域。</p>
+<p>校验域的功能主要对PPP数据帧传输的正确性进行检测。</p>
+<p>在数据帧中引入了一些传输的保证机制，会引入更多的开销，这样可能会增加应用层交互的延迟。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Code </td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">代码域，主要是用来标识LCP数据报文的类型。在链路建立阶段，接收方接收到LCP数据报文。当其代码域的值无效时，就会向对端发送一个LCP的代码拒绝报文（Code-Reject报文）。
+如果是IP报文，则不存在此域，取而代之的是IP报文内容。 <p>常见Code值如下：</p>
+<p>         0x01: Configure-Request</p>
+<p>         0x02: Configure-Ack</p>
+<p>         0x03: Configure-Nak</p>
+<p>         0x04: Configure-Reject</p>
+<p>         0x05: Terminate-Request</p>
+<p>         0x06: Terminate-Ack</p>
+<p>         0x07: Code-Reject</p>
+<p>         0x08: Protocol-Reject</p>
+<p>         0x09: Echo-Request</p>
+<p>         0x0a: Echo-Replyt</p>
+<p>         0x0b: Discard-Request</p>
+<p>         0x0c: Reserved</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Identifier </td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 "><p>标识域的值表示进行协商报文的匹配关系。 标识域目的是用来匹配请求和响应报文。</p>
+<p>一般而言，在进入链路建立阶段时，通信双方任何一端都会连续发送几个配置请求报文（Configure-Request报文）。这几个请求报文的数据域的值可能是完全一样的，只是它们的标志域不同。</p>
+<p>通常一个配置请求报文的ID是从0x01开始逐步加1的。</p>
+<p>当对端接收到该配置请求报文后，无论使用何种报文回应对方，但必须要求回应报文中的ID要与接收报文中的ID一致。当通信设备收到回应后就可以将该回应与发送时的进行比较来决定下一步的操作。 </p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Length </td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 "><p>长度域表示此协商报文长度，它包含Code域及Identifier域的长度。长度域的值就是该LCP报文的总字节数据。它是代码域、标志域、长度域和数据域四个域长度的总和。 </p>
+<p>长度域所指示字节数之外的字节将被当作填充字节而忽略掉，而且该域的内容不能超过MRU的值。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.1.4.1.4.1.1 ">Data </td>
+
+<td class="cellrowborder" valign="top" width="6.999999999999999%" headers="mcps1.2.1.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="77.66666666666667%" headers="mcps1.2.1.4.1.4.1.3 ">数据域所包含的是协商报文的内容。<ul><li><p>Type为协商选项类型。 常见Type中的协商类型值：</p>
+<p>         0x01: Maximum-Receive-Unit</p>
+<p>         0x02: Async-Control-Character-Map</p>
+<p>         0x03:
+Authentication-Protocol</p>
+<p>         0x04: Quality-Protocol</p>
+<p>         0x05: Magic-Number</p>
+<p>         0x06: RESERVED</p>
+<p> 
+       0x07: Protocol-Field-Compression</p>
+<p>         0x08: Address-and-Control-Field-Compression</p>
+</li><li>Length为协商选项长度，它是指Data域的总长度，也就是包含Type、Length和Data。</li><li>Data为协商的选项具体内容。</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="21.936507936507933%" id="mcps1.2.2.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" align="center" valign="top" width="78.06349206349206%" id="mcps1.2.2.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC 1661</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">The Point-to-Point Protocol （PPP）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC 1055</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">A NONSTANDARD FOR TRANSMISSION OF IP DATAGRAMS OVER SERIAL
+LINES: SLIP</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC 1144</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">Compressing TCP/IP headers for low-speed serial links</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC1717</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">The PPP Multilink Protocol (MP)</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC1332</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">The PPP Internet Protocol Control Protocol （IPCP）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="21.936507936507933%" headers="mcps1.2.2.2.1.3.1.1 ">RFC1962</td>
+
+<td class="cellrowborder" valign="top" width="78.06349206349206%" headers="mcps1.2.2.2.1.3.1.2 ">The PPP Compression Control Protocol （CCP）</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

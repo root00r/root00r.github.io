@@ -1,0 +1,168 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="OSPF Hello报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/ospf_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ospf_message_format_3">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>OSPF Hello报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="ospf_message_format_3"></a><a name="ospf_message_format_3"></a>
+
+
+<h1 class="topictitle1">OSPF Hello报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>Hello报文是最常用的一种报文，其作用为建立和维护邻接关系，周期性的在使能了OSPF的接口上发送。报文内容包括一些定时器的数值、DR、BDR以及自己已知的邻居。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>OSPF Hello报文格式</span>
+
+<br><span><img src="image/ospf-packet-hello.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12%" id="mcps1.2.1.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="22.666666666666668%" id="mcps1.2.1.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="65.33333333333333%" id="mcps1.2.1.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Network Mask</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">发送Hello报文的接口所在网络的掩码。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">HelloInterval</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">发送Hello报文的时间间隔。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Options</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">可选项：<ul><li>E：允许Flood AS-External-LSAs </li><li>MC：转发IP组播报文 </li><li>N/P：处理Type-7 LSAs </li><li>DC：处理按需链路</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Rtr Pri</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">DR优先级。默认为1。如果设置为0，则路由器不能参与DR或BDR的选举。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">RouterDeadInterval</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">失效时间。如果在此时间内未收到邻居发来的Hello报文，则认为邻居失效。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Designated Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">DR的接口地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Backup Designated Router</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">BDR的接口地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12%" headers="mcps1.2.1.4.1.4.1.1 ">Neighbor</td>
+
+<td class="cellrowborder" valign="top" width="22.666666666666668%" headers="mcps1.2.1.4.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" valign="top" width="65.33333333333333%" headers="mcps1.2.1.4.1.4.1.3 ">邻居，以Router ID标识。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>OSPF Hello</span>
+
+<br><span><img src="image/ospf-example-hello.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC2328</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">OSPF Version 2</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="ospf_message.html">OSPF报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

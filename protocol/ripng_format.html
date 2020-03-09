@@ -1,0 +1,186 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="RIPng的报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_25">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>RIPng的报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_25"></a><a name="rrpp_message_format_25"></a>
+
+
+<h1 class="topictitle1">RIPng的报文格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>RIPng报文由头部（Header）和多个路由表项RTEs（Route
+Table Entry）组成。在同一个RIPng报文中，RTE的最大数目根据接口的MTU值来确定。</p>
+<p><span><img src="image/ripng1.png"></span></p>
+<p>RIPng报文各字段解释如下表：</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="14.285714285714285%" id="mcps1.2.1.5.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" valign="top" width="5.647840531561462%" id="mcps1.2.1.5.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="80.06644518272425%" id="mcps1.2.1.5.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="14.285714285714285%" headers="mcps1.2.1.5.1.4.1.1 ">Command </td>
+
+<td class="cellrowborder" valign="top" width="5.647840531561462%" headers="mcps1.2.1.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.2.1.5.1.4.1.3 ">标识报文的类型：<ul><li>1：Request报文，向邻居请求全部或部分路由信息</li><li>2：Reponse报文，发送自己全部或部分路由信息。路由条目与链路MTU有关。</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.285714285714285%" headers="mcps1.2.1.5.1.4.1.1 ">Version </td>
+
+<td class="cellrowborder" valign="top" width="5.647840531561462%" headers="mcps1.2.1.5.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.2.1.5.1.4.1.3 ">RIPng的版本号：其值为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.285714285714285%" headers="mcps1.2.1.5.1.4.1.1 ">Must be zero </td>
+
+<td class="cellrowborder" valign="top" width="5.647840531561462%" headers="mcps1.2.1.5.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.2.1.5.1.4.1.3 ">必须为零字段。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="14.285714285714285%" headers="mcps1.2.1.5.1.4.1.1 ">RTE（Route table entry）</td>
+
+<td class="cellrowborder" valign="top" width="5.647840531561462%" headers="mcps1.2.1.5.1.4.1.2 ">20字节</td>
+
+<td class="cellrowborder" valign="top" width="80.06644518272425%" headers="mcps1.2.1.5.1.4.1.3 ">路由表项。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>RIPng有两类RTE，分别是：</p>
+<ul><li><p>下一跳RTE：位于一组具有相同下一跳的“IPv6前缀RTE”的最前面，它定义了下一跳的IPv6地址。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>下一跳RTE格式</span>
+
+<br><span><img src="image/RIPng_RTE-1.png"></span></div>
+</li><li><p>IPv6前缀RTE：位于某个“下一跳RTE”的后面，同一个“下一跳RTE”的后面可以有多个不同的“IPv6前缀RTE”。它描述了RIPng路由表中的目的IPv6地址及开销。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>IPv6前缀RTE格式</span>
+
+<br><span><img src="image/RIPng_RTE-2.png"></span></div>
+</li></ul>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="8.60840108401084%" id="mcps1.2.1.8.1.4.1.1">字段名</th>
+
+<th class="cellrowborder" align="center" valign="top" width="4.849593495934959%" id="mcps1.2.1.8.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="86.5420054200542%" id="mcps1.2.1.8.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="8.60840108401084%" headers="mcps1.2.1.8.1.4.1.1 ">IPv6 prefix</td>
+
+<td class="cellrowborder" align="left" valign="top" width="4.849593495934959%" headers="mcps1.2.1.8.1.4.1.2 ">16字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.5420054200542%" headers="mcps1.2.1.8.1.4.1.3 ">目的IPv6地址的前缀。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="8.60840108401084%" headers="mcps1.2.1.8.1.4.1.1 ">Route tag</td>
+
+<td class="cellrowborder" align="left" valign="top" width="4.849593495934959%" headers="mcps1.2.1.8.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.5420054200542%" headers="mcps1.2.1.8.1.4.1.3 ">路由标记，用来区分外部路由。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="8.60840108401084%" headers="mcps1.2.1.8.1.4.1.1 ">Prefix len</td>
+
+<td class="cellrowborder" align="left" valign="top" width="4.849593495934959%" headers="mcps1.2.1.8.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.5420054200542%" headers="mcps1.2.1.8.1.4.1.3 ">IPv6地址的前缀长度。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="8.60840108401084%" headers="mcps1.2.1.8.1.4.1.1 ">Metric</td>
+
+<td class="cellrowborder" align="left" valign="top" width="4.849593495934959%" headers="mcps1.2.1.8.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="86.5420054200542%" headers="mcps1.2.1.8.1.4.1.3 ">路由的度量值（开销）。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="18.928746928746932%" id="mcps1.2.2.2.1.3.1.1">文档编号</th>
+
+<th class="cellrowborder" align="center" valign="top" width="81.07125307125307%" id="mcps1.2.2.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="18.928746928746932%" headers="mcps1.2.2.2.1.3.1.1 ">RFC 2080</td>
+
+<td class="cellrowborder" align="left" valign="top" width="81.07125307125307%" headers="mcps1.2.2.2.1.3.1.2 ">RIPng for IPv6</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

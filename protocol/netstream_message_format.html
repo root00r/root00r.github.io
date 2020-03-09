@@ -1,0 +1,517 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="NetStream报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_5">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>NetStream报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_5"></a><a name="bgp_message_format_5"></a>
+
+
+<h1 class="topictitle1">NetStream报文格式</h1>
+
+<div>
+<p>NetStream是华为公司的专利技术，是一种基于网络流信息的统计与发布技术。NetStream可以对网络中的通信量和资源使用情况进行分类和统计，实现对各种业务和不同的QoS进行管理和计费。 </p>
+
+<p>目前Netstream输出的报文主要有5、8、9三个版本，其他的版本处于实验阶段，没有商用。所有的版本都是通过UDP协议传递统计信息的。每个数据包都包括一个Packet
+Header再加上一条或者几条流的记录信息。</p>
+
+<span><img src="image/netstream-format-udp.png"></span>
+<p>NetStream原始流输出报文支持版本5和版本9两种报文格式，聚合流输出支持版本8和版本9两种报文格式。</p>
+
+<div class="section"><h4 class="sectiontitle">NetStream版本5报文头格式</h4><div class="fignone"><span class="figcap"><b>图1 </b>版本5报文头格式</span>
+
+<br><span><img src="image/netstream-format-v5.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="7.714150496923805%" id="mcps1.2.5.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="7.714150496923805%" id="mcps1.2.5.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="84.57169900615239%" id="mcps1.2.5.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">NS_ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">NetStream的标识位，第7个比特位0，表示入接口统计报文，第7个比特位1，表示出接口统计报文</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">NetStream输出报文格式版本编号，对于V5，为0x05。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">当前报文中的流记录数（1-30）</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">SysUptime</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">报文产生的时间，是系统启动以来的毫秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">unix_secs</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">从1970年1月1日0时起，到报文产生时间的整秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">unix_nsecs</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">报文产生时间的纳秒数，也即不足一秒的余下的纳秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">flow_sequence</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">输出的流记录的顺序号<pre class="screen">在第一个NetStream报文中，此值为0，count = c1，
+在第二个NetStream报文中，此值为c1，count = c2，
+在第三个NetStream报文中，此值为c2 + c1，
+…
+在第n &#8211; 1 个NetStream报文中，此值为fs(n - 1)，count = c(n - 1)
+在第n个NetStream报文中，此值为fs(n - 1) + c(n - 1)。
+利用此值可以判断报文是否丢失。
+当流序列号溢出时，按自然溢出继续进行。
+</pre>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">engine_type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">流交换引擎类型</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">engine_id</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">交换引擎槽号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.1 ">reserved</td>
+
+<td class="cellrowborder" align="left" valign="top" width="7.714150496923805%" headers="mcps1.2.5.3.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="84.57169900615239%" headers="mcps1.2.5.3.1.4.1.3 ">保留字段，全零</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>版本5包括以下信息：</p>
+<ul><li>时间信息：流建立的时间、流结束的时间</li><li>统计信息：包计数、字节计数</li><li>协议信息：协议类型</li><li>路由信息：目的IP、源IP、下一跳IP、目的IP掩码长度、源IP掩码长度、源AS域编号、目的AS域编号</li><li>接口信息：入接口、出接口</li><li>传输层信息：源端口号、目的端口号、TCP Flags</li><li>服务等级信息：ToS</li></ul>
+</div>
+
+<div class="section"><h4 class="sectiontitle">NetStream版本8报文头</h4><div class="fignone"><span class="figcap"><b>图2 </b>版本8报文头格式</span>
+
+<br><span><img src="image/netstream-format-v8.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="11.11755687233249%" id="mcps1.2.6.3.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="11.11755687233249%" id="mcps1.2.6.3.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="77.76488625533501%" id="mcps1.2.6.3.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">NS_ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">NetStream的标识位</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">NetStream输出报文格式版本编号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">当前报文中的流记录数，而不是流的总数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">SysUptime</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">报文产生的时间，是系统启动以来的毫秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">unix_secs</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">从1970年1月1日0时起，到报文产生时间的整秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">unix_nsecs</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">报文产生时间的纳秒数，也即不足一秒的余下的纳秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">flow_sequence</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">输出的流记录的顺序号，</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">engine_type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">流交换引擎类型</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">engine_id</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">交换引擎槽号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">aggregation</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">聚合策略，分别如下：<ul><li>AS：0x01</li><li>Protocol-Port：0x02</li><li>rc-Prefix：0x03</li><li>Dst-Prefix：0x04</li><li>SPrefix：0x05</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">Agg_version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">聚合版本</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.11755687233249%" headers="mcps1.2.6.3.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.76488625533501%" headers="mcps1.2.6.3.1.4.1.3 ">保留字段，全零</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>版本8通过AS域聚合，这种聚合方式主要统计在一个路由器上从一个AS域到另一个AS域的包和字节信息。可以用以运营商之间结算。每个记录包括以下信息：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>AS自治域信息：源AS域编号、目的AS域编号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>通过协议类型聚合，这种方式针对四层的协议类型（对于TCP和UDP，还包括源和目的端口号）进行聚合。每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>协议信息：协议类型、源端口号、目的端口号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>根据源IP和目的IP的前缀进行聚合，这种方式下，源IP地址的前缀部分和目的IP地址的前缀部分都参与聚合。每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>IP地址信息：源IP前缀、源AS域编号、目的IP前缀、目的AS域编号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>TOS＋AS域的方式进行流聚合，每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>ToS + AS信息：IP头的Tos、源AS域编号、目的AS域编号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>按照TOS加协议类型的聚合，每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>ToS + 协议信息：IP头的Tos、协议类型、源端口号、目的端口号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>IP地址前缀＋TOS＋协议类型的聚合，每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>IP信息：IP头的Tos、源前缀、目的前缀</li><li>协议信息：协议类型、源端口号、目的端口号</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>TOS＋源IP前缀的聚合，每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>ToS + 源IP信息：IP头的Tos、源前缀、源AS域编号、入接口</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+<p>TOS＋目的IP前缀的聚合（和TOS＋源IP前缀的聚合方式的方式类似），每个记录包括：</p>
+<ul><li>时间信息：流建立时间、流结束时间</li><li>统计信息：包计数、字节计数</li><li>接口信息：入接口、出接口</li><li>ToS + 目的IP信息：IP头的Tos、目的前缀、源前缀</li><li>构成聚合流的流总数：聚合流的总数</li></ul>
+</div>
+
+<div class="section"><h4 class="sectiontitle">版本9报头格式</h4><p>版本9最显著的特点是基于模板的方式，使统计信息的输出更为灵活，而且更容易扩展新的定义流的元素以及生成新的记录。使用版本9可以实现NAT、组播、MPLS、BGP下一跳的统计。 </p>
+<div class="fignone"><span class="figcap"><b>图3 </b>版本9报头格式</span>
+
+<br><span><img src="image/netstream-format-v9.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="11.266469481043291%" id="mcps1.2.7.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="11.266469481043291%" id="mcps1.2.7.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="77.46706103791342%" id="mcps1.2.7.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">NS_ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">NetStream的标识位</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">1字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">NetStream输出报文格式版本编号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">count</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">该报文包含的FlowSet records(包括Template和Data)数目</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">SysUptime</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">报文产生的时间，是系统启动以来的毫秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">UNIX Seconds</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">从1970年1月1日0时起，到报文产生时间的整秒数</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">Sequence Number</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">所有输出报文的顺序号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.1 ">Source ID</td>
+
+<td class="cellrowborder" align="left" valign="top" width="11.266469481043291%" headers="mcps1.2.7.4.1.4.1.2 ">4字节</td>
+
+<td class="cellrowborder" align="left" valign="top" width="77.46706103791342%" headers="mcps1.2.7.4.1.4.1.3 ">用来保证从一台路由器中输出的所有流的唯一性(Source ID等同于V5、V8报文头中的engine
+type和engine ID)。该值可以由用户定义。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>版本9报文有两种输出情况：</p>
+<ul><li><p>Export Packet中仅有Template FlowSet。在用户使能NetStream功能，对流量进行采集时，为了使网管能够正确的解析流量，系统会向NSC发送模板。为了保证网管可靠的对接收到流量统计信息进行解析，设备会定时重新发送模板给NSC。另外，模板具有有效时间，超过有效时间NSC会删除超时的模板，因此，需要定时的发送Template
+FlowSet到NSC，如果需要发送的时候没有Data FlowSet生成，则此时只发送Template FlowSet。报文格式如下：</p>
+<span><img src="image/netstream-format-v9-export1.png"></span></li><li><p>Export Packet中仅有Data FlowSet。如果Template ID都已经定义好了，使能NetStream的路由器传递给NSC的Export
+Packet一般属于这种情况。报文格式如下：</p>
+<span><img src="image/netstream-format-v9-export2.png"></span></li></ul>
+<p>Template FlowSet和Data FlowSet是独立的。Data FlowSet中的Data Record由collector已知的模板解释（换句话说，NSC已经知道了Data
+Record中的Template ID对应的模板了）。而Template FlowSet是告诉NSC一个即将被使用的模板，NSC使用这个模板的时候只能是针对后续的Export
+Packet。</p>
+<p>Template FlowSet是版本9的灵魂。使用模板后，NSC的程序无需预先设置好按照什么样的格式解析Export
+Packet，只需做成通用的方式，然后通过路由器发过来的模板来解释流记录的信息。模板极大的增强了NetStream流记录的灵活性和可扩展性，方便了第三方软件的开发，和后续NetStream功能的增强。</p>
+<div class="fignone"><span class="figcap"><b>图4 </b>Template FlowSet的格式</span>
+
+<br><span><img src="image/netstream-format-v9-template-flowset.png"></span>
+</div>
+<div class="fignone"><span class="figcap"><b>图5 </b>Data FlowSet的格式</span>
+
+<br><span><img src="image/netstream-format-v9-data-flowset.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="11.258278145695364%" id="mcps1.2.7.11.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="11.258278145695364%" id="mcps1.2.7.11.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="77.48344370860927%" id="mcps1.2.7.11.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.1 ">FlowSet ID</td>
+
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.48344370860927%" headers="mcps1.2.7.11.1.4.1.3 ">用于在Export Packet中对Template FlowSet进行编号，同时区分出Template FlowSet和Data
+FlowSet。对于Template FlowSet，FlowSet ID的取值是0～255，对于Data FlowSet，取值从256开始，这样collector就可以在Export
+Packet中识别出Template FlowSet。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.48344370860927%" headers="mcps1.2.7.11.1.4.1.3 ">用于决定下一个FlowSet的其实位置，取值是上面图中全部的字节数（包括FlowSet ID和Length自身）。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.1 ">Template ID</td>
+
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.48344370860927%" headers="mcps1.2.7.11.1.4.1.3 ">为模板定义一个编号，取值从256开始，原因是0～255被FlowSet ID所用。注意一个Data FlowSet对应一个Template
+ID  Field count表示模板中type的总个数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.1 ">Field type</td>
+
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.48344370860927%" headers="mcps1.2.7.11.1.4.1.3 ">表示类型的名称，这个字段的解释router和collector必须约定好。比如如果支持按照目的IP地址、协议类型、TOS和MPLS标签进行统计，则这四种信息都有一个type的定义。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.1 ">Field length</td>
+
+<td class="cellrowborder" valign="top" width="11.258278145695364%" headers="mcps1.2.7.11.1.4.1.2 ">2字节</td>
+
+<td class="cellrowborder" valign="top" width="77.48344370860927%" headers="mcps1.2.7.11.1.4.1.3 ">对应的type的长度，对于目的IP地址，取值是4，表示4个字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.8.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.8.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.8.2.1.3.1.1 ">RFC 3954</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.8.2.1.3.1.2 ">Cisco Systems NetFlow Services Export Version</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

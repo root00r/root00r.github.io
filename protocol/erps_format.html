@@ -1,0 +1,290 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="ERPS帧格式">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="dc_vrp_erps_feature_new_0025">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>ERPS帧格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="dc_vrp_erps_feature_new_0025"></a><a name="dc_vrp_erps_feature_new_0025"></a>
+
+
+<h1 class="topictitle1">ERPS帧格式</h1>
+
+<div>
+<p>ERPS协议的报文只有一种，即RAPS（Ring Auto Protection Switching） PDU（Protocol
+Data Unit）报文，RAPS PDU报文包含ERPS环信息，在ERPS环上传递以实现各设备端口信息的互通。</p>
+
+<p>ERPS工作在数据链路层，Ethernet Type = 0x8902。</p>
+
+<div class="section"><div class="fignone" id="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002501"><a name="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002501"></a><a name="fig_dc_vrp_erps_feature_new_002501"></a><span class="figcap"><b>图1 </b>RAPS PDU基本格式</span>
+
+<br><span><img src="image/erps-format-pdu.png"></span></div>
+
+<div class="tablenoborder"><a name="dc_vrp_erps_feature_new_0025__tab_dc_vrp_erps_feature_new_002501"></a><a name="tab_dc_vrp_erps_feature_new_002501"></a><table cellpadding="4" cellspacing="0" summary="" id="dc_vrp_erps_feature_new_0025__tab_dc_vrp_erps_feature_new_002501" frame="border" border="1" rules="all"><caption><b>表1 </b>RAPS PDU字段含义</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="22%" id="mcps1.2.3.2.2.4.1.1"><p>字段名称</p>
+</th>
+
+<th class="cellrowborder" valign="top" width="9.666666666666666%" id="mcps1.2.3.2.2.4.1.2"><p>长度</p>
+</th>
+
+<th class="cellrowborder" valign="top" width="68.33333333333333%" id="mcps1.2.3.2.2.4.1.3"><p>说明</p>
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>MEL（Maintenance Entity Group Level）</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>3位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>标识维护实例等级。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>Version</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>5位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><ul><li>0x00：v1版本</li><li>0x01：v2版本</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>OpCode</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>固定值0x28，标识该PDU是RAPS PDU。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>Flags</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>固定值0x00，该字段在接收的过程中会被忽略。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>TLV Offset</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>固定值0x20。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>R-APS Specific Information</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>32x8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>该字段携带RAPS环信息，是RAPS PDU的核心字段。对于该字段，v1版本和v2版本在某些子字段的定义上存在一定的差异。<a href="erps_format.html#dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002502">图2</a>描述ERPSv1版本该字段具体包含的各子字段，<a href="erps_format.html#dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002503">图3</a>描述ERPSv2版本该字段具体包含的各子字段。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="22%" headers="mcps1.2.3.2.2.4.1.1 "><p>TLV（type-length-value）</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="9.666666666666666%" headers="mcps1.2.3.2.2.4.1.2 "><p>无限制</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="68.33333333333333%" headers="mcps1.2.3.2.2.4.1.3 "><p>描述报文中需要加载的信息，其中End TLV是固定值0x00。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone" id="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002502"><a name="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002502"></a><a name="fig_dc_vrp_erps_feature_new_002502"></a><span class="figcap"><b>图2 </b>ERPSv1版本RAPS Specific Information格式</span>
+
+<br><span><img src="image/erps-format-v1.png"></span></div>
+<div class="fignone" id="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002503"><a name="dc_vrp_erps_feature_new_0025__fig_dc_vrp_erps_feature_new_002503"></a><a name="fig_dc_vrp_erps_feature_new_002503"></a><span class="figcap"><b>图3 </b>ERPSv2版本RAPS Specific Information格式</span>
+
+<br><span><img src="image/erps-format-v2.png"></span></div>
+
+<div class="tablenoborder"><a name="dc_vrp_erps_feature_new_0025__tab_dc_vrp_erps_feature_new_002502"></a><a name="tab_dc_vrp_erps_feature_new_002502"></a><table cellpadding="4" cellspacing="0" summary="" id="dc_vrp_erps_feature_new_0025__tab_dc_vrp_erps_feature_new_002502" frame="border" border="1" rules="all"><caption><b>表2 </b>R-APS Specific Information各子字段含义</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="15%" id="mcps1.2.3.5.2.4.1.1"><p>字段名称</p>
+</th>
+
+<th class="cellrowborder" valign="top" width="15.333333333333336%" id="mcps1.2.3.5.2.4.1.2"><p>长度</p>
+</th>
+
+<th class="cellrowborder" valign="top" width="69.66666666666667%" id="mcps1.2.3.5.2.4.1.3"><p>说明</p>
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="15%" headers="mcps1.2.3.5.2.4.1.1 "><p>Request/State</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.3.5.2.4.1.2 "><p>4位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="69.66666666666667%" headers="mcps1.2.3.5.2.4.1.3 "><p>标识该信息是请求信息或当前状态信息：</p>
+<ul><li><p>1101：FS（Forced Switch） RAPS</p>
+</li><li><p>1110：Event报文</p>
+</li><li><p>1011：SF（Signal Fail） RAPS</p>
+</li><li><p>0111：MS（Manual Switch） RAPS</p>
+</li><li><p>0000：NR（No Request） RAPS</p>
+</li><li><p>其他：保留字段</p>
+</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15%" headers="mcps1.2.3.5.2.4.1.1 "><p>Reserved 1</p>
+</td>
+
+<td class="cellrowborder" rowspan="2" valign="top" width="15.333333333333336%" headers="mcps1.2.3.5.2.4.1.2 "><p>4位</p>
+</td>
+
+<td class="cellrowborder" rowspan="2" valign="top" width="69.66666666666667%" headers="mcps1.2.3.5.2.4.1.3 "><p>对于ERPSv1，该字段是“Reserved 1”，表示保留字段，留作以后报文应答或是保护类型标识。</p>
+<div class="p">对于ERPSv2，该字段是“Sub-code”：<ul><li>当“Request/State”字段的取值为1110时，该字段为0000表示FDB表项刷新请求。</li><li>当“Request/State”字段取其他值时，该字段的取值为全0，为保留字段，且在接收过程中会被忽略。</li></ul>
+</div>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" headers="mcps1.2.3.5.2.4.1.1 "><p>Sub-code</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15%" headers="mcps1.2.3.5.2.4.1.1 "><p>Status</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.3.5.2.4.1.2 "><p>8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="69.66666666666667%" headers="mcps1.2.3.5.2.4.1.3 "><div class="p">标识状态信息：<ul><li><p>RB（RPL Blocked，1位）：RB=1标识RPL链路被阻塞；RB=0标识RPL链路解除阻塞。非RPL Owner设备在发送RPL
+PDU时将该字段置为0。</p>
+</li><li><p>DNF（Do Not Flush，1位）：DNF=1标识收到当前信息不刷新FDB缓冲区；DNF=0标识收到当前信息可刷新FDB缓冲区。</p>
+</li><li><p>BPR（Blocked port reference，1位）：阻塞端口标志位，该字段为0表示阻塞第一个端口，该字段为1表示阻塞第二个端口。</p>
+<p>只有ERPSv2版本支持该字段。</p>
+</li><li><p>Status Reserved：保留字段。在发送过程中，此字段全置为0，且在接收的过程中会被忽略。该字段在ERPSv1版本有6位，在ERPSv2版本有5位。</p>
+</li></ul>
+</div>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15%" headers="mcps1.2.3.5.2.4.1.1 "><p>Node ID</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.3.5.2.4.1.2 "><p>6x8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="69.66666666666667%" headers="mcps1.2.3.5.2.4.1.3 "><p>标识RAPS环节点的MAC地址，该字段属于提示信息，不影响RAPS环的保护切换操作。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="15%" headers="mcps1.2.3.5.2.4.1.1 "><p>Reserved 2</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="15.333333333333336%" headers="mcps1.2.3.5.2.4.1.2 "><p>24x8位</p>
+</td>
+
+<td class="cellrowborder" valign="top" width="69.66666666666667%" headers="mcps1.2.3.5.2.4.1.3 "><p>保留字段，在发送过程中，此字段全置为0，且在接收的过程中会被忽略。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">ITU-T G.8032/Y1344</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">Recommendation ITU-T G.8032/Y.1344 defines the automatic protection
+switching (APS) protocol and protection switching mechanisms for ETH
+layer Ethernet ring topologies. Included are details pertaining to
+Ethernet ring protection characteristics, architectures and the ring
+APS protocol.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

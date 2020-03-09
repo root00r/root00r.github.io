@@ -1,0 +1,641 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IP FPM报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/application-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_3">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IP FPM报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_3"></a><a name="icmp_message_format_3"></a>
+
+
+<h1 class="topictitle1">IP FPM报文格式</h1>
+
+
+<div><p></p>
+
+<p>IP FPM（IP Flow Performance Measurement）是一种基于端到端，直接对业务报文进行测量，从而得到IP网络的真实丢包率、时延等性能指标的检测方式。</p>
+
+<div class="section"><div class="p"><h4 class="sectiontitle">报文格式</h4><p>IP FPM报文格式如下：</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>IP FPM报文格式</span>
+
+<br><span><img src="image/IPFPM-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.4.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">Ver</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">协议版本号，=1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">4 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">保留字段，填0。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">PDU Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">PDU类型，目前只支持一种类型：值为0x06。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">PDU Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">PDU长度，包括头部和内容的整个长度，字节为单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">MCP Id</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">IP FPM统计系统的测量控制点MCP（Measurement Control Point）的IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">DCP Id</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 ">IP FPM统计系统的数据收集点DCP（Data Collecting Point）的IP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.4.1.4.1.1 ">PDU Body</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.4.1.4.1.3 "><p>包含1~n个Instance TLV。</p>
+<p>包含0或1个Auth TLV。</p>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>认证TLV格式</span>
+
+<br><span><img src="image/IPFPM-format-auth-tlv.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.6.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.6.1.4.1.1 ">TLV Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.6.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.6.1.4.1.3 ">TLV类型，Instance TLV的类型值为0x10。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.6.1.4.1.1 ">TLV Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.6.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.6.1.4.1.3 ">TLV body的长度，以字节为计数单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.6.1.4.1.1 ">key id</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.6.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.6.1.4.1.3 ">认证类型ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.6.1.4.1.1 ">key</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.6.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.6.1.4.1.3 ">Key的长度取决于用户配置的认证类型，目前只能支持hmac-sha256，目前为32字节。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图3 </b>实例TLV格式</span>
+
+<br><span><img src="image/IPFPM-format-instance-tlv.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.8.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.8.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.8.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">TLV Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">16bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">TLV类型，Instance TLV的类型值为0x10。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">TLV Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">TLV body的长度，以字节为计数单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">Period</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">8 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">采样周期号。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">Instance Id</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">采样实例ID。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">Sample Interval</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">采样周期，单位是秒。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">Seq</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">描述当前实例数据分片号；<p>当E bit为1时，当前为最后一个分片，seq为分片号，同时描述分片数。</p>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">E</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">E比特位为1时，标识当前为最后一个分片；E比特位为0时，表示当前为非最后一个分片。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">MG</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">只在首分片有意义。<ul><li>0：单播数据</li><li>1：组播数据</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">14 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">保留</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.8.1.4.1.1 ">TLV body</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.8.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.8.1.4.1.3 ">实例TLV的内容：<ul><li>包含0..n个Loss子TLV</li><li>包含0..n个Delay子TLV</li><li>包含0..1个Error子TLV</li></ul>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<h4 class="sectiontitle">丢包数据TLV (Loss TLV)的格式</h4><div class="fignone"><span class="figcap"><b>图4 </b>Loss TLV格式</span>
+
+<br><span><img src="image/IPFPM-format-sub-tlv-lost.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.11.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.11.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.11.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">TLV Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">子TLV的类型，Lost TLV的类型值为0x01。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">TLV Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">TLV body的长度，以字节为计数单位。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">T</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 "><p>观测点（TLP）的类型：</p>
+<ul><li>0: 端到端TLP</li><li>1: 逐点TLP</li></ul>
+</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">I</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 "><p>观测点位置标记：</p>
+<ul><li>0: ingress</li><li>1: egress</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">F</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">方向标记：<ul><li>0: forward</li><li>1: backward</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">R</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">组播源的主备标记：<ul><li>0: main主组播源</li><li>1: backup备组播源</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">S</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">源切换状态标记：<ul><li>0: 未发生源切换</li><li>1: 发生源切换</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">27 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">保留位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">Pkts</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">64 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">周期内监测到的流的报文总数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.11.1.4.1.1 ">Bytes</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.11.1.4.1.2 ">64 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.11.1.4.1.3 ">周期内监测到的流的字节总数。记录的字节数是IP头中的LENGTH字段，即不包括报文的ETH头、VLAN头和4字节的校验码。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图5 </b>Delay TLV格式</span>
+
+<br><span><img src="image/IPFPM-format-sub-tlv-delay.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.13.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.13.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.13.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">TLV Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">TLV类型，Delay TLV的类型值为0x02。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">TLV Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">TLV body的长度，以字节为计数单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">Tlp Id</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">32 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">TLP编号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">T</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 "><p>观测点（TLP）的类型：</p>
+<ul><li>0: 端到端TLP</li><li>1: 逐点TLP</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">I</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 "><p>节点标记：</p>
+<ul><li>0: ingress</li><li>1: egress</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">F</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">方向标记：<ul><li>0: forward</li><li>1: backward</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">W</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 "><p>方向标记：</p>
+<ul><li>0: one-way</li><li>1: two-way</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">R</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">组播源的主备标记：<ul><li>0: main主组播源</li><li>1: backup备组播源</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">S</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">1 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">源切换状态标记：<ul><li>0: 未发生源切换</li><li>1: 发生源切换</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">26 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">保留位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">Timestamp</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">64 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">时间戳。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.13.1.4.1.1 ">Pkt Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.13.1.4.1.2 ">32 bit</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.13.1.4.1.3 ">周期内检测到的报文字节数。记录的字节数是IP头中的LENGTH字段，即不包括报文的ETH头、VLAN头和4字节的校验码。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图6 </b>Error子TLV格式</span>
+
+<br><span><img src="image/IPFPM-format-sub-tlv-error.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+
+<th class="cellrowborder" valign="top" width="10.666666666666668%" id="mcps1.3.2.15.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="13.999999999999998%" id="mcps1.3.2.15.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="75.33333333333333%" id="mcps1.3.2.15.1.4.1.3">含义</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.15.1.4.1.1 ">TLV Type</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.15.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.15.1.4.1.3 ">TLV类型，Error子TLV的类型值为0x03。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.15.1.4.1.1 ">TLV Length</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.15.1.4.1.2 ">16 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.15.1.4.1.3 ">TLV body的长度，以字节为计数单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.15.1.4.1.1 ">F</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.15.1.4.1.2 ">&nbsp;</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.15.1.4.1.3 ">方向标记：<ul><li>0: forward</li><li>1: backward</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.15.1.4.1.1 ">ErrNo</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.15.1.4.1.2 ">7 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.15.1.4.1.3 ">错误码。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="10.666666666666668%" headers="mcps1.3.2.15.1.4.1.1 ">Resv</td>
+
+<td class="cellrowborder" valign="top" width="13.999999999999998%" headers="mcps1.3.2.15.1.4.1.2 ">24 bits</td>
+
+<td class="cellrowborder" valign="top" width="75.33333333333333%" headers="mcps1.3.2.15.1.4.1.3 ">保留字段。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4><p>IP FPM为华为私有协议。</p>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="application-layer.html">应用层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

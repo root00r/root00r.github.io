@@ -1,0 +1,96 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="IS-IS Hello消息格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/isis_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="isis_message_format_2">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>IS-IS Hello消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="isis_message_format_2"></a><a name="isis_message_format_2"></a>
+
+
+<h1 class="topictitle1">IS-IS Hello消息格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>Hello报文用于建立和维持邻居关系，也称为IIH（IS-to-IS
+Hello PDUs）。其中，广播网中的Level-1路由器使用Level-1 LAN IIH；广播网中的Level-2路由器使用Level-2
+LAN IIH；非广播网络中则使用P2P IIH。它们的报文格式有所不同。 </p>
+<p>广播网中的Hello报文格式如下图所示（蓝色部分是通用报文头）。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>L1/L2 LAN IIH格式</span>
+
+<br><span><img src="image/ISIS-format-hello.png"></span></div>
+<p>主要字段的解释如下：</p>
+<ul><li>Reserved/Circuit Type：高位的6比特保留，值为0。低位的2比特表示路由器的类型（01表示L1，10表示L2，11表示L1/L2）。</li><li>Source ID：发出Hello报文的路由器的System ID。</li><li>Holding Time：保持时间。在此时间内如果没有收到邻居发来的Hello报文，则中止已建立的邻居关系。</li><li>PDU Length：PDU的总长度，单位是字节。</li><li>Priority：选举DIS的优先级，取值范围为0～127。数值越大，优先级越高。</li><li>LAN ID：包括DIS的System ID和一字节的伪节点ID。</li></ul>
+<p>点到点网络中的Hello报文格式如下图所示。</p>
+<div class="fignone"><span class="figcap"><b>图2 </b>P2P IIH格式</span>
+
+<br><span><img src="image/ISIS-format-helloP2P.png"></span>
+<p>从图中可以看出，P2P IIH中的多数字段与LAN IIH相同。不同的是没有Priority和LAN ID字段，而多了一个Local
+Circuit ID字段，表示本地链路ID。 </p>
+
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>IS-IS Hello</span>
+
+<br><span><img src="image/ISIS-Example-hello.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">ISO 10589</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">ISO IS-IS Routing Protocol</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 1195</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Use of OSI IS-IS for Routing in TCP/IP and Dual Environments</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="isis_message.html">IS-IS报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

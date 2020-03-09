@@ -1,0 +1,75 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="SCTP ABORT报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/sctp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_27">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>SCTP ABORT报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_27"></a><a name="icmp_message_format_27"></a>
+
+
+<h1 class="topictitle1">SCTP ABORT报文格式</h1>
+
+
+<div><p></p>
+
+<div class="section"><h4 class="sectiontitle">中止(ABORT)数据块的格式</h4><p>SCTP端点发送ABORT数据块来中止到对等端的偶联，ABORT数据块中可以包含原因参数用来通知接收ABORT数据块的一方中止该偶联的原因。DATA数据块不能同ABORT数据块捆绑在一个SCTP分组中。控制数据块(除INIT、INIT
+ACK和SHUTDOWN COMPLETE)均可以同ABORT进行捆绑在一个SCTP分组中，但这些控制块都应放在SCTP分组中的ABORT数据块之前，否则这些控制数据块将被接收方忽略。</p>
+<p>如果一个端点收到了格式错误或与不存在的偶联相关的ABORT消息，则应当舍弃该消息。此外，在任何情况下，端点收到一个ABORT消息后，都不能通过发送ABORT消息作为响应。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>SCTP ABORT报文格式</span>
+
+<br><span><img src="image/sctp-format-general-ABORT.png"></span></div>
+<ul><li>Reserved：7比特，在发送方设置为全0，并在接收方忽略。</li><li>T (1bit)：当发送方有一个TCB被破坏时则该T比特设置为0，如果发送方没有TCB，则把该比特设置为1。</li><li>Length (16bit无符号整数)：设置为该数据块的长度，包括数据块头和所有包含的差错原因字段。</li></ul>
+<p>ABORT数据块还可以包含0个或多个差错原因参数</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/SCTP-example-ABORT.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.3.2.1.3.1.1 ">RFC 2960</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.3.2.1.3.1.2 ">Stream Control Transmission Protocol</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="sctp.html" title="">SCTP报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

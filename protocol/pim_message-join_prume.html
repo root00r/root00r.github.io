@@ -1,0 +1,207 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PIM Join/Prune消息格式">
+<meta name="DC.Relation" scheme="URI" content="../message/pim_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_16">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PIM Join/Prune消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_16"></a><a name="bgp_message_format_16"></a>
+
+
+<h1 class="topictitle1">PIM Join/Prune消息格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">Join/Prune消息</h4><p>一条Join/Prune消息中可以同时包含Join信息和Prune信息。只包含Join信息的Join/Prune消息称为Join消息。只包含Prune信息的Join/Prune消息称为Prune消息。</p>
+<p>Join/Prune消息同时在PIM-DM和PIM-SM中使用。</p>
+<p>封装Join/Prune消息的IP报文源地址为本地接口地址，目的地址为224.0.0.13，TTL值为1。使用组播方式发送。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Join/Prune消息格式</span>
+
+<br><span><img src="image/pim-format-joint-prume.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图2 </b>Group J/P Record字段格式</span>
+
+<br><span><img src="image/pim-format-groupJ_P.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="13.154025242004655%" id="mcps1.2.1.7.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="13.154025242004655%" id="mcps1.2.1.7.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="73.69194951599069%" id="mcps1.2.1.7.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">PIM版本，值为2。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">消息类型，值为3。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Upstream Neighbor Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">上游邻居地址。也就是收到Join/Prune消息的路由器上，进行Join或Prune操作的下游接口地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Number of Groups</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">消息中包含的组播组数目。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Holdtime</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">接收Join/Prune消息的路由器保持相应接口加入/剪枝状态的时间。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">组播组地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Number of Joined Sources</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">针对该组播组，请求加入的组播源总数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Number of Pruned Sources</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">针对该组播组，请求剪枝的组播源总数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Joined Source Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">请求加入的组播源地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.1 ">Pruned Source Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="13.154025242004655%" headers="mcps1.2.1.7.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="73.69194951599069%" headers="mcps1.2.1.7.1.4.1.3 ">请求剪枝的组播源地址。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>PIM Join消息</span>
+
+<br><span><img src="image/pim-example-v4-join.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>PIM Prume消息</span>
+
+<br><span><img src="image/pim-example-v4-prune.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4601</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Sparse Mode (PIM-SM):Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3973</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Dense Mode （PIM-DM）:Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4607</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Source-Specific Multicast for IP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="pim_message.html">PIM报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

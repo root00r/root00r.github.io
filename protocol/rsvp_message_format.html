@@ -1,0 +1,305 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="RSVP报文格式">
+<meta name="DC.Relation" scheme="URI" content="../message/network-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="rrpp_message_format_7">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>RSVP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="rrpp_message_format_7"></a><a name="rrpp_message_format_7"></a>
+
+
+<h1 class="topictitle1">RSVP报文格式</h1>
+
+<div>
+<p>RSVP（Resource Reservation Protocol），资源预留协议，工作在传输层，但不参与应用数据的传送，是一种网络上的控制协议，类似于ICMP。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>RSVP各类消息都包含一个通用头部，随后是多个可变长度、类型的消息对象。</p>
+<div class="p"><div class="fignone"><span class="figcap"><b>图1 </b>RSVP消息格式</span>
+
+<br><span><img src="image/RSVP-format.png"></span></div>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.374581939799333%" id="mcps1.2.2.4.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.702341137123748%" id="mcps1.2.2.4.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.92307692307693%" id="mcps1.2.2.4.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Vers</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">RSVP版本号，当前版本为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Flags</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">标识位，一般值为0。RFC2961扩展其用来标识是否支持摘要刷新（Srefresh）。如果支持Srefresh，则Flags置为0x01。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Message Type</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">表示消息的类别，下面列出一些类别：<ul><li>1－Path</li><li>2－Resv</li><li>3－PathErr</li><li>4－ResvErr</li><li>5－PathTear</li><li>6－ResvTear</li><li>7－ResvConf</li><li>8－DREQ</li><li>9－DREP</li><li>10－ResvTearConfirm</li><li>11－Unassigned</li><li>12－Bundle</li><li>13－ACK</li><li>14－Reserved</li><li>15－Srefresh</li><li>20－Hello</li><li>21－Notify Message</li><li>25－Integrity Challenge</li><li>26－Integrity Response</li><li>66－DSBM_willing</li><li>67－I_AM_DSBM</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">RSVP Checksum</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">表示RSVP的校验和，值为消息的补码的反码。如果值为0，表示消息传输过程中不进行检验和检查。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Send TTL</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">IPv4的TTL的值，随报文一起发送。当节点接收到RSVP消息时，通过比较Send_TTL和IP首部的TTL值可以计算出该报文在非RSVP域中经过的跳数。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Reserved</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">保留。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">RSVP Length</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">报文总长度，包括公共头及后面的TLV objects，以字节为单位。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.4.1.4.1.1 ">Object</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.4.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.4.1.4.1.3 ">消息对象。每个RSVP消息都包含多个对象。不同类型的消息，包含的对象不同。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<div class="fignone"><span class="figcap"><b>图2 </b>消息对象格式</span>
+
+<br><span><img src="image/RSVP-object-format.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="12.374581939799333%" id="mcps1.2.2.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" valign="top" width="10.702341137123748%" id="mcps1.2.2.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" valign="top" width="76.92307692307693%" id="mcps1.2.2.6.1.4.1.3">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.6.1.4.1.1 ">Length</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.6.1.4.1.2 ">16比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.6.1.4.1.3 ">示对象的总长度，以字节为单位。Length必须是4的倍数，最小值为4。</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.6.1.4.1.1 ">Class Num</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.6.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.6.1.4.1.3 ">对象的类别：<ul><li>0：NULL，它的长度至少为4，但是可以是任意4的倍数。NULL对象可以出现在对象序列中的任意位置，它的内容会被接收者忽略掉。</li><li>1：SESSION，RSVP会话相关信息，包括：Destination Address、Tunnel ID、Extend Tunnel
+ID。</li><li>2：unassigned</li><li>3：RSVP_HOP，发送Path消息的上一跳的出接口地址和接口句柄。</li><li>4：INTEGRITY，携带了验证源节点的加密数据，它用于验证这个RSVP消息的内容。</li><li>5：TIME_VALUES，包含了消息创建者使用的刷新周期，在每个Path消息和Resv消息中必须存在。</li><li>6：ERROR_SPEC，指定了在PathErr、ResvErr消息中的Error，或者在ResvConf消息中的确认。<ul><li>Error Code = 00: 确认</li><li>Error Code = 01: 准入控制失败</li><li>Error Code = 02: 策略控制失败</li><li>Error Code = 03: Resv消息没有路径信息。</li><li>Error Code = 04: Resv消息没有发送者信息</li><li>Error Code = 05: 冲突的预留风格</li><li>Error Code = 06: 不可识别的预留风格</li><li>Error Code = 07: 冲突的目的端口</li><li>Error Code = 08:冲突的发送者端口</li><li>Error Code = 09, 10, 11: (保留) </li><li>Error Code = 12:服务抢占</li><li>Error Code = 13: 不可识别的对象Class</li><li>Error Code = 14: 不可识别的对象C-Type</li><li>Error Code = 15-19: (保留) </li><li>Error Code = 20: 为API保留</li><li><p>Error Code = 21: 流量控制错误</p>
+<p>Sub-code = 01：服务冲突</p>
+<p>Sub-code
+= 02：不支持的服务</p>
+<p>Sub-code = 03：不正确的流规范值</p>
+<p>Sub-code = 04：不正确的Tspec值</p>
+<p>Sub-code = 05：不正确的Adspec值</p>
+</li><li>Error Code = 22: 流量控制系统错误</li><li>Error Code = 23: RSVP系统错误</li><li><p>Error Code = 24: 路由错误</p>
+<p>Sub-code = 01: 错误的ERO</p>
+<p>Sub-code
+= 02: 错误的严格显式路径节点</p>
+<p>Sub-code = 03: 错误的松散显式路径节点</p>
+<p>Sub-code
+= 04: 错误的初始子对象</p>
+<p>Sub-code = 05: 没有到目的地址的可用路由</p>
+<p>Sub-code =
+06: 不可接受的标签值</p>
+<p>Sub-code = 07: RRO包含了路由环路</p>
+<p>Sub-code = 08:
+MPLS正在协商，但是路径上存在不支持MPLS的路由器。</p>
+<p>Sub-code = 09: MPLS标签分配错误</p>
+<p>Sub-code = 10: 不支持的L3PID</p>
+</li><li><p>Error Code = 25: 错误通告</p>
+<p>Sub-code = 01: 超过MTU值的RRO</p>
+<p>Sub-code = 02: RRO通告</p>
+<p>Sub-code = 03: 隧道本地修复</p>
+</li></ul>
+</li><li>7：SCOPE，携带了一个朝向信息转发方向的发送者主机的显式列表。可能出现在Resv、ResvErr或者ResvTear消息中。</li><li>8：STYLE，定义了预留风格和在FLOWSPEC或者FILTER_SPEC对象中没有提及的指定风格的信息。在每个Resv消息中必须存在。</li><li>9：FLOWSPEC，指明了数据流的QoS特征，存在于Resv消息中。</li><li>10：FILTER_SPEC，发送节点的IP地址和LSP ID，存在于Resv消息中。</li><li>11：SENDER_TEMPLATE，指定了发送节点的IP地址和LSP ID，存在于Path消息中。(将会成为Resv消息中的FILTERSPEC对象的内容。)</li><li>12：SENDER_TSPEC，指明了数据流的流量特征。存在于Path消息中。(将会成为Resv消息中的FLOWSPEC对象的内容。)</li><li>13：ADSPEC，用于收集路径上的实际QoS相关参数，例如，路径带宽估计、最小路径时延、Path MTU。存在于Path消息中。</li><li>14：POLICY_DATA，携带了允许一个本地策略模块来决定一个相关的预留是否是可管理的许可的信息。可能出现在Path、Resv、PathErr或者ResvErr消息中。</li><li>15：RESV_CONFIRM，预留确认请求，携带了请求预留确认的节点的IP地址。</li><li><p>16: RSVP_LABEL</p>
+<p>表示分配的标签。</p>
+</li><li><p>19: LABEL_REQUEST</p>
+<p>标识LABEL_REQUEST对象，只在Path消息中携带。</p>
+</li><li><p>20: EXPLICIT_ROUTE </p>
+<p>ERO（Explicit Route Object）描述LSP经过的路径信息，可以为严格显式路径也可以是松散显式路径。Path消息沿ERO指定的路径转发，不受IGP最短路径约束。</p>
+<p>ERO包含了包含了C-Type=1的子对象:</p>
+<p>1       IPv4前缀</p>
+<p>2       IPv6前缀</p>
+<p>32       AS号</p>
+</li><li><p>21: ROUTE_RECORD</p>
+<p>RRO（Record Route Object）记录了Path消息实际途经的LSR的列表。RRO可用于收集实际的路径信息，发现路由环路，还可以被复制到下一条Path消息中以实现路由锁定。</p>
+<p>RRO包含了C-Type=1的子对象:</p>
+<p>1       IPv4地址</p>
+<p>2       IPv6地址</p>
+<p>3       标签</p>
+</li><li><p>22: HELLO</p>
+<p>C_Type = 1: HELLO REQUEST对象</p>
+<p>C_Type =
+2 : HELLO ACK对象</p>
+</li><li><p>207: SESSION_ATTRIBUTE</p>
+<p>指定了建立优先级、保持优先级、预留风格、亲和属性等属性。</p>
+</li></ul>
+</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.6.1.4.1.1 ">C-Type</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.6.1.4.1.2 ">8比特</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.6.1.4.1.3 ">对象类型，表示同一类对象中不同的类型。Class_Number与C-Type唯一标识了一个对象。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="12.374581939799333%" headers="mcps1.2.2.6.1.4.1.1 ">Object Content</td>
+
+<td class="cellrowborder" valign="top" width="10.702341137123748%" headers="mcps1.2.2.6.1.4.1.2 ">变长</td>
+
+<td class="cellrowborder" valign="top" width="76.92307692307693%" headers="mcps1.2.2.6.1.4.1.3 ">对象内容，可变长度。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图3 </b>RSVP Hello消息</span>
+
+<br><span><img src="image/RSVP-example-hello.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图4 </b>RSVP Path消息</span>
+
+<br><span><img src="image/RSVP-example-Path.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图5 </b>RSVP Path Tear消息</span>
+
+<br><span><img src="image/RSVP-example-Path-tear.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图6 </b>RSVP Resv消息</span>
+
+<br><span><img src="image/RSVP-example-Resv.png"></span></div>
+<div class="fignone"><span class="figcap"><b>图7 </b>RSVP Resv-Tear消息</span>
+
+<br><span><img src="image/RSVP-example-Resv-tear.png"></span></div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2205</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">Resource ReSerVation Protocol</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 2209</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">Resource ReSerVation Protocol (RSVP) -- Version 1 Message Processing
+Rules</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.2.1.3.1.1 ">RFC 3209</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.4.2.1.3.1.2 ">RSVP-TE: Extensions to RSVP for LSP Tunnels</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="network-layer.html">网络层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

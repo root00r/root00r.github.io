@@ -1,0 +1,374 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="LLDP报文格式">
+<meta name="abstract" content="">
+<meta name="description" content="">
+<meta name="DC.Relation" scheme="URI" content="../message/link-layer.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="icmp_message_format_7">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>LLDP报文格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="icmp_message_format_7"></a><a name="icmp_message_format_7"></a>
+
+
+<h1 class="topictitle1">LLDP报文格式</h1>
+
+
+<div><p></p>
+
+<p>LLDP（Link Layer Discovery Protocol，链路层发现协议）提供了一种标准的链路层发现方式，可以将本端设备的的主要能力、管理地址、设备标识、接口标识等信息组织成不同的TLV（Type/Length/Value），并封装在LLDPDU（Link
+Layer Discovery Protocol Data Unit，链路层发现协议数据单元）中发布给与自己直连的邻居，邻居收到这些信息后将其以标准MIB（Management
+Information Base，管理信息库）的形式保存起来，以供网络管理系统查询及判断链路的通信状况。</p>
+
+<div class="section"><h4 class="sectiontitle">报文格式</h4><p>封装有LLDPDU的报文称为LLDP报文，其封装格式有两种：Ethernet
+II和SNAP（Subnetwork Access Protocol，子网访问协议）。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Ethernet II格式封装的LLDP报文</span>
+
+<br><span><img src="image/LLDP-format-ethernetII.png"></span></div>
+<ul><li>Destination MAC address：目的MAC地址，为固定的组播MAC地址0x0180-C200-000E。</li><li>Source MAC address：源MAC地址，为端口MAC地址或设备桥MAC地址（如果有端口地址则使用端口MAC地址，否则使用设备桥MAC地址）。</li><li>Type：报文类型，为0x88CC。 </li><li>Data：数据，为LLDPDU。 </li><li>FCS：帧检验序列。 </li></ul>
+<div class="fignone"><span class="figcap"><b>图2 </b>SNAP格式封装的LLDP报文</span>
+
+<br><span><img src="image/LLDP-format-snap.png"></span></div>
+<ul><li>Destination MAC address：目的MAC地址，为固定的组播MAC地址0x0180-C200-000E。 </li><li>Source MAC address：源MAC地址，为端口MAC地址或设备桥MAC地址（如果有端口地址则使用端口MAC地址，否则使用设备桥MAC地址）。 </li><li>Type：报文类型，为0xAAAA-0300-0000-88CC。</li><li>Data：数据，为LLDPDU。</li><li>FCS：帧检验序列。</li></ul>
+<p>LLDPDU就是封装在LLDP报文数据部分的数据单元。在组成LLDPDU之前，设备先将本地信息封装成TLV格式，再由若干个TLV组合成一个LLDPDU封装在LLDP报文的数据部分进行传送。 </p>
+<div class="fignone"><span class="figcap"><b>图3 </b>LLDPDU格式</span>
+
+<br><span><img src="image/lldp-format-pdu.png"></span></div>
+<p>每个LLDPDU最多可携带28种TLV，其中深蓝色的Chasis
+ID TLV、Port ID TLV、TTL TLV和End TLV这四种是必须携带的，其余的TLV则为可选携带。 </p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表1 </b>基本TLV</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="11.705685618729095%" id="mcps1.3.2.10.2.4.1.1">TLV名称</th>
+
+<th class="cellrowborder" valign="top" width="44.14715719063545%" id="mcps1.3.2.10.2.4.1.2">说明</th>
+
+<th class="cellrowborder" valign="top" width="44.14715719063545%" id="mcps1.3.2.10.2.4.1.3">是否必须发布</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">End of LLDPDU</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">标识LLDPDU结束</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">是</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">Chassis ID</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">发送设备的桥MAC地址</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">是</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">Port ID</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">标识LLDPDU发送端的端口。当设备不发送MED TLV时，内容为端口名称；当设备发送MED TLV时，内容为端口的MAC地址，没有端口MAC时使用桥MAC</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">是</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">Time To Live</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">本设备信息在邻居设备上的存活时间</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">是</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">Port Description</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">以太网端口的描述字符串</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">否</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">System Name</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">设备的名称</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">否</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">System Description</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">系统描述</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">否</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">System Capabilities</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">系统的主要功能以及已使能的功能项</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">否</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="11.705685618729095%" headers="mcps1.3.2.10.2.4.1.1 ">Management Address</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.2 ">管理地址，以及对应的接口号和OID（Object Identifier，对象标识）</td>
+
+<td class="cellrowborder" valign="top" width="44.14715719063545%" headers="mcps1.3.2.10.2.4.1.3 ">否</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表2 </b>IEEE 802.1组织定义的TLV </caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="20.958083832335326%" id="mcps1.3.2.11.2.3.1.1">TLV名称</th>
+
+<th class="cellrowborder" valign="top" width="79.04191616766468%" id="mcps1.3.2.11.2.3.1.2">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.11.2.3.1.1 ">Port VLAN ID</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.11.2.3.1.2 ">端口的VLAN ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.11.2.3.1.1 ">Port And Protocol VLAN ID</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.11.2.3.1.2 ">端口的协议VLAN ID</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.11.2.3.1.1 ">VLAN Name</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.11.2.3.1.2 ">端口VLAN的名称</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.11.2.3.1.1 ">Protocol Identity</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.11.2.3.1.2 ">端口支持的协议类型</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表3 </b>IEEE 802.3组织定义的TLV</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="20.958083832335326%" id="mcps1.3.2.12.2.3.1.1">TLV名称</th>
+
+<th class="cellrowborder" valign="top" width="79.04191616766468%" id="mcps1.3.2.12.2.3.1.2">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.12.2.3.1.1 ">MAC/PHY Configuration/Status</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.12.2.3.1.2 ">端口的速率和双工状态、是否支持端口速率自动协商、是否已使能自动协商功能以及当前的速率和双工状态</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.12.2.3.1.1 ">Power Via MDI</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.12.2.3.1.2 ">端口的供电能力</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.12.2.3.1.1 ">Link Aggregation</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.12.2.3.1.2 ">端口是否支持链路聚合以及是否已使能链路聚合</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.12.2.3.1.1 ">Maximum Frame Size</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.12.2.3.1.2 ">端口支持的最大帧长度，取端口配置的MTU（Max Transmission Unit，最大传输单元）</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all"><caption><b>表4 </b>LLDP-MED TLV</caption>
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="20.958083832335326%" id="mcps1.3.2.13.2.3.1.1">TLV名称</th>
+
+<th class="cellrowborder" valign="top" width="79.04191616766468%" id="mcps1.3.2.13.2.3.1.2">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">LLDP-MED Capabilities</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">当前设备的MED设备类型以及在LLDPDU中可封装的LLDP-MED TLV类型</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Network Policy</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">端口的VLAN ID、支持的应用（如语音和视频）、应用优先级以及使用策略等</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Extended Power-via-MDI</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">当前设备的供电能力</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Hardware Revision</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的硬件版本</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Firmware Revision</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的固件版本</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Software Revision</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的软件版本</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Serial Number</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的序列号</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Manufacturer Name</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的制造厂商</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Model Name</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的模块名</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Asset ID</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">MED设备的资产标识符，以便目录管理和资产跟踪</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" valign="top" width="20.958083832335326%" headers="mcps1.3.2.13.2.3.1.1 ">Location Identification</td>
+
+<td class="cellrowborder" valign="top" width="79.04191616766468%" headers="mcps1.3.2.13.2.3.1.2 ">位置标识信息，供其它设备在基于位置的应用中使用</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+<p>LLDP-MED TLV为VoIP（Voice over IP，在IP上传送语音）提供了许多高级的应用，包括基本配置、网络策略配置、地址信息以及目录管理等，满足了语音设备的不同生产厂商在成本有效、易部署、易管理等方面的要求，并解决了在以太网中部署语音设备的问题，为语音设备的生产者、销售者以及使用者提供了便利。</p>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><span><img src="image/LLDP_example.png"></span></div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.3.4.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.3.4.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.3.4.2.1.3.1.1 ">IEEE 802.1AB</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.3.4.2.1.3.1.2 ">IEEE Standard for Local and Metropolitan Area Networks: Station
+and Media Access Control Connectivity Discovery</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="link-layer.html">链路层</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div><div class="hwcopyright">本资料收集于互联网</div><div class="hwcopyright">2016 &copy</div></body>
+</html>

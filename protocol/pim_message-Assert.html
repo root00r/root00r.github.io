@@ -1,0 +1,174 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn" xml:lang="zh-cn">
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<meta name="DC.Title" content="PIM Assert消息格式">
+<meta name="DC.Relation" scheme="URI" content="../message/pim_message.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="bgp_message_format_19">
+<meta name="DC.Language" content="zh-cn">
+<link rel="stylesheet" type="text/css" href="../public_sys-resources/commonltr.css">
+<title>PIM Assert消息格式</title>
+</head>
+<body style="clear:both; padding-left:10px; padding-top:5px; padding-right:5px; padding-bottom:5px"><a name="bgp_message_format_19"></a><a name="bgp_message_format_19"></a>
+
+
+<h1 class="topictitle1">PIM Assert消息格式</h1>
+
+<div>
+<div class="section"><h4 class="sectiontitle">Assert消息</h4><p>在共享网段上，如果PIM路由器从（S，G）或（*，G）表项的下游接口收到（S，G）报文，则表示该网段存在其他的转发者。路由器从该下游接口发出Assert消息，参与竞选。竞选落败者停止下游接口的转发。 </p>
+<p>Assert消息同时在PIM-DM和PIM-SM中使用。 </p>
+<p>封装Assert消息的IP报文源地址为本地接口地址，目的地址为224.0.0.13，TTL值为1。使用组播方式发送。</p>
+<div class="fignone"><span class="figcap"><b>图1 </b>Assert消息格式</span>
+
+<br><span><img src="image/pim-format-assert.png"></span></div>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" align="center" valign="top" width="10.112715800821192%" id="mcps1.2.1.6.1.4.1.1">字段</th>
+
+<th class="cellrowborder" align="center" valign="top" width="10.112715800821192%" id="mcps1.2.1.6.1.4.1.2">长度</th>
+
+<th class="cellrowborder" align="center" valign="top" width="79.77456839835762%" id="mcps1.2.1.6.1.4.1.3">说明</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Version</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">PIM版本，值为2。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Type</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">消息类型，值为5。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Group Address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">组播组地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Source address</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">如果竞选（S，G）表项的唯一转发者，则为组播源地址。如果竞选（*，G）表项的唯一转发者，则为RP地址。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">R</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">4比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">RPT位。如果竞选（S，G）表项的唯一转发者，该位为0；如果竞选（*，G）表项的唯一转发者，该位为1。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Metric Preference</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">28比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">到Source address的单播路径的优先级。</td>
+
+</tr>
+
+<tr>
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.1 ">Metric</td>
+
+<td class="cellrowborder" align="left" valign="top" width="10.112715800821192%" headers="mcps1.2.1.6.1.4.1.2 ">32比特</td>
+
+<td class="cellrowborder" align="left" valign="top" width="79.77456839835762%" headers="mcps1.2.1.6.1.4.1.3 ">到Source address的单播路由的开销。</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">报文示例</h4><div class="fignone"><span class="figcap"><b>图2 </b>PIM Assert消息</span>
+
+<br><span><img src="image/pim-example-v4-assert.png"></span>
+</div>
+</div>
+
+<div class="section"><h4 class="sectiontitle">参考标准</h4>
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" frame="border" border="1" rules="all">
+<thead align="left">
+<tr>
+<th class="cellrowborder" valign="top" width="18%" id="mcps1.2.3.2.1.3.1.1">标准</th>
+
+<th class="cellrowborder" valign="top" width="82%" id="mcps1.2.3.2.1.3.1.2">描述</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4601</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Sparse Mode (PIM-SM):Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 3973</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Protocol Independent Multicast - Dense Mode （PIM-DM）:Protocol
+Specification (Revised)</td>
+
+</tr>
+
+<tr>
+
+<td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.3.2.1.3.1.1 ">RFC 4607</td>
+
+<td class="cellrowborder" valign="top" width="82%" headers="mcps1.2.3.2.1.3.1.2 ">Source-Specific Multicast for IP</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>父主题：</strong> <a href="pim_message.html">PIM报文格式</a></div>
+</div>
+</div>
+
+<div class="hrcopyright"><hr size="2"></div> <div class="hwcopyright">2016 &copy</div></body>
+</html>
